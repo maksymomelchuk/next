@@ -8,6 +8,7 @@ export const siteConfig = {
     {
       title: "Home",
       href: "/",
+      exact: true,
     },
   ],
   links: {
