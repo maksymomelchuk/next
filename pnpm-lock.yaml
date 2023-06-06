@@ -14,6 +14,9 @@ dependencies:
   clsx:
     specifier: ^1.2.1
     version: 1.2.1
+  keycloak-js:
+    specifier: ^21.1.1
+    version: 21.1.1
   lucide-react:
     specifier: 0.105.0-alpha.4
     version: 0.105.0-alpha.4(react@18.2.0)
@@ -1929,6 +1932,10 @@ packages:
     resolution: {integrity: sha512-QAdOptna2NYiSSpv0O/BwoHBSmz4YhpzJHyi+fnMRTXFjp7B8i/YG5Z8IfusxB1ufjcD2Sre1F3R+nX3fvy7gg==}
     hasBin: true
 
+  /js-sha256@0.9.0:
+    resolution: {integrity: sha512-sga3MHh9sgQN2+pJ9VYZ+1LPwXOxuBJBA5nrR5/ofPfuiJBE2hnjsaN8se8JznOmGLN2p49Pe5U/ttafcs/apA==}
+    dev: false
+
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -1971,6 +1978,13 @@ packages:
       array-includes: 3.1.6
       object.assign: 4.1.4
     dev: true
+
+  /keycloak-js@21.1.1:
+    resolution: {integrity: sha512-Viyhf0SOpu2jM/A33vpigSCFLo8l4yg8lqzaGyxXoZ3nGO9lo68B2LwJBDtgpzqDUh8DK//yCOzdWuR2CT4keA==}
+    dependencies:
+      base64-js: 1.5.1
+      js-sha256: 0.9.0
+    dev: false
 
   /language-subtag-registry@0.3.22:
     resolution: {integrity: sha512-tN0MCzyWnoz/4nHS6uxdlFWoUZT7ABptwKPQ52Ea7URk6vll88bWBVhodtnlfEuCcKWNGoc+uGbw1cwa9IKh/w==}
