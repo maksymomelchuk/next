@@ -1,6 +1,7 @@
 "use client"
 
 import "@/styles/globals.css"
+
 import AuthContextProvider from "@/api/auth/AuthContextProvider"
 
 import { fontSans } from "@/lib/fonts"

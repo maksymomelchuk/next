@@ -10,6 +10,11 @@ export const siteConfig = {
       href: "/",
       exact: true,
     },
+    {
+      title: "Products",
+      href: "/products",
+      exact: true,
+    },
   ],
   links: {
     twitter: "https://twitter.com/shadcn",
