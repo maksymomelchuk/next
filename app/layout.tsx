@@ -1,11 +1,12 @@
 "use client"
 
 import "@/styles/globals.css"
-
+import { useState } from "react"
 import AuthContextProvider from "@/api/auth/AuthContextProvider"
 
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
+import { Sidenav } from "@/components/Sidenav/Sidenav"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -15,6 +16,12 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
+  const [showMenu, setShowMenu] = useState(false)
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu)
+  }
+
   return (
     <>
       <html lang="en" suppressHydrationWarning>
@@ -27,7 +34,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <AuthContextProvider>
               <div className="relative flex min-h-screen flex-col">
-                <SiteHeader />
+                <SiteHeader toggleMenu={toggleMenu} showMenu={showMenu} />
+                <Sidenav showMenu={showMenu} toggleMenu={toggleMenu} />
                 <div className="flex-1">{children}</div>
               </div>
             </AuthContextProvider>

@@ -1,21 +1,21 @@
 import * as React from "react"
+import Image from "next/image"
 import Link from "next/link"
+import logo from "@/assets/img/Logo-NGA-White.png"
 
 import { NavItem } from "@/types/nav"
-import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
 
 interface MainNavProps {
   items?: NavItem[]
+  showMenu: boolean
 }
 
-export function MainNav({ items }: MainNavProps) {
+export function MainNav({ items, showMenu }: MainNavProps) {
   return (
-    <div className="flex gap-6 md:gap-10">
+    <div className=" hidden  gap-6 md:gap-10 lg:flex">
       <Link href="/" className="flex items-center space-x-2">
-        <Icons.logo className="h-6 w-6" />
-        <span className="inline-block font-bold">{siteConfig.name}</span>
+        <Image alt="logo" src={logo} className="w-16" />
       </Link>
       {items?.length ? (
         <nav className="flex gap-6">
@@ -26,7 +26,7 @@ export function MainNav({ items }: MainNavProps) {
                   key={index}
                   href={item.href}
                   className={cn(
-                    "flex items-center text-sm font-medium text-muted-foreground",
+                    "flex items-center text-base font-medium text-white ",
                     item.disabled && "cursor-not-allowed opacity-80"
                   )}
                 >

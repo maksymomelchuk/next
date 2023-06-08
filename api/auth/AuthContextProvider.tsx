@@ -42,6 +42,7 @@ interface AuthContextValues {
   isAuthenticated: boolean
   logout: () => void
   username: string
+  hasRole: (role: string) => boolean
 }
 
 /**
@@ -51,6 +52,7 @@ const defaultAuthContextValues: AuthContextValues = {
   isAuthenticated: false,
   logout: () => {},
   username: "",
+  hasRole: (role) => false,
 }
 
 /**
@@ -85,6 +87,8 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
   const logout = () => {
     void keycloak.logout()
   }
+
+  const hasRole = (role: string) => keycloak.hasRealmRole(role)
 
   useEffect(() => {
     /**
@@ -121,6 +125,7 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
     async function loadProfile() {
       try {
         const profile = await keycloak.loadUserProfile()
+
         if (profile.firstName) {
           setUsername(profile.firstName)
         } else if (profile.username) {
@@ -138,7 +143,9 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
   }, [isAuthenticated])
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, logout, username }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, logout, username, hasRole }}
+    >
       {props.children}
     </AuthContext.Provider>
   )
