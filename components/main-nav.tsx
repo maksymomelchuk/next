@@ -8,12 +8,11 @@ import { cn } from "@/lib/utils"
 
 interface MainNavProps {
   items?: NavItem[]
-  showMenu: boolean
 }
 
-export function MainNav({ items, showMenu }: MainNavProps) {
+export function MainNav({ items }: MainNavProps) {
   return (
-    <div className=" hidden  gap-6 md:gap-10 lg:flex">
+    <div className="hidden gap-6 md:gap-10 lg:flex">
       <Link href="/" className="flex items-center space-x-2">
         <Image alt="logo" src={logo} className="w-16" />
       </Link>

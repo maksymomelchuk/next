@@ -7,6 +7,7 @@ import AuthContextProvider from "@/api/auth/AuthContextProvider"
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { Sidenav } from "@/components/Sidenav/Sidenav"
+import Footer from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
   const toggleMenu = () => {
     setShowMenu(!showMenu)
+    console.log("click")
   }
 
   return (
@@ -34,9 +36,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <AuthContextProvider>
               <div className="relative flex min-h-screen flex-col">
-                <SiteHeader toggleMenu={toggleMenu} showMenu={showMenu} />
+                <SiteHeader toggleMenu={toggleMenu} />
                 <Sidenav showMenu={showMenu} toggleMenu={toggleMenu} />
                 <div className="flex-1">{children}</div>
+                <Footer />
               </div>
             </AuthContextProvider>
             <TailwindIndicator />

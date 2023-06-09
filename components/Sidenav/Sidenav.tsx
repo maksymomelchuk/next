@@ -1,6 +1,11 @@
 import { useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import logo from "@/assets/img/Logo-NGA-White.png"
 
+import { siteConfig } from "@/config/site"
 import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 import {
   Sheet,
   SheetContent,
@@ -9,6 +14,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
+import { MenuItems } from "@/components/Sidenav/MenuItems"
 
 interface SidenavProps {
   showMenu: boolean
@@ -35,18 +41,16 @@ export const Sidenav: React.FC<SidenavProps> = ({ showMenu, toggleMenu }) => {
     <Sheet open={showMenu}>
       <SheetContent position="left" size="sm" toggleMenu={toggleMenu}>
         <SheetHeader>
-          <SheetTitle className="text-white">Edit profile</SheetTitle>
-          <SheetDescription className="text-white">
-            Make changes to your profile here. Click save when you are done.
-          </SheetDescription>
+          <Link href="/" className="flex items-center gap-2  space-x-2">
+            <Image alt="logo" src={logo} className="w-12" />
+            <p className="font-semibold">LINX Dashboard</p>
+          </Link>
         </SheetHeader>
-        <div className="flex flex-col items-center gap-4 py-4">
-          <div className="">FIRST</div>
-          <div className="">SECOND</div>
-        </div>
-        <SheetFooter>
+        <Separator className="my-4" />
+        <MenuItems items={siteConfig.mainNav} toggleMenu={toggleMenu} />
+        {/* <SheetFooter>
           <Button onClick={toggleMenu}>Save changes</Button>
-        </SheetFooter>
+        </SheetFooter> */}
       </SheetContent>
     </Sheet>
   )
