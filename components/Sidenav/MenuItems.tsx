@@ -20,13 +20,13 @@ export function MenuItems({ items, toggleMenu }: MenuItemsProps) {
     <div className="gap-6 md:gap-10">
       {items?.length ? (
         <nav className="flex flex-col  gap-6">
-          {items?.map((item, index) =>
+          {items?.map((item) =>
             !item.collapsible ? (
               <Link
-                key={index}
+                key={item.key}
                 href={item.href}
                 className={cn(
-                  "flex items-center text-base font-medium text-white hover:underline",
+                  "text-foreground flex items-center text-base font-medium hover:underline",
                   item.disabled && "cursor-not-allowed opacity-80"
                 )}
                 onClick={toggleMenu}
@@ -34,19 +34,23 @@ export function MenuItems({ items, toggleMenu }: MenuItemsProps) {
                 {item.title}
               </Link>
             ) : (
-              <Accordion type="single" collapsible className="w-full">
+              <Accordion
+                type="single"
+                collapsible
+                className="w-full"
+                key={item.key}
+              >
                 <AccordionItem
                   value="item-1"
-                  className="flex flex-col justify-center gap-2"
+                  className="text-foreground flex flex-col justify-center gap-2"
                 >
                   <AccordionTrigger>{item.title}</AccordionTrigger>
-                  {item.collapse?.map((subMenu, index) => (
-                    <AccordionContent className="ml-3 ">
+                  {item.collapse?.map((subMenu) => (
+                    <AccordionContent className="ml-3" key={subMenu.key}>
                       <Link
-                        key={index}
                         href={subMenu.href}
                         className={cn(
-                          "flex items-center text-base font-medium text-white before:mr-2 before:block before:h-1 before:w-1 before:rounded-full before:bg-white before:content-['']",
+                          "before:bg-foreground flex items-center text-base font-medium before:mr-2 before:block before:h-1 before:w-1 before:rounded-full before:content-['']",
                           item.disabled && "cursor-not-allowed opacity-80"
                         )}
                         onClick={toggleMenu}

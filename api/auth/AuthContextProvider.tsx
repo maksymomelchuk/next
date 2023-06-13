@@ -10,9 +10,9 @@ import Keycloak, {
  * KeycloakConfig configures the connection to the Keycloak server.
  */
 const keycloakConfig: KeycloakConfig = {
-  realm: "myrealm",
-  clientId: "myclient",
-  url: "http://localhost:8080",
+  realm: "LDB-DEV",
+  clientId: "ldb-front",
+  url: "http://localhost:8083",
 }
 
 /**
@@ -43,6 +43,7 @@ interface AuthContextValues {
   logout: () => void
   username: string
   hasRole: (role: string) => boolean
+  token: string
 }
 
 /**
@@ -53,6 +54,7 @@ const defaultAuthContextValues: AuthContextValues = {
   logout: () => {},
   username: "",
   hasRole: (role) => false,
+  token: "",
 }
 
 /**
@@ -83,9 +85,11 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
   // Create the local state in which we will keep track if a user is authenticated
   const [isAuthenticated, setAuthenticated] = useState<boolean>(false)
   const [username, setUsername] = useState<string>("")
+  const [token, setToken] = useState("")
 
   const logout = () => {
     void keycloak.logout()
+    localStorage.removeItem("token")
   }
 
   const hasRole = (role: string) => keycloak.hasRealmRole(role)
@@ -98,6 +102,7 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
       console.log("initialize Keycloak")
       try {
         const isAuthenticatedResponse = await keycloak.init(keycloakInitOptions)
+        console.log("isAuthenticatedResponse:", isAuthenticatedResponse)
 
         if (!isAuthenticatedResponse) {
           console.log(
@@ -124,6 +129,13 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
      */
     async function loadProfile() {
       try {
+        const token = keycloak.token
+        console.log("token -->:", token)
+        if (token) {
+          setToken(token)
+          localStorage.setItem("token", token)
+        }
+
         const profile = await keycloak.loadUserProfile()
 
         if (profile.firstName) {
@@ -144,7 +156,7 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, logout, username, hasRole }}
+      value={{ isAuthenticated, logout, username, hasRole, token }}
     >
       {props.children}
     </AuthContext.Provider>

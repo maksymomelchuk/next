@@ -29,14 +29,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <html lang="en" suppressHydrationWarning>
         <body
           className={cn(
-            "min-h-screen bg-background font-sans antialiased",
+            "bg-background min-h-screen font-sans antialiased",
             fontSans.variable
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <AuthContextProvider>
               <div className="relative flex min-h-screen flex-col">
-                <SiteHeader toggleMenu={toggleMenu} />
+                <SiteHeader toggleMenu={toggleMenu} showMenu={showMenu} />
                 <Sidenav showMenu={showMenu} toggleMenu={toggleMenu} />
                 <div className="flex-1">{children}</div>
                 <Footer />

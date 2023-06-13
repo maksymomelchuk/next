@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { AuthContext } from "@/api/auth/AuthContextProvider"
-import { AlignJustify } from "lucide-react"
+import { AlignJustify, X } from "lucide-react"
 
 import { siteConfig } from "@/config/site"
 import { Button } from "@/components/ui/button"
@@ -9,9 +9,13 @@ import { ThemeToggle } from "@/components/theme-toggle"
 
 interface SiteHeaderProps {
   toggleMenu: () => void
+  showMenu: boolean
 }
 
-export const SiteHeader: React.FC<SiteHeaderProps> = ({ toggleMenu }) => {
+export const SiteHeader: React.FC<SiteHeaderProps> = ({
+  toggleMenu,
+  showMenu,
+}) => {
   const authContext = useContext(AuthContext)
 
   return (
@@ -32,7 +36,7 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ toggleMenu }) => {
               onClick={toggleMenu}
               className="lg:hidden"
             >
-              <AlignJustify />
+              {!showMenu ? <AlignJustify /> : <X />}
             </Button>
           </nav>
         </div>
