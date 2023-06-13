@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect, useMemo, useState } from "react"
+import axiosInstance from "@/api/axiosInstance"
 import {
   createColumnHelper,
   flexRender,
@@ -16,18 +17,8 @@ export interface IProduct {
 }
 
 async function getData() {
-  const token = localStorage.getItem("token")
-  const headers = { Authorization: `Bearer ${token}` }
-  console.log("token:", token)
-  const res = await fetch("http://localhost:8080/api/v1/sdp", {
-    headers,
-  })
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch data")
-  }
-
-  return res.json()
+  const { data } = await axiosInstance.get("/sdp")
+  return data
 }
 
 const Products = () => {

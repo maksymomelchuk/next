@@ -6,13 +6,16 @@ import Keycloak, {
   type KeycloakInitOptions,
 } from "keycloak-js"
 
+const realm = process.env.NEXT_PUBLIC_REALM!
+const clientId = process.env.NEXT_PUBLIC_REALM_CLIENT_ID!
+const url = process.env.NEXT_PUBLIC_KEYCLOAK_URL!
 /**
  * KeycloakConfig configures the connection to the Keycloak server.
  */
 const keycloakConfig: KeycloakConfig = {
-  realm: "LDB-DEV",
-  clientId: "ldb-front",
-  url: "http://localhost:8083",
+  realm,
+  clientId,
+  url,
 }
 
 /**
@@ -90,6 +93,7 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
   const logout = () => {
     void keycloak.logout()
     localStorage.removeItem("token")
+    localStorage.removeItem("refreshToken")
   }
 
   const hasRole = (role: string) => keycloak.hasRealmRole(role)
@@ -130,10 +134,12 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
     async function loadProfile() {
       try {
         const token = keycloak.token
-        console.log("token -->:", token)
-        if (token) {
+        const refreshToken = keycloak.refreshToken
+
+        if (token && refreshToken) {
           setToken(token)
           localStorage.setItem("token", token)
+          localStorage.setItem("refreshToken", refreshToken)
         }
 
         const profile = await keycloak.loadUserProfile()

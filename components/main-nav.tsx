@@ -18,9 +18,9 @@ export function MainNav({ items }: MainNavProps) {
         <Image alt="logo" src={logo} className="w-16" />
       </Link>
       {items?.length ? (
-        <nav className="">
+        <nav>
           <NavigationMenu.Root>
-            <NavigationMenu.List className="flex gap-3 font-medium">
+            <NavigationMenu.List className="flex gap-4 font-medium">
               {items?.map((item) =>
                 !item.collapsible ? (
                   <NavigationMenu.Item key={item.key}>

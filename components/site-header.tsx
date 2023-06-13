@@ -3,6 +3,17 @@ import { AuthContext } from "@/api/auth/AuthContextProvider"
 import { AlignJustify, X } from "lucide-react"
 
 import { siteConfig } from "@/config/site"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -27,9 +38,24 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({
             <ThemeToggle />
             <div className="flex items-center gap-2">
               <h1>Welcome {authContext.username || "Guest"}!</h1>
-              <Button variant="outlineNav" onClick={authContext.logout}>
-                Logout
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="outlineNav">Logout</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className="text-center">
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter className="text-center">
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={authContext.logout}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
             <Button
               variant="ghostNav"

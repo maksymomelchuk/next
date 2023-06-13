@@ -5,10 +5,11 @@ import Link from "next/link"
 import { AuthContext } from "@/api/auth/AuthContextProvider"
 
 import { siteConfig } from "@/config/site"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 
 export default function IndexPage() {
   const authContext = useContext(AuthContext)
+  console.log("authContext:", authContext)
 
   // console.log(authContext.hasRole("offline_access"))
 
