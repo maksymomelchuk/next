@@ -1,55 +1,38 @@
-"use client"
+'use client'
 
-import React, { useEffect, useMemo, useState } from "react"
-import axiosInstance from "@/api/axiosInstance"
+import React, { useMemo } from 'react'
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from '@tanstack/react-table'
 
-export interface IProduct {
-  id: number
-  title: string
-  brand: string
-  category: string
-}
-
-async function getData() {
-  const { data } = await axiosInstance.get("/sdp")
-  return data
-}
+import { useFetchAllSDP } from '@/api/sdp/sdp'
+import { ISdp } from '@/api/sdp/sdpTypes'
 
 const Products = () => {
-  const [data, setData] = useState([])
+  const { data, isLoading } = useFetchAllSDP()
 
-  useEffect(() => {
-    ;(async () => {
-      const data = await getData()
-      console.log("data:", data)
-      // setData(data.products)
-    })()
-  }, [])
-
-  const columnHelper = createColumnHelper<IProduct>()
+  const columnHelper = createColumnHelper<ISdp>()
 
   const columns = useMemo(
     () => [
-      columnHelper.accessor("id", { header: "id" }),
-      columnHelper.accessor("title", { header: "Title" }),
-      columnHelper.accessor("category", { header: "Category" }),
-      columnHelper.accessor("brand", { header: "Brand" }),
+      columnHelper.accessor('id', { header: 'id' }),
+      columnHelper.accessor('name', { header: 'Name' }),
+      columnHelper.accessor('alias', { header: 'Alias' }),
+      columnHelper.accessor('enabled', { header: 'Enabled' }),
     ],
     []
   )
 
   const tableInstance = useReactTable({
     columns,
-    data,
+    data: Array.isArray(data) ? data : [],
     getCoreRowModel: getCoreRowModel(),
   })
   return (
+    // !isLoading && (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <table>
         <thead>
@@ -81,7 +64,8 @@ const Products = () => {
         </tbody>
       </table>
     </section>
-    // <div>HELLO</div>
+    // )
+    // !isLoading && <div>{JSON.stringify(data)}</div>
   )
 }
 export default Products

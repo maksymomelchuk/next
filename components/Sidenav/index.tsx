@@ -1,31 +1,31 @@
-import { useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import logo from "@/assets/img/Logo-NGA-White.png"
+import { useEffect } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import logo from '@/assets/img/Logo-NGA-White.png'
 
-import { siteConfig } from "@/config/site"
-import { Separator } from "@/components/ui/separator"
-import { Sheet, SheetContent, SheetHeader } from "@/components/ui/sheet"
-import { MenuItems } from "@/components/Sidenav/MenuItems"
+import { siteConfig } from '@/config/site'
+import { Separator } from '@/components/ui/separator'
+import { Sheet, SheetContent, SheetHeader } from '@/components/ui/sheet'
+import { MenuItems } from '@/components/SideNav/MenuItems'
 
 interface SidenavProps {
   showMenu: boolean
   toggleMenu: () => void
 }
 
-export const Sidenav: React.FC<SidenavProps> = ({ showMenu, toggleMenu }) => {
+export const SideNav: React.FC<SidenavProps> = ({ showMenu, toggleMenu }) => {
   const handleEscapeKeyPress = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       toggleMenu()
     }
   }
 
   useEffect(() => {
     if (showMenu) {
-      document.addEventListener("keydown", handleEscapeKeyPress)
+      document.addEventListener('keydown', handleEscapeKeyPress)
     }
     return () => {
-      document.removeEventListener("keydown", handleEscapeKeyPress)
+      document.removeEventListener('keydown', handleEscapeKeyPress)
     }
   }, [showMenu])
 

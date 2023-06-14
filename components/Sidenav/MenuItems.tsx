@@ -1,21 +1,21 @@
-import * as React from "react"
-import Link from "next/link"
+import * as React from 'react'
+import Link from 'next/link'
 
-import { NavItem } from "@/types/nav"
-import { cn } from "@/lib/utils"
+import { NavItem } from '@/types/nav'
+import { cn } from '@/lib/utils'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
+} from '@/components/ui/accordion'
 
 interface MenuItemsProps {
   items?: NavItem[]
   toggleMenu: () => void
 }
 
-export function MenuItems({ items, toggleMenu }: MenuItemsProps) {
+export const MenuItems: React.FC<MenuItemsProps> = ({ items, toggleMenu }) => {
   return (
     <div className="gap-6 md:gap-10">
       {items?.length ? (
@@ -26,8 +26,8 @@ export function MenuItems({ items, toggleMenu }: MenuItemsProps) {
                 key={item.key}
                 href={item.href}
                 className={cn(
-                  "text-foreground flex items-center text-base font-medium hover:underline",
-                  item.disabled && "cursor-not-allowed opacity-80"
+                  'text-foreground flex items-center text-base font-medium hover:underline',
+                  item.disabled && 'cursor-not-allowed opacity-80'
                 )}
                 onClick={toggleMenu}
               >
@@ -51,7 +51,7 @@ export function MenuItems({ items, toggleMenu }: MenuItemsProps) {
                         href={subMenu.href}
                         className={cn(
                           "before:bg-foreground flex items-center text-base font-medium before:mr-2 before:block before:h-1 before:w-1 before:rounded-full before:content-['']",
-                          item.disabled && "cursor-not-allowed opacity-80"
+                          item.disabled && 'cursor-not-allowed opacity-80'
                         )}
                         onClick={toggleMenu}
                       >

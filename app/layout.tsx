@@ -1,17 +1,18 @@
-"use client"
+'use client'
 
-import "@/styles/globals.css"
-import { useState } from "react"
-import AuthContextProvider from "@/api/auth/AuthContextProvider"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import '@/styles/globals.css'
+import { useState } from 'react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
-import { fontSans } from "@/lib/fonts"
-import { cn } from "@/lib/utils"
-import { Sidenav } from "@/components/Sidenav/Sidenav"
-import Footer from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
-import { TailwindIndicator } from "@/components/tailwind-indicator"
-import { ThemeProvider } from "@/components/theme-provider"
+import AuthContextProvider from '@/api/auth/AuthContextProvider'
+import { fontSans } from '@/lib/fonts'
+import { cn } from '@/lib/utils'
+import { Footer } from '@/components/Footer'
+import { Header } from '@/components/Header'
+import { SideNav } from '@/components/SideNav'
+import { TailwindIndicator } from '@/components/tailwind-indicator'
+import { ThemeProvider } from '@/components/theme-provider'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,7 +41,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <html lang="en" suppressHydrationWarning>
         <body
           className={cn(
-            "bg-background min-h-screen font-sans antialiased",
+            'bg-background min-h-screen font-sans antialiased',
             fontSans.variable
           )}
         >
@@ -48,14 +49,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <AuthContextProvider>
                 <div className="relative flex min-h-screen flex-col">
-                  <SiteHeader toggleMenu={toggleMenu} showMenu={showMenu} />
-                  <Sidenav showMenu={showMenu} toggleMenu={toggleMenu} />
+                  <Header toggleMenu={toggleMenu} showMenu={showMenu} />
+                  <SideNav showMenu={showMenu} toggleMenu={toggleMenu} />
                   <div className="flex-1">{children}</div>
                   <Footer />
                 </div>
               </AuthContextProvider>
               <TailwindIndicator />
             </ThemeProvider>
+            <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
           </QueryClientProvider>
         </body>
       </html>

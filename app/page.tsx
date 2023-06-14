@@ -9,7 +9,6 @@ import { buttonVariants } from "@/components/ui/button"
 
 export default function IndexPage() {
   const authContext = useContext(AuthContext)
-  console.log("authContext:", authContext)
 
   // console.log(authContext.hasRole("offline_access"))
 

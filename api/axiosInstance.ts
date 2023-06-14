@@ -1,6 +1,6 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
-import refresh from "./auth/refreshToken"
+import refresh from './auth/refreshToken'
 
 const realm = process.env.NEXT_PUBLIC_REALM!
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL
@@ -16,8 +16,8 @@ export const axiosInstance: AxiosInstance = axios.create(axiosParams)
 axiosInstance.interceptors.request.use((config) => {
   if (config.headers) {
     config.headers.set(
-      "Authorization",
-      `Bearer ${localStorage.getItem("token")}`
+      'Authorization',
+      `Bearer ${localStorage.getItem('token')}`
     )
   }
   return config
@@ -33,7 +33,7 @@ axiosInstance.interceptors.response.use(
     if (error.response.status === 419 && !originalRequest._retry) {
       // if request failed - refresh token
       originalRequest._retry = true
-      const oldToken = localStorage.getItem("refreshToken")
+      const oldToken = localStorage.getItem('refreshToken')
 
       if (oldToken) {
         const response: AxiosResponse<{
@@ -44,8 +44,8 @@ axiosInstance.interceptors.response.use(
         const newAccessToken = response.data.access_token
         const newRefreshToken = response.data.refresh_token
 
-        localStorage.setItem("token", newAccessToken)
-        localStorage.setItem("refreshToken", newRefreshToken)
+        localStorage.setItem('token', newAccessToken)
+        localStorage.setItem('refreshToken', newRefreshToken)
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
       }
@@ -61,7 +61,7 @@ axiosInstance.interceptors.response.use(
   }
 )
 export const setAuthHeader = (token: string) => {
-  const bearer = token ? `Bearer ${token}` : ""
+  const bearer = token ? `Bearer ${token}` : ''
   axiosInstance.defaults.headers.common.Authorization = bearer
 }
 // TODO: clean things up
@@ -80,7 +80,7 @@ export const logApiError = (error: any) => {
     console.log(error.request)
   } else {
     // Something happened in setting up the request that triggered an Error
-    console.log("Error", error.message)
+    console.log('Error', error.message)
   }
   console.log(error.config)
 }
@@ -92,8 +92,8 @@ interface AppRequestConfig extends AxiosRequestConfig {
 // Main api function
 const api = (axiosClient: AxiosInstance) => {
   return {
-    get: (url: string, config?: AppRequestConfig) =>
-      axiosClient.get(url, config),
+    get: <T>(url: string, config?: AppRequestConfig) =>
+      axiosClient.get<T>(url, config),
     delete: (url: string, config?: AppRequestConfig) =>
       axiosClient.delete(url, config),
     post: (url: string, body: any, config?: AppRequestConfig) =>
