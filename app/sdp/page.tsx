@@ -8,11 +8,14 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { useFetchAllSDP } from '@/api/sdp/sdp'
-import { ISdp } from '@/api/sdp/sdpTypes'
+import { useFetchAllUsers, useFetchUserById } from '@/api/auth/auth'
+import { useFetchAllLdb, useFetchLdbById } from '@/api/ldb/ldb'
+import { useFetchAllSdp, useFetchSdpById } from '@/api/sdp/sdp'
+import { ISdp } from '@/types/sdp'
 
 const Products = () => {
-  const { data, isLoading } = useFetchAllSDP()
+  const { data, isLoading } = useFetchAllSdp()
+  const { data: dataById } = useFetchSdpById(1)
 
   const columnHelper = createColumnHelper<ISdp>()
 
@@ -32,9 +35,8 @@ const Products = () => {
     getCoreRowModel: getCoreRowModel(),
   })
   return (
-    // !isLoading && (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <table>
+      {/* <table>
         <thead>
           {tableInstance.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -62,10 +64,9 @@ const Products = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
+      <span>{JSON.stringify(data)}</span>
     </section>
-    // )
-    // !isLoading && <div>{JSON.stringify(data)}</div>
   )
 }
 export default Products

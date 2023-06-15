@@ -51,7 +51,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 <div className="relative flex min-h-screen flex-col">
                   <Header toggleMenu={toggleMenu} showMenu={showMenu} />
                   <SideNav showMenu={showMenu} toggleMenu={toggleMenu} />
-                  <div className="flex-1">{children}</div>
+                  <main className="flex-1">{children}</main>
                   <Footer />
                 </div>
               </AuthContextProvider>

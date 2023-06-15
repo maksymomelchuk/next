@@ -1,4 +1,5 @@
 import { siteConfig } from '@/config/site'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Logo } from '@/components/Header/Logo'
 import { MainNav } from '@/components/Header/MainNav'
@@ -29,14 +30,14 @@ export const Header: React.FC<HeaderProps> = ({ toggleMenu, showMenu }) => {
               className="lg:hidden"
             >
               <Icons.burgerMenu
-                className={`transition-all ${
-                  showMenu ? '-rotate-90 scale-0' : 'rotate-0 scale-100'
-                }`}
+                className={cn('rotate-0 scale-100 transition-all', {
+                  '-rotate-90 scale-0': showMenu,
+                })}
               />
               <Icons.closeMenu
-                className={`absolute transition-all ${
-                  showMenu ? 'rotate-0 scale-100' : 'rotate-90 scale-0'
-                }`}
+                className={cn('absolute rotate-90 scale-0 transition-all', {
+                  'rotate-0 scale-100': showMenu,
+                })}
               />
               <span className="sr-only">Toggle burger menu</span>
             </Button>

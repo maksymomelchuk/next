@@ -1,14 +1,9 @@
+import { IUser } from '@/types/generalApiTypes'
+
 interface IAdressProvider {
   id: number
   data_provider_string: string
   provider_id: string
-}
-
-interface IUser {
-  id: number
-  first_name: string
-  last_name: string
-  email: string
 }
 
 interface IOptions {

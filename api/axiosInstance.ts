@@ -1,8 +1,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
+import { keycloak } from '@/api/auth/AuthContextProvider'
+
 import refresh from './auth/refreshToken'
 
-const realm = process.env.NEXT_PUBLIC_REALM!
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL
 // Default config for the axios instance
 const axiosParams = {
@@ -36,26 +37,33 @@ axiosInstance.interceptors.response.use(
       const oldToken = localStorage.getItem('refreshToken')
 
       if (oldToken) {
-        const response: AxiosResponse<{
-          access_token: string
-          refresh_token: string
-        }> = await refresh(oldToken)
+        try {
+          const response: AxiosResponse<{
+            access_token: string
+            refresh_token: string
+          }> = await refresh(oldToken)
 
-        const newAccessToken = response.data.access_token
-        const newRefreshToken = response.data.refresh_token
+          const newAccessToken = response.data.access_token
+          const newRefreshToken = response.data.refresh_token
 
-        localStorage.setItem('token', newAccessToken)
-        localStorage.setItem('refreshToken', newRefreshToken)
+          localStorage.setItem('token', newAccessToken)
+          localStorage.setItem('refreshToken', newRefreshToken)
 
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
+          return axiosInstance(originalRequest)
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            if (
+              error.response?.status === 400 &&
+              error.response.data.error_description === 'Invalid refresh token'
+            ) {
+              localStorage.removeItem('token')
+              localStorage.removeItem('refreshToken')
+              keycloak.logout()
+            }
+          }
+        }
       }
-      return axiosInstance(originalRequest)
-    } else if (
-      error.config.url ===
-      `${baseURL}/realms/${realm}/protocol/openid-connect/token`
-    ) {
-      // if token refreshing failed - logout
-      // forceLogout()
     }
     return Promise.reject(error)
   }
