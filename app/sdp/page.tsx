@@ -8,14 +8,11 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { useFetchAllUsers, useFetchUserById } from '@/api/auth/auth'
-import { useFetchAllLdb, useFetchLdbById } from '@/api/ldb/ldb'
 import { useFetchAllSdp, useFetchSdpById } from '@/api/sdp/sdp'
 import { ISdp } from '@/types/sdp'
 
 const Products = () => {
   const { data, isLoading } = useFetchAllSdp()
-  const { data: dataById } = useFetchSdpById(1)
 
   const columnHelper = createColumnHelper<ISdp>()
 
