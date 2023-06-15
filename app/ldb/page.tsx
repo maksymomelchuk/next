@@ -10,6 +10,7 @@ import {
 
 import { useFetchAllLdb } from '@/api/ldb/ldb'
 import { ILdb } from '@/types/ldb'
+import { useTable } from '@/hooks/useTable'
 import { EditAction } from '@/components/Table/EditAction'
 import { EditableCell } from '@/components/Table/EditableCell'
 
@@ -75,41 +76,43 @@ const LdbPage: React.FC<LdbPageProps> = () => {
     []
   )
 
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    meta: {
-      updateData: (rowIndex: number, columnId: number, value: string) => {
-        setData((old) =>
-          old.map((row, index) => {
-            if (index === rowIndex) {
-              return {
-                ...old[rowIndex],
-                [columnId]: value,
-              }
-            }
-            return row
-          })
-        )
-      },
-      revertData: (rowIndex: number, revert: boolean) => {
-        if (revert) {
-          setData((old) =>
-            old.map((row, index) =>
-              index === rowIndex ? originalData[rowIndex] : row
-            )
-          )
-        } else {
-          setOriginalData((old) =>
-            old.map((row, index) => (index === rowIndex ? data[rowIndex] : row))
-          )
-        }
-      },
-      selectedRow,
-      setSelectedRow,
-    },
-  })
+  // const table = useReactTable({
+  //   data,
+  //   columns,
+  //   getCoreRowModel: getCoreRowModel(),
+  //   meta: {
+  //     updateData: (rowIndex: number, columnId: number, value: string) => {
+  //       setData((old) =>
+  //         old.map((row, index) => {
+  //           if (index === rowIndex) {
+  //             return {
+  //               ...old[rowIndex],
+  //               [columnId]: value,
+  //             }
+  //           }
+  //           return row
+  //         })
+  //       )
+  //     },
+  //     revertData: (rowIndex: number, revert: boolean) => {
+  //       if (revert) {
+  //         setData((old) =>
+  //           old.map((row, index) =>
+  //             index === rowIndex ? originalData[rowIndex] : row
+  //           )
+  //         )
+  //       } else {
+  //         setOriginalData((old) =>
+  //           old.map((row, index) => (index === rowIndex ? data[rowIndex] : row))
+  //         )
+  //       }
+  //     },
+  //     selectedRow,
+  //     setSelectedRow,
+  //   },
+  // })
+
+  const table = useTable(fetchedData, columns)
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
