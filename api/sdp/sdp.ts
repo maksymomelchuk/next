@@ -16,7 +16,7 @@ export const useFetchAllSdp = () => {
 
 export const useFetchSdpById = (id: number) => {
   return useQuery({
-    queryKey: ['sdp', 'id'],
+    queryKey: ['sdp', id],
     queryFn: async () => {
       const { data } = await axiosInstance.get<ISdp>(`/sdp/${id}`)
       console.log('Sdp by id:', data)

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 
@@ -10,9 +10,11 @@ interface MainNavProps {
 }
 
 export const MainNav: React.FC<MainNavProps> = ({ items }) => {
+  const [value, setValue] = useState('')
+
   return items?.length ? (
     <nav>
-      <NavigationMenu.Root>
+      <NavigationMenu.Root value={value} onValueChange={setValue}>
         <NavigationMenu.List className="flex gap-4 font-medium">
           {items?.map((item) =>
             !item.collapsible ? (
@@ -23,6 +25,7 @@ export const MainNav: React.FC<MainNavProps> = ({ items }) => {
                     'flex items-center text-base  text-white hover:underline',
                     item.disabled && 'cursor-not-allowed opacity-80'
                   )}
+                  onClick={() => setValue('')}
                 >
                   {item.title}
                 </Link>
@@ -42,6 +45,7 @@ export const MainNav: React.FC<MainNavProps> = ({ items }) => {
                             'hover:bg-border flex flex-col whitespace-nowrap p-3 hover:rounded-lg',
                             item.disabled && 'cursor-not-allowed opacity-80'
                           )}
+                          onClick={() => setValue('')}
                         >
                           {subMenu.title}
                         </Link>

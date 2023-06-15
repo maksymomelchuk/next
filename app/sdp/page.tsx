@@ -36,7 +36,7 @@ const Products = () => {
   })
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      {/* <table>
+      <table>
         <thead>
           {tableInstance.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -64,8 +64,8 @@ const Products = () => {
             </tr>
           ))}
         </tbody>
-      </table> */}
-      <span>{JSON.stringify(data)}</span>
+      </table>
+      {/* <span>{JSON.stringify(data)}</span> */}
     </section>
   )
 }

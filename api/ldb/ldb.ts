@@ -16,7 +16,7 @@ export const useFetchAllLdb = () => {
 
 export const useFetchLdbById = (id: number) => {
   return useQuery({
-    queryKey: ['ldb', 'id'],
+    queryKey: ['ldb', id],
     queryFn: async () => {
       const { data } = await axiosInstance.get<ILdb>(`/ldb/adr-providers/${id}`)
       console.log('Ldb by id:', data)

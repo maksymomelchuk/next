@@ -57,6 +57,7 @@ axiosInstance.interceptors.response.use(
               error.response?.status === 400 &&
               error.response.data.error_description === 'Invalid refresh token'
             ) {
+              console.log('NO TOKEN FORCE LOGOUT')
               localStorage.removeItem('token')
               localStorage.removeItem('refreshToken')
               keycloak.logout()

@@ -15,7 +15,7 @@ export const useFetchAllMsag = () => {
 
 export const useFetchMsagById = (id: number) => {
   return useQuery({
-    queryKey: ['msag', 'id'],
+    queryKey: ['msag', id],
     queryFn: async () => {
       const { data } = await axiosInstance.get(`/msag/imports/${id}`)
       console.log('Msag by id:', data)
