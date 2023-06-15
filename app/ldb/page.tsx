@@ -93,7 +93,7 @@ const LdbPage: React.FC<LdbPageProps> = () => {
           })
         )
       },
-      revertData: (rowIndex, revert) => {
+      revertData: (rowIndex: number, revert: boolean) => {
         if (revert) {
           setData((old) =>
             old.map((row, index) =>
