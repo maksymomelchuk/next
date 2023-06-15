@@ -1,12 +1,7 @@
 'use client'
 
-import React, { useEffect, useMemo, useState } from 'react'
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
+import React, { useMemo } from 'react'
+import { createColumnHelper, flexRender } from '@tanstack/react-table'
 
 import { useFetchAllLdb } from '@/api/ldb/ldb'
 import { ILdb } from '@/types/ldb'
@@ -17,17 +12,7 @@ import { EditableCell } from '@/components/Table/EditableCell'
 type LdbPageProps = {}
 
 const LdbPage: React.FC<LdbPageProps> = () => {
-  const { data: fetchedData, isLoading, isSuccess } = useFetchAllLdb()
-  const [data, setData] = useState<ILdb[]>([])
-  const [originalData, setOriginalData] = useState<ILdb[]>([])
-  const [selectedRow, setSelectedRow] = useState({})
-
-  useEffect(() => {
-    if (isSuccess) {
-      setData(fetchedData)
-      setOriginalData(fetchedData)
-    }
-  }, [fetchedData, isSuccess])
+  const { data } = useFetchAllLdb()
 
   const columnHelper = createColumnHelper<ILdb>()
 
@@ -76,43 +61,7 @@ const LdbPage: React.FC<LdbPageProps> = () => {
     []
   )
 
-  // const table = useReactTable({
-  //   data,
-  //   columns,
-  //   getCoreRowModel: getCoreRowModel(),
-  //   meta: {
-  //     updateData: (rowIndex: number, columnId: number, value: string) => {
-  //       setData((old) =>
-  //         old.map((row, index) => {
-  //           if (index === rowIndex) {
-  //             return {
-  //               ...old[rowIndex],
-  //               [columnId]: value,
-  //             }
-  //           }
-  //           return row
-  //         })
-  //       )
-  //     },
-  //     revertData: (rowIndex: number, revert: boolean) => {
-  //       if (revert) {
-  //         setData((old) =>
-  //           old.map((row, index) =>
-  //             index === rowIndex ? originalData[rowIndex] : row
-  //           )
-  //         )
-  //       } else {
-  //         setOriginalData((old) =>
-  //           old.map((row, index) => (index === rowIndex ? data[rowIndex] : row))
-  //         )
-  //       }
-  //     },
-  //     selectedRow,
-  //     setSelectedRow,
-  //   },
-  // })
-
-  const table = useTable(fetchedData, columns)
+  const table = useTable(data, columns)
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
