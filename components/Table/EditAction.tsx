@@ -13,17 +13,17 @@ export const EditAction = ({ row, table }) => {
   }
 
   return meta?.selectedRow[row.id] ? (
-    <>
+    <div className="flex flex-col gap-2">
       <button onClick={() => setSelectedRow('cancel')}>
         <Icons.closeMenu className="text-accent" />
       </button>{' '}
       <button onClick={() => setSelectedRow()}>
         <Icons.check className="text-green-500" />
       </button>
-    </>
+    </div>
   ) : (
     <button onClick={() => setSelectedRow()}>
-      <Icons.edit />
+      <Icons.edit className="text-foreground" />
     </button>
   )
 }

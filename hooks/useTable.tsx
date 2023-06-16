@@ -1,10 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { useEffect, useState } from 'react'
+import {
+  SortingState,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table'
 
 export const useTable = (fetchedData, columns) => {
   const [data, setData] = useState<any[]>([])
   const [originalData, setOriginalData] = useState<any[]>([])
   const [selectedRow, setSelectedRow] = useState({})
+  const [sorting, setSorting] = useState<SortingState>([])
 
   useEffect(() => {
     if (fetchedData) {
@@ -17,6 +24,9 @@ export const useTable = (fetchedData, columns) => {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
     meta: {
       updateData: (rowIndex: number, columnId: number, value: string) => {
         setData((old) =>
@@ -46,6 +56,9 @@ export const useTable = (fetchedData, columns) => {
       },
       selectedRow,
       setSelectedRow,
+    },
+    state: {
+      sorting,
     },
   })
 

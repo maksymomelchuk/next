@@ -1,11 +1,15 @@
 'use client'
 
-import React, { useMemo } from 'react'
-import { createColumnHelper, flexRender } from '@tanstack/react-table'
+import React, { useMemo, useRef } from 'react'
+import { createColumnHelper } from '@tanstack/react-table'
+import { CSVLink } from 'react-csv'
+import { useReactToPrint } from 'react-to-print'
 
 import { useFetchAllLdb } from '@/api/ldb/ldb'
 import { ILdb } from '@/types/ldb'
 import { useTable } from '@/hooks/useTable'
+import { Button } from '@/components/ui/button'
+import { CustomTable } from '@/components/Table'
 import { EditAction } from '@/components/Table/EditAction'
 import { EditableCell } from '@/components/Table/EditableCell'
 
@@ -13,12 +17,17 @@ type LdbPageProps = {}
 
 const LdbPage: React.FC<LdbPageProps> = () => {
   const { data } = useFetchAllLdb()
+  const componentRef = useRef(null)
 
   const columnHelper = createColumnHelper<ILdb>()
 
   const columns = useMemo(
     () => [
-      columnHelper.accessor('id', { header: 'id' }),
+      columnHelper.accessor('id', {
+        header: 'id',
+        enableColumnFilter: false,
+        enableHiding: true,
+      }),
       columnHelper.accessor('data_provider_string', {
         header: 'Data provider',
         cell: EditableCell,
@@ -63,38 +72,24 @@ const LdbPage: React.FC<LdbPageProps> = () => {
 
   const table = useTable(data, columns)
 
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  })
+
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div>LDB page</div>
-      <table className="border-collapse border ">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="border-b">
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} className="px-3 py-2 text-left">
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} className="border-b">
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="px-3 py-2 text-left">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="w-full overflow-x-auto" ref={componentRef}>
+        <CustomTable table={table} />
+      </div>
+      {data && (
+        <div className="flex justify-end gap-4">
+          <CSVLink data={data}>
+            <Button>Export to CSV</Button>
+          </CSVLink>
+          <Button onClick={handlePrint}>Print in PDF</Button>
+        </div>
+      )}
     </section>
   )
 }

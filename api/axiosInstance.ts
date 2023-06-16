@@ -31,8 +31,10 @@ axiosInstance.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config
+    console.log('Some error in request', error)
     if (error.response.status === 419 && !originalRequest._retry) {
       // if request failed - refresh token
+      console.log('Trying to refresh token', error)
       originalRequest._retry = true
       const oldToken = localStorage.getItem('refreshToken')
 

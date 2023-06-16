@@ -10,6 +10,8 @@ import {
 
 import { useFetchAllSdp, useFetchSdpById } from '@/api/sdp/sdp'
 import { ISdp } from '@/types/sdp'
+import { useTable } from '@/hooks/useTable'
+import { CustomTable } from '@/components/Table'
 
 const Products = () => {
   const { data, isLoading } = useFetchAllSdp()
@@ -18,7 +20,11 @@ const Products = () => {
 
   const columns = useMemo(
     () => [
-      columnHelper.accessor('id', { header: 'id' }),
+      columnHelper.accessor('id', {
+        header: 'id',
+        enableColumnFilter: false,
+        enableHiding: true,
+      }),
       columnHelper.accessor('name', { header: 'Name' }),
       columnHelper.accessor('alias', { header: 'Alias' }),
       columnHelper.accessor('enabled', { header: 'Enabled' }),
@@ -26,43 +32,11 @@ const Products = () => {
     []
   )
 
-  const tableInstance = useReactTable({
-    columns,
-    data: Array.isArray(data) ? data : [],
-    getCoreRowModel: getCoreRowModel(),
-  })
+  const table = useTable(data, columns)
+
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <table>
-        <thead>
-          {tableInstance.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {tableInstance.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {/* <span>{JSON.stringify(data)}</span> */}
+      <CustomTable table={table} />
     </section>
   )
 }
