@@ -17,6 +17,7 @@ import { EditAction } from '@/components/Table/EditAction'
 import { EditableCell } from '@/components/Table/EditableCell'
 import Export from '@/components/Table/Export'
 import GlobalFilter from '@/components/Table/GlobalFilter'
+import { DataTableRowActions } from '@/components/Table/RowActions'
 import { Icons } from '@/components/icons'
 
 type LdbPageProps = {}
@@ -110,9 +111,13 @@ const LdbPage: React.FC<LdbPageProps> = () => {
         header: 'Contact',
         cell: EditableCell,
       }),
+      // columnHelper.display({
+      //   id: 'edit',
+      //   cell: EditAction,
+      // }),
       columnHelper.display({
-        id: 'edit',
-        cell: EditAction,
+        id: 'more',
+        cell: DataTableRowActions,
       }),
     ],
     []

@@ -1,6 +1,13 @@
+import { Row, Table } from '@tanstack/react-table'
+
 import { Icons } from '../icons'
 
-export const EditAction = ({ row, table }) => {
+interface EditActionProps<TData> {
+  row: Row<TData>
+  table: Table<TData>
+}
+
+export const EditAction = <T,>({ row, table }: EditActionProps<T>) => {
   const meta = table.options.meta
 
   const setSelectedRow = (action?: string) => {

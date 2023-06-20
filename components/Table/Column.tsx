@@ -38,10 +38,10 @@ export function DataTableColumnHeader<TData, TValue>({
             className="data-[state=open]:bg-secondary -ml-3 h-8"
           >
             <span>{title}</span>
-            {column.getIsSorted() === 'asc' ? (
-              <SortAsc className="ml-2 h-4 w-4" />
-            ) : column.getIsSorted() === 'desc' ? (
+            {column.getIsSorted() === 'desc' ? (
               <SortDesc className="ml-2 h-4 w-4" />
+            ) : column.getIsSorted() === 'asc' ? (
+              <SortAsc className="ml-2 h-4 w-4" />
             ) : (
               <ChevronsUpDown className="ml-2 h-4 w-4" />
             )}
