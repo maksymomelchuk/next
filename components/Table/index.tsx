@@ -1,26 +1,34 @@
 import React from 'react'
-import { Table, flexRender } from '@tanstack/react-table'
+import { Table as TableProps, flexRender } from '@tanstack/react-table'
 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { Filter } from '@/components/Table/Filter'
 
 type CustomTableProps = {
-  table: Table<any>
+  table: TableProps<any>
 }
 
 export const CustomTable: React.FC<CustomTableProps> = ({ table }) => (
-  <table className="table-fixed border-collapse border">
-    <thead>
+  <Table>
+    <TableHeader>
       {table.getHeaderGroups().map((headerGroup) => (
-        <tr key={headerGroup.id} className="border-b">
+        <TableRow key={headerGroup.id}>
           {headerGroup.headers.map((header) => (
-            <th key={header.id} className="px-3 py-2 text-left">
+            <TableHead key={header.id}>
               {header.isPlaceholder ? null : (
                 <div className="flex flex-col gap-3">
                   <div
                     {...{
                       className: header.column.getCanSort()
-                        ? 'cursor-pointer select-none'
-                        : '',
+                        ? 'cursor-pointer select-none flex'
+                        : 'flex',
                       onClick: header.column.getToggleSortingHandler(),
                     }}
                   >
@@ -28,33 +36,29 @@ export const CustomTable: React.FC<CustomTableProps> = ({ table }) => (
                       header.column.columnDef.header,
                       header.getContext()
                     )}
-                    {{
-                      asc: ' 🔼',
-                      desc: ' 🔽',
-                    }[header.column.getIsSorted() as string] ?? null}
                   </div>
                   {header.column.getCanFilter() ? (
-                    <div className="">
+                    <div>
                       <Filter column={header.column} table={table} />
                     </div>
                   ) : null}
                 </div>
               )}
-            </th>
+            </TableHead>
           ))}
-        </tr>
+        </TableRow>
       ))}
-    </thead>
-    <tbody>
+    </TableHeader>
+    <TableBody>
       {table.getRowModel().rows.map((row) => (
-        <tr key={row.id} className="border-b">
+        <TableRow key={row.id}>
           {row.getVisibleCells().map((cell) => (
-            <td key={cell.id} className="px-3 py-2 text-left">
+            <TableCell key={cell.id}>
               {flexRender(cell.column.columnDef.cell, cell.getContext())}
-            </td>
+            </TableCell>
           ))}
-        </tr>
+        </TableRow>
       ))}
-    </tbody>
-  </table>
+    </TableBody>
+  </Table>
 )

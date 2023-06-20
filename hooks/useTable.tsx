@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { fuzzyFilter } from '@/utils/fuzzyFilter'
 import {
   SortingState,
   getCoreRowModel,
@@ -12,6 +13,7 @@ export const useTable = (fetchedData, columns) => {
   const [originalData, setOriginalData] = useState<any[]>([])
   const [selectedRow, setSelectedRow] = useState({})
   const [sorting, setSorting] = useState<SortingState>([])
+  const [globalFilter, setGlobalFilter] = useState('')
 
   useEffect(() => {
     if (fetchedData) {
@@ -27,6 +29,8 @@ export const useTable = (fetchedData, columns) => {
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: fuzzyFilter,
     meta: {
       updateData: (rowIndex: number, columnId: number, value: string) => {
         setData((old) =>
@@ -59,6 +63,7 @@ export const useTable = (fetchedData, columns) => {
     },
     state: {
       sorting,
+      globalFilter,
     },
   })
 

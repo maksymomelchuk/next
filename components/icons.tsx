@@ -1,5 +1,8 @@
 import {
   AlignJustify,
+  ArrowDown,
+  ArrowUp,
+  ArrowUpDown,
   Check,
   Edit,
   Moon,
@@ -16,4 +19,7 @@ export const Icons = {
   closeMenu: X,
   check: Check,
   edit: Edit,
+  sort: ArrowUpDown,
+  arrowUp: ArrowUp,
+  arrowDown: ArrowDown,
 }

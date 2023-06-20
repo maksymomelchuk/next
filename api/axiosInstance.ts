@@ -55,9 +55,11 @@ axiosInstance.interceptors.response.use(
           return axiosInstance(originalRequest)
         } catch (error) {
           if (axios.isAxiosError(error)) {
+            console.log('file: axiosInstance.ts:59 ~ error:', error)
+
             if (
               error.response?.status === 400 &&
-              error.response.data.error_description === 'Invalid refresh token'
+              error.response.data.error === 'invalid_grant'
             ) {
               console.log('NO TOKEN FORCE LOGOUT')
               localStorage.removeItem('token')

@@ -1,5 +1,7 @@
 import { Column, Table } from '@tanstack/react-table'
 
+import { Input } from '@/components/ui/input'
+
 export const Filter = ({
   column,
   table,
@@ -15,7 +17,7 @@ export const Filter = ({
 
   return typeof firstValue === 'number' ? (
     <div className="flex space-x-2">
-      <input
+      <Input
         type="number"
         value={(columnFilterValue as [number, number])?.[0] ?? ''}
         onChange={(e) =>
@@ -27,7 +29,7 @@ export const Filter = ({
         placeholder={`Min`}
         className="w-full rounded border shadow"
       />
-      <input
+      <Input
         type="number"
         value={(columnFilterValue as [number, number])?.[1] ?? ''}
         onChange={(e) =>
@@ -41,12 +43,12 @@ export const Filter = ({
       />
     </div>
   ) : (
-    <input
+    <Input
       type="text"
       value={(columnFilterValue ?? '') as string}
       onChange={(e) => column.setFilterValue(e.target.value)}
       placeholder={`Search...`}
-      className="w-full rounded border shadow"
+      className="h-8"
     />
   )
 }
