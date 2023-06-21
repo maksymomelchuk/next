@@ -4,6 +4,7 @@ import { preprocessSchema } from '@/utils/preprocessZodOptionalTypes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -43,7 +44,19 @@ export const LdbForm: React.FC<LdbFormProps> = ({ setOpen }) => {
     mutationFn: createLdb,
     onSuccess: () => {
       queryClient.invalidateQueries(['ldb'])
-      toast({ description: 'Successfully created' })
+      setOpen(false)
+      toast({ variant: 'success', description: 'Successfully created' })
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 422) {
+          toast({
+            variant: 'error',
+            description: 'The provider id has already been taken.',
+          })
+          console.log('error in creating LDB', error)
+        }
+      }
     },
   })
 
@@ -62,7 +75,6 @@ export const LdbForm: React.FC<LdbFormProps> = ({ setOpen }) => {
   const handleSubmit = (values: z.infer<typeof ldbFormSchema>) => {
     console.log('values -->', values)
     createLdbQuery(values)
-    setOpen(false)
   }
 
   return (

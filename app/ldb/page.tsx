@@ -28,7 +28,7 @@ const LdbPage: React.FC<LdbPageProps> = () => {
     mutationFn: updateLdbById,
     onSuccess: () => {
       queryClient.invalidateQueries(['ldb'])
-      toast({ description: 'Successfully changed' })
+      toast({ variant: 'success', description: 'Successfully changed' })
     },
   })
 
