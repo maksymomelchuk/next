@@ -27,9 +27,9 @@ export const CustomTable: React.FC<CustomTableProps> = ({ table }) => (
                   <div
                     {...{
                       className: header.column.getCanSort()
-                        ? 'cursor-pointer select-none flex'
+                        ? 'select-none flex'
                         : 'flex',
-                      onClick: header.column.getToggleSortingHandler(),
+                      // onClick: header.column.getToggleSortingHandler(),
                     }}
                   >
                     {flexRender(

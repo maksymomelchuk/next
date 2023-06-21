@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { fuzzyFilter } from '@/utils/fuzzyFilter'
 import {
+  ColumnDef,
   SortingState,
   getCoreRowModel,
   getFilteredRowModel,
@@ -8,7 +9,11 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-export const useTable = (fetchedData, columns) => {
+export const useTable = <T,>(
+  fetchedData: T[],
+  columns: ColumnDef<T>[],
+  updateFunction: ({ id, data }: { id: number; data: T }) => void
+) => {
   const [data, setData] = useState<any[]>([])
   const [originalData, setOriginalData] = useState<any[]>([])
   const [selectedRow, setSelectedRow] = useState({})
@@ -45,8 +50,9 @@ export const useTable = (fetchedData, columns) => {
           })
         )
       },
-      revertData: (rowIndex: number, revert: boolean) => {
-        if (revert) {
+
+      revertData: (rowIndex: number, toSave: boolean) => {
+        if (!toSave) {
           setData((old) =>
             old.map((row, index) =>
               index === rowIndex ? originalData[rowIndex] : row
@@ -54,13 +60,21 @@ export const useTable = (fetchedData, columns) => {
           )
         } else {
           setOriginalData((old) =>
-            old.map((row, index) => (index === rowIndex ? data[rowIndex] : row))
+            old.map((row, index) => {
+              if (index === rowIndex) {
+                const updatedRow = data[rowIndex]
+                updateFunction({ id: updatedRow.id, data: updatedRow })
+                return updatedRow
+              }
+              return row
+            })
           )
         }
       },
       selectedRow,
       setSelectedRow,
     },
+
     state: {
       sorting,
       globalFilter,

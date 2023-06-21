@@ -8,6 +8,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import AuthContextProvider from '@/api/auth/AuthContextProvider'
 import { fontSans } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
+import { Toast, ToastProvider } from '@/components/ui/toast'
+import { Toaster } from '@/components/ui/toaster'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { SideNav } from '@/components/SideNav'
@@ -55,6 +57,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                   <Footer />
                 </div>
               </AuthContextProvider>
+              <Toaster />
               <TailwindIndicator />
             </ThemeProvider>
             <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />

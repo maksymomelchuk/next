@@ -9,7 +9,7 @@ type GlobalFilterProps = {
   table: Table<any>
 }
 
-const GlobalFilter: React.FC<GlobalFilterProps> = ({ table }) => {
+export const GlobalFilter: React.FC<GlobalFilterProps> = ({ table }) => {
   const [filter, setFilter] = useState('')
   const { setGlobalFilter, resetGlobalFilter } = table
 
@@ -39,4 +39,3 @@ const GlobalFilter: React.FC<GlobalFilterProps> = ({ table }) => {
     </div>
   )
 }
-export default GlobalFilter

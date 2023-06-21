@@ -1,129 +1,40 @@
 'use client'
 
-import React, { useMemo, useRef } from 'react'
-import { createColumnHelper } from '@tanstack/react-table'
-import { CSVLink } from 'react-csv'
-import { useReactToPrint } from 'react-to-print'
+import React, { useRef } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { useFetchAllLdb } from '@/api/ldb/ldb'
-import { ILdb } from '@/types/ldb'
+import { updateLdbById, useFetchAllLdb } from '@/api/ldb/ldb'
 import { useTable } from '@/hooks/useTable'
-import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
+import { useToast } from '@/components/ui/use-toast'
 import { CustomTable } from '@/components/Table'
-import { DataTableColumnHeader } from '@/components/Table/Column'
 import { DataTableViewOptions } from '@/components/Table/ColumnVisibility'
-import { EditAction } from '@/components/Table/EditAction'
-import { EditableCell } from '@/components/Table/EditableCell'
-import Export from '@/components/Table/Export'
-import GlobalFilter from '@/components/Table/GlobalFilter'
-import { DataTableRowActions } from '@/components/Table/RowActions'
-import { Icons } from '@/components/icons'
+import CreateRowDialogue from '@/components/Table/CreateRowDialogue'
+import { Export } from '@/components/Table/Export'
+import { GlobalFilter } from '@/components/Table/GlobalFilter'
+import { columns } from '@/app/ldb/columns'
+
+import { LdbForm } from './ldb-form'
 
 type LdbPageProps = {}
 
 const LdbPage: React.FC<LdbPageProps> = () => {
+  const { toast } = useToast()
+  // Query client
+  const queryClient = useQueryClient()
+  // Fetch data
   const { data } = useFetchAllLdb()
+  // Update data
+  const { mutate: updateLdbQuery } = useMutation({
+    mutationFn: updateLdbById,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['ldb'])
+      toast({ description: 'Successfully changed' })
+    },
+  })
+
   const componentRef = useRef(null)
 
-  const columnHelper = createColumnHelper<ILdb>()
-
-  const columns = useMemo(
-    () => [
-      columnHelper.display({
-        id: 'select',
-        header: ({ table }) => (
-          <Checkbox
-            checked={table.getIsAllPageRowsSelected()}
-            onCheckedChange={(value) =>
-              table.toggleAllPageRowsSelected(!!value)
-            }
-            aria-label="Select all"
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-          />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-      }),
-      columnHelper.accessor('id', {
-        header: 'id',
-        enableColumnFilter: false,
-        enableHiding: true,
-      }),
-      columnHelper.accessor('data_provider_string', {
-        header: ({ column }) => {
-          return (
-            <Button
-              variant="ghost"
-              onClick={() =>
-                column.toggleSorting(column.getIsSorted() === 'asc')
-              }
-            >
-              Email
-              {column.getIsSorted() === 'asc' ? (
-                <Icons.arrowDown className="ml-2 h-4 w-4" />
-              ) : column.getIsSorted() === 'desc' ? (
-                <Icons.arrowUp className="ml-2 h-4 w-4" />
-              ) : (
-                <Icons.sort className="ml-2 h-4 w-4" />
-              )}
-            </Button>
-          )
-        },
-        cell: EditableCell,
-        // meta: {
-        //   type: 'text',
-        // },
-      }),
-      columnHelper.accessor('provider_id', {
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Provider ID" />
-        ),
-        enableGlobalFilter: true,
-        cell: EditableCell,
-      }),
-      columnHelper.accessor('provider_id_series', {
-        header: 'Provider ID Series',
-        cell: EditableCell,
-      }),
-      columnHelper.accessor('type_of_provider', {
-        header: 'Type of Provider',
-        cell: EditableCell,
-      }),
-      columnHelper.accessor('language', {
-        header: 'Language',
-        cell: EditableCell,
-        meta: {
-          type: 'select',
-          options: [
-            { value: 'EN', label: 'EN' },
-            { value: 'UA', label: 'UA' },
-          ],
-        },
-      }),
-      columnHelper.accessor('contact_uri', {
-        header: 'Contact',
-        cell: EditableCell,
-      }),
-      // columnHelper.display({
-      //   id: 'edit',
-      //   cell: EditAction,
-      // }),
-      columnHelper.display({
-        id: 'more',
-        cell: DataTableRowActions,
-      }),
-    ],
-    []
-  )
-
-  const table = useTable(data, columns)
+  const table = useTable(data ?? [], columns, updateLdbQuery)
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
@@ -132,7 +43,12 @@ const LdbPage: React.FC<LdbPageProps> = () => {
           <div className="w-full">
             <div className="flex items-center justify-between py-4">
               <GlobalFilter table={table} />
-              <DataTableViewOptions table={table} />
+              <div className="flex items-center gap-2">
+                <DataTableViewOptions table={table} />
+                <CreateRowDialogue>
+                  <LdbForm />
+                </CreateRowDialogue>
+              </div>
             </div>
             <div className="rounded-md border">
               <div className="w-full overflow-auto"></div>
@@ -141,7 +57,13 @@ const LdbPage: React.FC<LdbPageProps> = () => {
           </div>
         </div>
         {data && (
-          <Export table={table} data={data} componentRef={componentRef} />
+          <div className="flex items-center justify-end gap-4 p-8">
+            <div className="text-muted-foreground flex-1 text-sm">
+              {table.getFilteredSelectedRowModel().rows.length} of{' '}
+              {table.getFilteredRowModel().rows.length} row(s) selected.
+            </div>
+            <Export table={table} data={data} componentRef={componentRef} />
+          </div>
         )}
       </div>
     </section>
