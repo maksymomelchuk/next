@@ -1,15 +1,16 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import axiosInstance from '@/api/axiosInstance'
-import { ILdb } from '@/types/ldb'
+import { ILdb, LdbArrayType, LdbType } from '@/types/ldb'
 
 export const useFetchAllLdb = () => {
   return useQuery({
     queryKey: ['ldb'],
     queryFn: async () => {
-      const { data } = await axiosInstance.get<ILdb[]>('/ldb/adr-providers')
+      const { data } = await axiosInstance.get('/ldb/adr-providers')
       console.log('All ldb:', data)
-      return data
+      const parsedData = LdbArrayType.parse(data)
+      return parsedData
     },
   })
 }
@@ -18,9 +19,10 @@ export const useFetchLdbById = (id: number) => {
   return useQuery({
     queryKey: ['ldb', id],
     queryFn: async () => {
-      const { data } = await axiosInstance.get<ILdb>(`/ldb/adr-providers/${id}`)
+      const { data } = await axiosInstance.get(`/ldb/adr-providers/${id}`)
       console.log('Ldb by id:', data)
-      return data
+      const parsedData = LdbType.parse(data)
+      return parsedData
     },
   })
 }

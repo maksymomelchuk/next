@@ -2,7 +2,6 @@
 
 import { preprocessSchema } from '@/utils/preprocessZodOptionalTypes'
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
@@ -32,10 +31,10 @@ const ldbFormSchema = z.object({
 })
 
 interface LdbFormProps {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setOpenDialogue: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const LdbForm: React.FC<LdbFormProps> = ({ setOpen }) => {
+export const LdbForm: React.FC<LdbFormProps> = ({ setOpenDialogue }) => {
   const { toast } = useToast()
   // Query client
   const queryClient = useQueryClient()
@@ -44,7 +43,7 @@ export const LdbForm: React.FC<LdbFormProps> = ({ setOpen }) => {
     mutationFn: createLdb,
     onSuccess: () => {
       queryClient.invalidateQueries(['ldb'])
-      setOpen(false)
+      setOpenDialogue(false)
       toast({ variant: 'success', description: 'Successfully created' })
     },
     onError: (error) => {
@@ -52,7 +51,7 @@ export const LdbForm: React.FC<LdbFormProps> = ({ setOpen }) => {
         if (error.response?.status === 422) {
           toast({
             variant: 'error',
-            description: 'The provider id has already been taken.',
+            description: JSON.stringify(error.response.data),
           })
           console.log('error in creating LDB', error)
         }
@@ -87,7 +86,11 @@ export const LdbForm: React.FC<LdbFormProps> = ({ setOpen }) => {
             <FormItem>
               <FormLabel>Data Provider *</FormLabel>
               <FormControl>
-                <Input placeholder="Data provider" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder="Data provider"
+                  {...field}
+                />
               </FormControl>
               <FormDescription>Your data provider</FormDescription>
               <FormMessage />
@@ -101,7 +104,11 @@ export const LdbForm: React.FC<LdbFormProps> = ({ setOpen }) => {
             <FormItem>
               <FormLabel>Provider Id *</FormLabel>
               <FormControl>
-                <Input placeholder="Provider Id" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder="Provider Id"
+                  {...field}
+                />
               </FormControl>
               <FormDescription>Your data provider Id</FormDescription>
               <FormMessage />
@@ -115,7 +122,11 @@ export const LdbForm: React.FC<LdbFormProps> = ({ setOpen }) => {
             <FormItem>
               <FormLabel>Provider Id Series</FormLabel>
               <FormControl>
-                <Input placeholder="Provider Id Series" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder="Provider Id Series"
+                  {...field}
+                />
               </FormControl>
               <FormDescription>Your data provider Id series</FormDescription>
               <FormMessage />
@@ -129,7 +140,7 @@ export const LdbForm: React.FC<LdbFormProps> = ({ setOpen }) => {
             <FormItem>
               <FormLabel>Contacts</FormLabel>
               <FormControl>
-                <Input placeholder="Contacts" {...field} />
+                <Input autoComplete="off" placeholder="Contacts" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -142,7 +153,11 @@ export const LdbForm: React.FC<LdbFormProps> = ({ setOpen }) => {
             <FormItem>
               <FormLabel>Type of Provider</FormLabel>
               <FormControl>
-                <Input placeholder="type of provider" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder="type of provider"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -155,7 +170,7 @@ export const LdbForm: React.FC<LdbFormProps> = ({ setOpen }) => {
             <FormItem>
               <FormLabel>Language</FormLabel>
               <FormControl>
-                <Input placeholder="EN" {...field} />
+                <Input autoComplete="off" placeholder="EN" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

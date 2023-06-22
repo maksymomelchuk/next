@@ -13,9 +13,14 @@ import { Filter } from '@/components/Table/Filter'
 
 type CustomTableProps = {
   table: TableProps<any>
+  columnSearch: boolean
+  setColumnSearch: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const CustomTable: React.FC<CustomTableProps> = ({ table }) => (
+export const CustomTable: React.FC<CustomTableProps> = ({
+  table,
+  columnSearch,
+}) => (
   <Table>
     <TableHeader>
       {table.getHeaderGroups().map((headerGroup) => (
@@ -37,7 +42,7 @@ export const CustomTable: React.FC<CustomTableProps> = ({ table }) => (
                       header.getContext()
                     )}
                   </div>
-                  {header.column.getCanFilter() ? (
+                  {columnSearch && header.column.getCanFilter() ? (
                     <div>
                       <Filter column={header.column} table={table} />
                     </div>

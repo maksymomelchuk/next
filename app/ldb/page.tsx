@@ -1,14 +1,16 @@
 'use client'
 
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Search } from 'lucide-react'
 
 import { updateLdbById, useFetchAllLdb } from '@/api/ldb/ldb'
 import { useTable } from '@/hooks/useTable'
+import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import { CustomTable } from '@/components/Table'
 import { DataTableViewOptions } from '@/components/Table/ColumnVisibility'
-import CreateRowDialogue from '@/components/Table/CreateRowDialogue'
+import { CreateRowDialogue } from '@/components/Table/CreateRowDialogue'
 import { Export } from '@/components/Table/Export'
 import { GlobalFilter } from '@/components/Table/GlobalFilter'
 import { columns } from '@/app/ldb/columns'
@@ -18,6 +20,11 @@ import { LdbForm } from './ldb-form'
 type LdbPageProps = {}
 
 const LdbPage: React.FC<LdbPageProps> = () => {
+  // Local state
+  const [openDialogue, setOpenDialogue] = useState(false)
+  const [columnSearch, setColumnSearch] = useState(false)
+
+  // Toast
   const { toast } = useToast()
   // Query client
   const queryClient = useQueryClient()
@@ -44,15 +51,29 @@ const LdbPage: React.FC<LdbPageProps> = () => {
             <div className="flex items-center justify-between py-4">
               <GlobalFilter table={table} />
               <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => setColumnSearch(!columnSearch)}
+                  className="flex gap-2"
+                >
+                  <Search className="w-4 " />
+                  <span className="hidden md:block">Column search</span>
+                </Button>
                 <DataTableViewOptions table={table} />
-                <CreateRowDialogue>
-                  <LdbForm />
+                <CreateRowDialogue
+                  openDialogue={openDialogue}
+                  setOpenDialogue={setOpenDialogue}
+                >
+                  <LdbForm setOpenDialogue={setOpenDialogue} />
                 </CreateRowDialogue>
               </div>
             </div>
             <div className="rounded-md border">
-              <div className="w-full overflow-auto"></div>
-              <CustomTable table={table} />
+              <CustomTable
+                table={table}
+                columnSearch={columnSearch}
+                setColumnSearch={setColumnSearch}
+              />
             </div>
           </div>
         </div>

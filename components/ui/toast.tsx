@@ -29,9 +29,9 @@ const toastVariants = cva(
       variant: {
         default: 'bg-background border font-semibold',
         error:
-          'group accent border-accent bg-accent text-background font-semibold',
+          'group accent  bg-gradient-to-r from-rose-600 to-accent text-background font-semibold',
         success:
-          'group green-600 border-green-600 bg-green-600 text-background font-semibold',
+          'group green-600 border-none bg-gradient-to-r from-green-600 to-green-800 text-background font-semibold',
       },
     },
     defaultVariants: {

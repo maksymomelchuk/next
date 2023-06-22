@@ -13,18 +13,24 @@ import {
 
 type CreateRowDialogueProps = {
   children: React.ReactNode
+  openDialogue: boolean
+  setOpenDialogue: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const CreateRowDialogue: React.FC<CreateRowDialogueProps> = ({ children }) => {
-  const [open, setOpen] = useState(false)
+export const CreateRowDialogue: React.FC<CreateRowDialogueProps> = ({
+  children,
+  openDialogue,
+  setOpenDialogue,
+}) => {
+  // const [open, setOpen] = useState(false)
 
-  const modifiedChildren = React.Children.map(children, (child) => {
-    // Add additional props to the child component
-    return React.cloneElement(child, { setOpen: setOpen })
-  })
+  // const modifiedChildren = React.Children.map(children, (child) => {
+  //   // Add additional props to the child component
+  //   return React.cloneElement(child, { setOpen: setOpen })
+  // })
 
   return (
-    <Dialog onOpenChange={setOpen} open={open}>
+    <Dialog onOpenChange={setOpenDialogue} open={openDialogue}>
       <DialogTrigger asChild>
         <Button variant="outline">
           <Plus className="mr-2 h-4 w-4" />
@@ -38,9 +44,8 @@ const CreateRowDialogue: React.FC<CreateRowDialogueProps> = ({ children }) => {
             Make changes to your data here. Click save when you are done.
           </DialogDescription>
         </DialogHeader>
-        {modifiedChildren}
+        {children}
       </DialogContent>
     </Dialog>
   )
 }
-export default CreateRowDialogue

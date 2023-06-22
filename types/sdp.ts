@@ -1,36 +1,48 @@
-import { IUser } from '@/types/generalApiTypes'
+import { z } from 'zod'
 
-interface IAdressProvider {
-  id: number
-  data_provider_string: string
-  provider_id: string
-}
+import { UserType } from '@/types/generalApiTypes'
 
-interface IOptions {
-  cycle_counter: number
-  file_format: string
-  file_pattern: null | string
-  private_switch: number
-  require_header: number
-  require_trailer: number
-}
+const AddressProviderType = z.object({
+  id: z.number(),
+  data_provider_string: z.string(),
+  provider_id: z.string(),
+})
 
-interface IStatistics {
-  total_files: number
-  total_records: number
-}
+const OptionsType = z.object({
+  cycle_counter: z.union([z.number(), z.null()]),
+  file_format: z.union([z.string(), z.null()]),
+  file_pattern: z.union([z.string(), z.null()]),
+  private_switch: z.union([z.number(), z.null()]),
+  require_header: z.union([z.number(), z.null()]),
+  require_trailer: z.union([z.number(), z.null()]),
+})
 
-export interface ISdp {
-  adr_providers: IAdressProvider[]
-  alias: string
-  created_at: Date
-  updated_at: Date
-  enabled: number
-  id: number
-  name: string
-  options: IOptions
-  statistics: IStatistics
-  created_by: IUser
-  updated_by: IUser
-  users: IUser[]
-}
+const StatisticsType = z.object({
+  total_files: z.number(),
+  total_records: z.number(),
+})
+
+export const SdpOriginalType = z.object({
+  id: z.number(),
+  name: z.string(),
+  alias: z.string(),
+  enabled: z.number(),
+  created_at: z.string(),
+  created_by: UserType,
+  adr_providers: z.array(AddressProviderType),
+  options: OptionsType,
+  statistics: StatisticsType,
+  updated_at: z.union([z.string(), z.null()]),
+  updated_by: z.union([UserType, z.null()]),
+  users: z.array(UserType),
+})
+
+export const SdpTransformedType = SdpOriginalType.transform((sdp) => ({
+  ...sdp,
+  enabled: Boolean(sdp.enabled) ? 'Yes' : 'No',
+}))
+
+export const SdpArrayType = z.array(SdpTransformedType)
+
+export interface ISdpOriginal extends z.infer<typeof SdpOriginalType> {}
+export interface ISdpTransformed extends z.infer<typeof SdpTransformedType> {}

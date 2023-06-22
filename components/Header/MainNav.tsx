@@ -42,7 +42,7 @@ export const MainNav: React.FC<MainNavProps> = ({ items }) => {
                         <Link
                           href={subMenu.href}
                           className={cn(
-                            'hover:bg-border flex flex-col whitespace-nowrap p-3 hover:rounded-lg',
+                            'hover:bg-muted flex flex-col whitespace-nowrap p-3 hover:rounded-lg',
                             item.disabled && 'cursor-not-allowed opacity-80'
                           )}
                           onClick={() => setValue('')}
