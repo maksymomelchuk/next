@@ -10,7 +10,7 @@ import { buttonVariants } from '@/components/ui/button'
 export default function IndexPage() {
   const authContext = useContext(AuthContext)
 
-  console.log('access --> ', authContext.hasRole('offline_access'))
+  // console.log('access --> ', authContext.hasRole('offline_access'))
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
