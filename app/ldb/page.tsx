@@ -23,7 +23,6 @@ const LdbPage: React.FC<LdbPageProps> = () => {
   // Local state
   const [openDialogue, setOpenDialogue] = useState(false)
   const [columnSearch, setColumnSearch] = useState(false)
-
   // Toast
   const { toast } = useToast()
   // Query client

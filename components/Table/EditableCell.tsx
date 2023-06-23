@@ -1,6 +1,47 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
+import {
+  CellContext,
+  Column,
+  ColumnDef,
+  ColumnDefResolved,
+  ColumnDefTemplate,
+  Row,
+  Table,
+  TableOptionsResolved,
+} from '@tanstack/react-table'
 
-export const EditableCell = ({ getValue, row, column, table }) => {
+interface table<T> extends Table<T> {
+  options: TableOptionsResolved<T> & {
+    meta?: {
+      updateData: (rowIndex: number, columnId: string, value: string) => void
+      revertData: (rowIndex: number, toSave: boolean) => void
+      selectedRow: { [key: string]: boolean }
+    }
+  }
+}
+
+interface column<T> extends Column<T> {
+  columnDef: ColumnDef<T> & {
+    meta: {
+      type: string
+      options: any[]
+    }
+  }
+}
+
+interface EditableCellProps<T> {
+  row: Row<T>
+  column: column<T>
+  table: table<T>
+  getValue: () => any
+}
+
+export const EditableCell = <T,>({
+  getValue,
+  row,
+  column,
+  table,
+}: EditableCellProps<T>) => {
   const initialValue = getValue()
   const columnMeta = column.columnDef.meta
   const tableMeta = table.options.meta
@@ -14,7 +55,7 @@ export const EditableCell = ({ getValue, row, column, table }) => {
     tableMeta?.updateData(row.index, column.id, value)
   }
 
-  const onSelectChange = (e) => {
+  const onSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setValue(e.target.value)
     tableMeta?.updateData(row.index, column.id, e.target.value)
   }

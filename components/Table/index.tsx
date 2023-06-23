@@ -34,7 +34,6 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                       className: header.column.getCanSort()
                         ? 'select-none flex'
                         : 'flex',
-                      // onClick: header.column.getToggleSortingHandler(),
                     }}
                   >
                     {flexRender(
@@ -56,7 +55,7 @@ export const CustomTable: React.FC<CustomTableProps> = ({
     </TableHeader>
     <TableBody>
       {table.getRowModel().rows.map((row) => (
-        <TableRow key={row.id}>
+        <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
           {row.getVisibleCells().map((cell) => (
             <TableCell key={cell.id}>
               {flexRender(cell.column.columnDef.cell, cell.getContext())}

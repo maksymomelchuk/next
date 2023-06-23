@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Plus } from 'lucide-react'
 
 import { Button } from '../ui/button'
@@ -22,13 +22,6 @@ export const CreateRowDialogue: React.FC<CreateRowDialogueProps> = ({
   openDialogue,
   setOpenDialogue,
 }) => {
-  // const [open, setOpen] = useState(false)
-
-  // const modifiedChildren = React.Children.map(children, (child) => {
-  //   // Add additional props to the child component
-  //   return React.cloneElement(child, { setOpen: setOpen })
-  // })
-
   return (
     <Dialog onOpenChange={setOpenDialogue} open={openDialogue}>
       <DialogTrigger asChild>

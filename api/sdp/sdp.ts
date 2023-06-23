@@ -39,7 +39,11 @@ export const updateSdpById = async ({
   id: number
   data: ISdpTransformed
 }) => {
-  const res = await axiosInstance.put(`/sdp/${id}`, data)
+  const dataToSend = {
+    ...data,
+    enabled: 'Yes' ? 1 : 0,
+  }
+  const res = await axiosInstance.put(`/sdp/${id}`, dataToSend)
   console.log('Data after updating sdp', res)
   return res
 }

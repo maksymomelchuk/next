@@ -1,6 +1,12 @@
 'use client'
 
-import { Row, Table } from '@tanstack/react-table'
+import { SetStateAction } from 'react'
+import {
+  Row,
+  Table,
+  TableMeta,
+  TableOptionsResolved,
+} from '@tanstack/react-table'
 import { MoreHorizontal, Pen, Trash } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -14,9 +20,19 @@ import {
 
 import { Icons } from '../icons'
 
+interface table<T> extends Table<T> {
+  options: TableOptionsResolved<T> & {
+    meta?: TableMeta<T> & {
+      selectedRow: { [key: string]: boolean }
+      setSelectedRow: React.Dispatch<SetStateAction<{ [key: string]: boolean }>>
+      revertData: (rowIndex: number, toSave: boolean) => void
+    }
+  }
+}
+
 interface RowActionsProps<TData> {
   row: Row<TData>
-  table: Table<TData>
+  table: table<TData>
 }
 
 export const RowActions = <T,>({ row, table }: RowActionsProps<T>) => {

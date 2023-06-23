@@ -16,7 +16,10 @@ export const useTable = <T,>(
 ) => {
   const [data, setData] = useState<any[]>([])
   const [originalData, setOriginalData] = useState<any[]>([])
+  // Select row for editing
   const [selectedRow, setSelectedRow] = useState({})
+  // Select row or multiple rows
+  const [rowSelection, setRowSelection] = useState({})
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
 
@@ -36,6 +39,7 @@ export const useTable = <T,>(
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: fuzzyFilter,
+    onRowSelectionChange: setRowSelection,
     meta: {
       updateData: (rowIndex: number, columnId: number, value: string) => {
         setData((old) =>
@@ -78,6 +82,7 @@ export const useTable = <T,>(
     state: {
       sorting,
       globalFilter,
+      rowSelection,
     },
   })
 
