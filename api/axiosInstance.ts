@@ -61,7 +61,7 @@ axiosInstance.interceptors.response.use(
               error.response?.status === 400 &&
               error.response.data.error === 'invalid_grant'
             ) {
-              console.log('NO TOKEN FORCE LOGOUT')
+              console.log('NO TOKEN --> FORCE LOGOUT')
               localStorage.removeItem('token')
               localStorage.removeItem('refreshToken')
               keycloak.logout()

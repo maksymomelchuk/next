@@ -14,6 +14,7 @@ export const siteConfig = {
     },
     {
       title: 'SDP',
+      href: '',
       key: 'sdp',
       exact: true,
       collapsible: true,

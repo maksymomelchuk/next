@@ -30,7 +30,7 @@ export const useFetchUserPermissions = () => {
     queryKey: ['users'],
     queryFn: async () => {
       const { data } = await axiosInstance.get('/auth/permissions')
-      console.log('All users:', data)
+      console.log('User permissions:', data)
       return data
     },
   })

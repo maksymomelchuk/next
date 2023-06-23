@@ -1,16 +1,16 @@
-"use client"
+'use client'
 
-import { useContext } from "react"
-import Link from "next/link"
-import { AuthContext } from "@/api/auth/AuthContextProvider"
+import { useContext } from 'react'
+import Link from 'next/link'
 
-import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
+import { AuthContext } from '@/api/auth/AuthContextProvider'
+import { siteConfig } from '@/config/site'
+import { buttonVariants } from '@/components/ui/button'
 
 export default function IndexPage() {
   const authContext = useContext(AuthContext)
 
-  // console.log(authContext.hasRole("offline_access"))
+  console.log('access --> ', authContext.hasRole('offline_access'))
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
@@ -37,7 +37,7 @@ export default function IndexPage() {
           target="_blank"
           rel="noreferrer"
           href={siteConfig.links.github}
-          className={buttonVariants({ variant: "outline" })}
+          className={buttonVariants({ variant: 'outline' })}
         >
           GitHub
         </Link>

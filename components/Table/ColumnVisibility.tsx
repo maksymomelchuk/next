@@ -41,7 +41,7 @@ export function DataTableViewOptions<TData>({
             return (
               <DropdownMenuCheckboxItem
                 key={column.id}
-                className="capitalize focus:bg-secondary focus:text-secondary-foreground"
+                className="focus:bg-secondary focus:text-secondary-foreground capitalize"
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}
               >

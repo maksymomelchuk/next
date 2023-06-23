@@ -25,7 +25,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleMenu, showMenu }) => {
             <ThemeToggle />
             <UserInfo />
             <Button
-              variant="ghostNav"
+              variant="ghostThemeToggle"
               onClick={toggleMenu}
               className="lg:hidden"
             >
