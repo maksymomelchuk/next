@@ -79,3 +79,16 @@
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 }
+
+tbody tr td span {
+  /* width: 100px; */
+  display: block;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+textarea {
+  min-height: 100%;
+  resize: vertical;
+  overflow-wrap: break-word;
+}

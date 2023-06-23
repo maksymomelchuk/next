@@ -25,9 +25,9 @@ export const CreateRowDialogue: React.FC<CreateRowDialogueProps> = ({
   return (
     <Dialog onOpenChange={setOpenDialogue} open={openDialogue}>
       <DialogTrigger asChild>
-        <Button variant="outline">
-          <Plus className="mr-2 h-4 w-4" />
-          Add row
+        <Button variant="outline" className="flex items-center gap-2">
+          <Plus className="h-4 w-4" />
+          <span className="hidden md:block">Add row</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] md:max-w-[600px]">

@@ -32,8 +32,13 @@ export const GlobalFilter: React.FC<GlobalFilterProps> = ({ table }) => {
         placeholder="Global search"
       />
       {filter && (
-        <Button variant="outline" onClick={handleClick}>
-          Reset <Icons.closeMenu className="ml-2 h-5" />
+        <Button
+          variant="outline"
+          onClick={handleClick}
+          className="flex items-center gap-2"
+        >
+          <span className="hidden lg:block">Reset</span>{' '}
+          <Icons.closeMenu className="h-5" />
         </Button>
       )}
     </div>

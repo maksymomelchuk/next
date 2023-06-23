@@ -23,9 +23,9 @@ export function DataTableViewOptions<TData>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
-          <SlidersHorizontal className="mr-2 h-4 w-4" />
-          View
+        <Button variant="outline" className="flex items-center gap-2">
+          <SlidersHorizontal className="h-4 w-4" />
+          <span className="hidden md:block">View</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-full">

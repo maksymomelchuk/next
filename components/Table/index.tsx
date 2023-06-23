@@ -26,7 +26,18 @@ export const CustomTable: React.FC<CustomTableProps> = ({
       {table.getHeaderGroups().map((headerGroup) => (
         <TableRow key={headerGroup.id}>
           {headerGroup.headers.map((header) => (
-            <TableHead key={header.id}>
+            <TableHead
+              key={header.id}
+              className={
+                header.id === 'id'
+                  ? 'w-16'
+                  : header.id === 'select'
+                  ? 'w-10'
+                  : header.id === 'actions'
+                  ? 'w-20'
+                  : undefined
+              }
+            >
               {header.isPlaceholder ? null : (
                 <div className="flex flex-col gap-3">
                   <div

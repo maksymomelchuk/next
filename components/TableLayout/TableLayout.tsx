@@ -36,7 +36,7 @@ export const TableLayout = <T,>({
       <div className="bg-background overflow-hidden rounded-[0.5rem] border shadow-xl">
         <div className="w-full overflow-x-auto p-8" ref={componentRef}>
           <div className="w-full">
-            <div className="flex items-center justify-between py-4">
+            <div className="flex flex-col sm:flex-row gap-2 items-center justify-between py-4 ">
               <GlobalFilter table={table} />
               <div className="flex items-center gap-2">
                 <Button
@@ -45,7 +45,7 @@ export const TableLayout = <T,>({
                   className="flex gap-2"
                 >
                   <Search className="w-4 " />
-                  <span className="hidden md:block">Column search</span>
+                  <span className="hidden lg:block">Column search</span>
                 </Button>
                 <DataTableViewOptions table={table} />
                 <CreateRowDialogue
