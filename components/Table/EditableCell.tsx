@@ -1,10 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import {
-  CellContext,
   Column,
   ColumnDef,
-  ColumnDefResolved,
-  ColumnDefTemplate,
   Row,
   Table,
   TableOptionsResolved,

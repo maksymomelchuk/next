@@ -2,7 +2,7 @@ import { ColumnDef } from '@tanstack/react-table'
 
 import { ISdpTransformed } from '@/types/sdp'
 import { Checkbox } from '@/components/ui/checkbox'
-import { DataTableColumnHeader } from '@/components/Table/Column'
+import { DataTableColumnHeader } from '@/components/Table/ColumnHeader'
 import { EditableCell } from '@/components/Table/EditableCell'
 import { RowActions } from '@/components/Table/RowActions'
 
