@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import {
+  CellContext,
   Column,
   ColumnDef,
   Row,
@@ -7,38 +8,38 @@ import {
   TableOptionsResolved,
 } from '@tanstack/react-table'
 
-interface table<T> extends Table<T> {
-  options: TableOptionsResolved<T> & {
-    meta?: {
-      updateData: (rowIndex: number, columnId: string, value: string) => void
-      revertData: (rowIndex: number, toSave: boolean) => void
-      selectedRow: { [key: string]: boolean }
-    }
-  }
-}
+// interface table<T> extends Table<T> {
+//   options: TableOptionsResolved<T> & {
+//     meta?: {
+//       updateData: (rowIndex: number, columnId: string, value: string) => void
+//       revertData: (rowIndex: number, toSave: boolean) => void
+//       selectedRow: { [key: string]: boolean }
+//     }
+//   }
+// }
 
-interface column<T> extends Column<T> {
-  columnDef: ColumnDef<T> & {
-    meta: {
-      type: string
-      options: any[]
-    }
-  }
-}
+// interface column<T> extends Column<T> {
+//   columnDef: ColumnDef<T> & {
+//     meta: {
+//       type: string
+//       options: any[]
+//     }
+//   }
+// }
 
-interface EditableCellProps<T> {
-  row: Row<T>
-  column: column<T>
-  table: table<T>
-  getValue: () => any
-}
+// interface EditableCellProps<T> {
+//   row: Row<T>
+//   column: column<T>
+//   table: table<T>
+//   getValue: () => any
+// }
 
 export const EditableCell = <T,>({
   getValue,
   row,
   column,
   table,
-}: EditableCellProps<T>) => {
+}: CellContext<T, unknown>) => {
   const initialValue = getValue()
   const columnMeta = column.columnDef.meta
   const tableMeta = table.options.meta
@@ -68,7 +69,7 @@ export const EditableCell = <T,>({
       </select>
     ) : (
       <input
-        value={value}
+        value={value === null ? undefined : value}
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         type={columnMeta?.type || 'text'}

@@ -53,7 +53,13 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                     )}
                   </div>
                   {columnSearch && header.column.getCanFilter() ? (
-                    <div>
+                    <div
+                      className={`${
+                        columnSearch && header.column.getCanFilter()
+                          ? ''
+                          : 'hidden'
+                      }`}
+                    >
                       <Filter column={header.column} table={table} />
                     </div>
                   ) : null}

@@ -1,7 +1,6 @@
 import React from 'react'
-import { Plus } from 'lucide-react'
 
-import { Button } from '../ui/button'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -9,7 +8,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../ui/dialog'
+} from '@/components/ui/dialog'
+import { Icons } from '@/components/icons'
 
 type CreateRowDialogueProps = {
   children: React.ReactNode
@@ -26,7 +26,7 @@ export const CreateRowDialogue: React.FC<CreateRowDialogueProps> = ({
     <Dialog onOpenChange={setOpenDialogue} open={openDialogue}>
       <DialogTrigger asChild>
         <Button variant="outline" className="flex items-center gap-2">
-          <Plus className="h-4 w-4" />
+          <Icons.plus className="h-4 w-4" />
           <span className="hidden md:block">Add row</span>
         </Button>
       </DialogTrigger>

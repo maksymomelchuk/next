@@ -92,3 +92,7 @@ textarea {
   resize: vertical;
   overflow-wrap: break-word;
 }
+
+nextjs-portal {
+  display: none;
+}

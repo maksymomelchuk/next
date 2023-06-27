@@ -8,7 +8,7 @@ import { useTable } from '@/hooks/useTable'
 import { useToast } from '@/components/ui/use-toast'
 import { TableLayout } from '@/components/TableLayout/TableLayout'
 import { columns } from '@/app/ldb/columns'
-import { LdbForm } from '@/app/ldb/ldb-form'
+import { LdbForm, ldbFormSchema } from '@/app/ldb/ldb-form'
 
 type LdbPageProps = {}
 
@@ -21,15 +21,15 @@ const LdbPage: React.FC<LdbPageProps> = () => {
   // Fetch data
   const { data } = useFetchAllLdb()
   // Update data
-  const { mutate: updateLdbQuery } = useMutation({
+  const { mutateAsync: updateLdbQuery } = useMutation({
     mutationFn: updateLdbById,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['ldb'])
+    onSuccess: (_, { id }) => {
+      queryClient.invalidateQueries(['ldb', id])
       toast({ variant: 'success', description: 'Successfully changed' })
     },
   })
 
-  const table = useTable(data ?? [], columns, updateLdbQuery)
+  const table = useTable(data ?? [], columns, updateLdbQuery, ldbFormSchema)
 
   return (
     <TableLayout

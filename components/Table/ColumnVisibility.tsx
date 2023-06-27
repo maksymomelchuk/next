@@ -2,7 +2,6 @@
 
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Table } from '@tanstack/react-table'
-import { SlidersHorizontal } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -12,6 +11,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu'
+import { Icons } from '@/components/icons'
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>
@@ -24,7 +24,7 @@ export function DataTableViewOptions<TData>({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="flex items-center gap-2">
-          <SlidersHorizontal className="h-4 w-4" />
+          <Icons.options className="h-4 w-4" />
           <span className="hidden md:block">View</span>
         </Button>
       </DropdownMenuTrigger>

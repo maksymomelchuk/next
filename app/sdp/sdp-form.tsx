@@ -27,7 +27,7 @@ import {
 } from '@/components/ui/select'
 import { useToast } from '@/components/ui/use-toast'
 
-const sdpFormSchema = z.object({
+export const sdpFormSchema = z.object({
   name: z.string().min(1).max(255),
   alias: z.string().min(1).max(63),
   enabled: z.string(),

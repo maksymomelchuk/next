@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fuzzyFilter } from '@/utils/fuzzyFilter'
+import { UseMutateAsyncFunction } from '@tanstack/react-query'
 import {
   ColumnDef,
   SortingState,
@@ -8,11 +9,24 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { AxiosResponse } from 'axios'
+import { ZodSchema } from 'zod'
+
+import { validate } from '../utils/validation'
 
 export const useTable = <T,>(
   fetchedData: T[],
   columns: ColumnDef<T>[],
-  updateFunction: ({ id, data }: { id: number; data: T }) => void
+  updateFunction: UseMutateAsyncFunction<
+    AxiosResponse<any, any>,
+    unknown,
+    {
+      id: number
+      data: T
+    },
+    unknown
+  >,
+  schema: ZodSchema
 ) => {
   const [data, setData] = useState<any[]>([])
   const [originalData, setOriginalData] = useState<any[]>([])
@@ -41,7 +55,9 @@ export const useTable = <T,>(
     globalFilterFn: fuzzyFilter,
     onRowSelectionChange: setRowSelection,
     meta: {
-      updateData: (rowIndex: number, columnId: number, value: string) => {
+      updateData: (rowIndex: number, columnId: string, value: string) => {
+        console.log('file: useTable.tsx:99 ~ columnId:', columnId)
+
         setData((old) =>
           old.map((row, index) => {
             if (index === rowIndex) {
@@ -55,26 +71,29 @@ export const useTable = <T,>(
         )
       },
 
-      revertData: (rowIndex: number, toSave: boolean) => {
-        if (!toSave) {
-          setData((old) =>
-            old.map((row, index) =>
-              index === rowIndex ? originalData[rowIndex] : row
-            )
+      revertData: (rowIndex: number) => {
+        setData((old) =>
+          old.map((row, index) =>
+            index === rowIndex ? originalData[rowIndex] : row
           )
-        } else {
-          setOriginalData((old) =>
-            old.map((row, index) => {
-              if (index === rowIndex) {
-                const updatedRow = data[rowIndex]
-                updateFunction({ id: updatedRow.id, data: updatedRow })
-                return updatedRow
-              }
-              return row
-            })
-          )
-        }
+        )
       },
+
+      saveData: (updatedRow: { id: number }) => {
+        setOriginalData((old) =>
+          old.map((row, index) => {
+            if (index === updatedRow.id) {
+              return updatedRow
+            }
+            return row
+          })
+        )
+      },
+
+      validation: (index: number) => validate(data[index], schema),
+
+      data,
+      updateFunction,
       selectedRow,
       setSelectedRow,
     },

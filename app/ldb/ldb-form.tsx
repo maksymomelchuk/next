@@ -21,7 +21,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 
-const ldbFormSchema = z.object({
+export const ldbFormSchema = z.object({
   data_provider_string: z.string().min(2).max(127),
   provider_id: z.string().min(2).max(63),
   provider_id_series: preprocessSchema(z.string().min(2).max(63).optional()),

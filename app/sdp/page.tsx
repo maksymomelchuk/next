@@ -8,7 +8,7 @@ import { useTable } from '@/hooks/useTable'
 import { useToast } from '@/components/ui/use-toast'
 import { TableLayout } from '@/components/TableLayout/TableLayout'
 import { columns } from '@/app/sdp/columns'
-import { SdpForm } from '@/app/sdp/sdp-form'
+import { SdpForm, sdpFormSchema } from '@/app/sdp/sdp-form'
 
 const SdpPage = () => {
   const [openDialogue, setOpenDialogue] = useState(false)
@@ -19,15 +19,15 @@ const SdpPage = () => {
   // Fetch data
   const { data } = useFetchAllSdp()
   // Update data
-  const { mutate: updateSdpQuery } = useMutation({
+  const { mutateAsync: updateSdpQuery } = useMutation({
     mutationFn: updateSdpById,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['sdp'])
+    onSuccess: (_, { id }) => {
+      queryClient.invalidateQueries(['sdp', id])
       toast({ variant: 'success', description: 'Successfully changed' })
     },
   })
 
-  const table = useTable(data ?? [], columns, updateSdpQuery)
+  const table = useTable(data ?? [], columns, updateSdpQuery, sdpFormSchema)
 
   return (
     <TableLayout

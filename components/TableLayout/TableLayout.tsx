@@ -1,15 +1,13 @@
 import React, { ReactElement, useRef, useState } from 'react'
 import { Table } from '@tanstack/react-table'
-import { Search } from 'lucide-react'
 
-import { LdbForm } from '@/app/ldb/ldb-form'
-
-import { CustomTable } from '../Table'
-import { DataTableViewOptions } from '../Table/ColumnVisibility'
-import { CreateRowDialogue } from '../Table/CreateRowDialogue'
-import { Export } from '../Table/Export'
-import { GlobalFilter } from '../Table/GlobalFilter'
-import { Button } from '../ui/button'
+import { Button } from '@/components/ui/button'
+import { CustomTable } from '@/components/Table'
+import { DataTableViewOptions } from '@/components/Table/ColumnVisibility'
+import { CreateRowDialogue } from '@/components/Table/CreateRowDialogue'
+import { Export } from '@/components/Table/Export'
+import { GlobalFilter } from '@/components/Table/GlobalFilter'
+import { Icons } from '@/components/icons'
 
 type TableLayoutProps<T> = {
   data: T[] | undefined
@@ -34,9 +32,9 @@ export const TableLayout = <T,>({
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="bg-background overflow-hidden rounded-[0.5rem] border shadow-xl">
-        <div className="w-full overflow-x-auto p-8" ref={componentRef}>
+        <div className="w-full overflow-x-auto p-8">
           <div className="w-full">
-            <div className="flex flex-col sm:flex-row gap-2 items-center justify-between py-4 ">
+            <div className="flex flex-col items-center justify-between gap-2 py-4 sm:flex-row ">
               <GlobalFilter table={table} />
               <div className="flex items-center gap-2">
                 <Button
@@ -44,7 +42,7 @@ export const TableLayout = <T,>({
                   onClick={() => setColumnSearch(!columnSearch)}
                   className="flex gap-2"
                 >
-                  <Search className="w-4 " />
+                  <Icons.search className="w-4 " />
                   <span className="hidden lg:block">Column search</span>
                 </Button>
                 <DataTableViewOptions table={table} />
@@ -56,7 +54,7 @@ export const TableLayout = <T,>({
                 </CreateRowDialogue>
               </div>
             </div>
-            <div className="rounded-md border">
+            <div className="rounded-md border" ref={componentRef}>
               <CustomTable
                 table={table}
                 columnSearch={columnSearch}
