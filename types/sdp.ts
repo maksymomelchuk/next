@@ -27,13 +27,13 @@ export const SdpOriginalType = z.object({
   name: z.string(),
   alias: z.string(),
   enabled: z.number(),
-  created_at: z.string(),
-  created_by: UserType,
+  // created_at: z.string(),
+  // created_by: UserType,
   adr_providers: z.array(AddressProviderType),
   options: OptionsType,
-  statistics: StatisticsType,
-  updated_at: z.union([z.string(), z.null()]),
-  updated_by: z.union([UserType, z.null()]),
+  // statistics: StatisticsType,
+  // updated_at: z.union([z.string(), z.null()]),
+  // updated_by: z.union([UserType, z.null()]),
   users: z.array(UserType),
 })
 

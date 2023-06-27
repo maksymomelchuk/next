@@ -81,7 +81,6 @@
 }
 
 tbody tr td span {
-  /* width: 100px; */
   display: block;
   white-space: normal;
   word-wrap: break-word;

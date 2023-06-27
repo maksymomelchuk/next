@@ -11,6 +11,7 @@ interface MainNavProps {
 
 export const MainNav: React.FC<MainNavProps> = ({ items }) => {
   const [value, setValue] = useState('')
+  const [open, setOpen] = useState(false)
 
   return items?.length ? (
     <nav>
@@ -32,7 +33,10 @@ export const MainNav: React.FC<MainNavProps> = ({ items }) => {
               </NavigationMenu.Item>
             ) : (
               <NavigationMenu.Item key={item.key}>
-                <NavigationMenu.Trigger className="hover:underline">
+                <NavigationMenu.Trigger
+                  className="hover:underline"
+                  onPointerMove={(e) => e.preventDefault()}
+                >
                   {item.title}
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content>
