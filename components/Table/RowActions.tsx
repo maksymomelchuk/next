@@ -1,9 +1,7 @@
 'use client'
 
-import { SetStateAction } from 'react'
-import { UseMutateAsyncFunction } from '@tanstack/react-query'
-import { Row, RowData, Table } from '@tanstack/react-table'
-import axios, { AxiosResponse } from 'axios'
+import { Row, Table } from '@tanstack/react-table'
+import axios from 'axios'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -15,56 +13,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { toast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/icons'
-
-declare module '@tanstack/react-table' {
-  interface TableMeta<TData extends RowData> {
-    selectedRow: { [key: string]: boolean }
-    setSelectedRow: React.Dispatch<SetStateAction<{ [key: string]: boolean }>>
-    updateData: (rowIndex: number, columnId: string, value: string) => void
-    saveData: (updatedRow: T) => void
-    revertData: (rowIndex: number) => void
-    validation: (index: number) => true | undefined
-    updateFunction: UseMutateAsyncFunction<
-      AxiosResponse<any, any>,
-      unknown,
-      {
-        id: number
-        data: T
-      },
-      unknown
-    >
-    data: T[]
-  }
-  interface ColumnMeta<TData extends RowData, TValue> {
-    type?: string
-    options?: {
-      label: string
-      value: string
-    }[]
-  }
-}
-
-// interface table<T> extends Table<T> {
-//   options: RequiredKeys<TableOptionsResolved<T>, 'state'> & {
-//     meta?: TableMeta<T> & {
-//       selectedRow: { [key: string]: boolean }
-//       setSelectedRow: React.Dispatch<SetStateAction<{ [key: string]: boolean }>>
-//       revertData: (rowIndex: number) => void
-//       validation: (index: number) => boolean
-//       data: T[]
-//       updateFunction: UseMutateAsyncFunction<
-//         AxiosResponse<any, any>,
-//         unknown,
-//         {
-//           id: number
-//           data: T
-//         },
-//         unknown
-//       >
-//       saveData: (updatedRow: T) => void
-//     }
-//   }
-// }
 
 interface RowActionsProps<TData> {
   row: Row<TData>
@@ -93,7 +41,7 @@ export const RowActions = <T,>({ row, table }: RowActionsProps<T>) => {
           changeSelectedRowStatus()
         },
         // If error occur
-        onError: (error) => {
+        onError: (error: any) => {
           if (axios.isAxiosError(error)) {
             toast({
               variant: 'error',
@@ -116,7 +64,7 @@ export const RowActions = <T,>({ row, table }: RowActionsProps<T>) => {
   }
 
   const changeSelectedRowStatus = () => {
-    meta?.setSelectedRow((old) => ({
+    meta?.setSelectedRow((old: { [key: string]: boolean }) => ({
       ...old,
       [row.id]: !old[row.id],
     }))

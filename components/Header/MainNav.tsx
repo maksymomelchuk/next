@@ -11,7 +11,6 @@ interface MainNavProps {
 
 export const MainNav: React.FC<MainNavProps> = ({ items }) => {
   const [value, setValue] = useState('')
-  const [open, setOpen] = useState(false)
 
   return items?.length ? (
     <nav>
