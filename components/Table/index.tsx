@@ -35,14 +35,14 @@ export const CustomTable: React.FC<CustomTableProps> = ({
       }}
       ref={tableContainerRef}
     >
-      <Table>
+      <Table className="relative">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <TableHead
                   key={header.id}
-                  className={
+                  className={`${
                     header.id === 'id'
                       ? 'w-16'
                       : header.id === 'select'
@@ -50,7 +50,7 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                       : header.id === 'actions'
                       ? 'w-20'
                       : undefined
-                  }
+                  } bg-background sticky top-0 z-10`}
                 >
                   {header.isPlaceholder ? null : (
                     <div className="flex flex-col gap-3">

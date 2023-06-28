@@ -3,7 +3,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import axiosInstance from '@/api/axiosInstance'
 import { ILdb, LdbArrayType, LdbType } from '@/types/ldb'
 
-const fetchSize = 8
+const fetchSize = Number(process.env.NEXT_PUBLIC_FETCH_SIZE)
 
 export const useFetchAllLdb = () => {
   return useInfiniteQuery({
