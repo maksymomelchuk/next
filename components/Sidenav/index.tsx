@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import logo from '@/assets/img/Logo-NGA-White.png'
+import logo from '@/assets/img/linx.png'
 
 import { siteConfig } from '@/config/site'
 import { Separator } from '@/components/ui/separator'
@@ -39,8 +39,8 @@ export const SideNav: React.FC<SidenavProps> = ({ showMenu, toggleMenu }) => {
       >
         <SheetHeader>
           <Link href="/" className="flex items-center gap-2  space-x-2">
-            <Image alt="logo" src={logo} className="bg-accent w-12" />
-            <p className="text-foreground font-semibold">LINX Dashboard</p>
+            <Image alt="logo" src={logo} className="w-12" />
+            <p className="text-foreground font-semibold">Dashboard</p>
           </Link>
         </SheetHeader>
         <Separator className="my-4" />

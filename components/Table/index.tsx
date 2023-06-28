@@ -15,77 +15,94 @@ type CustomTableProps = {
   table: TableProps<any>
   columnSearch: boolean
   setColumnSearch: React.Dispatch<React.SetStateAction<boolean>>
+  tableContainerRef: React.MutableRefObject<HTMLDivElement | null>
+  fetchMoreOnBottomReached: (
+    containerRefElement?: HTMLDivElement | null
+  ) => void
 }
 
 export const CustomTable: React.FC<CustomTableProps> = ({
   table,
   columnSearch,
-}) => (
-  <Table>
-    <TableHeader>
-      {table.getHeaderGroups().map((headerGroup) => (
-        <TableRow key={headerGroup.id}>
-          {headerGroup.headers.map((header) => (
-            <TableHead
-              key={header.id}
-              className={
-                header.id === 'id'
-                  ? 'w-16'
-                  : header.id === 'select'
-                  ? 'w-10'
-                  : header.id === 'actions'
-                  ? 'w-20'
-                  : undefined
+  fetchMoreOnBottomReached,
+  tableContainerRef,
+}) => {
+  return (
+    <div
+      className="h-[400px] w-full overflow-y-auto"
+      onScroll={(e) => {
+        fetchMoreOnBottomReached(e.target as HTMLDivElement)
+      }}
+      ref={tableContainerRef}
+    >
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <TableHead
+                  key={header.id}
+                  className={
+                    header.id === 'id'
+                      ? 'w-16'
+                      : header.id === 'select'
+                      ? 'w-10'
+                      : header.id === 'actions'
+                      ? 'w-20'
+                      : undefined
+                  }
+                >
+                  {header.isPlaceholder ? null : (
+                    <div className="flex flex-col gap-3">
+                      <div
+                        {...{
+                          className: header.column.getCanSort()
+                            ? 'select-none flex'
+                            : 'flex',
+                        }}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                      </div>
+                      {columnSearch && header.column.getCanFilter() ? (
+                        <div
+                          className={`${
+                            columnSearch && header.column.getCanFilter()
+                              ? ''
+                              : 'hidden'
+                          }`}
+                        >
+                          <Filter column={header.column} table={table} />
+                        </div>
+                      ) : null}
+                    </div>
+                  )}
+                </TableHead>
+              ))}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows.map((row) => (
+            <TableRow
+              key={row.id}
+              data-state={
+                (table.options.meta?.selectedRow[row.id] ||
+                  row.getIsSelected()) &&
+                'selected'
               }
             >
-              {header.isPlaceholder ? null : (
-                <div className="flex flex-col gap-3">
-                  <div
-                    {...{
-                      className: header.column.getCanSort()
-                        ? 'select-none flex'
-                        : 'flex',
-                    }}
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                  </div>
-                  {columnSearch && header.column.getCanFilter() ? (
-                    <div
-                      className={`${
-                        columnSearch && header.column.getCanFilter()
-                          ? ''
-                          : 'hidden'
-                      }`}
-                    >
-                      <Filter column={header.column} table={table} />
-                    </div>
-                  ) : null}
-                </div>
-              )}
-            </TableHead>
+              {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ))}
+            </TableRow>
           ))}
-        </TableRow>
-      ))}
-    </TableHeader>
-    <TableBody>
-      {table.getRowModel().rows.map((row) => (
-        <TableRow
-          key={row.id}
-          data-state={
-            (table.options.meta?.selectedRow[row.id] || row.getIsSelected()) &&
-            'selected'
-          }
-        >
-          {row.getVisibleCells().map((cell) => (
-            <TableCell key={cell.id}>
-              {flexRender(cell.column.columnDef.cell, cell.getContext())}
-            </TableCell>
-          ))}
-        </TableRow>
-      ))}
-    </TableBody>
-  </Table>
-)
+        </TableBody>
+      </Table>
+    </div>
+  )
+}

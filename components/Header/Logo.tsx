@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import logo from '@/assets/img/Logo-NGA-White.png'
+import logo from '@/assets/img/linx_white.png'
 
 export const Logo: React.FC = () => {
   return (

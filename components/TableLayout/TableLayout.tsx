@@ -15,6 +15,10 @@ type TableLayoutProps<T> = {
   children: ReactElement
   openDialogue: boolean
   setOpenDialogue: React.Dispatch<React.SetStateAction<boolean>>
+  fetchMoreOnBottomReached: (
+    containerRefElement?: HTMLDivElement | null
+  ) => void
+  tableContainerRef: React.MutableRefObject<HTMLDivElement | null>
 }
 
 export const TableLayout = <T,>({
@@ -23,6 +27,8 @@ export const TableLayout = <T,>({
   openDialogue,
   setOpenDialogue,
   children,
+  fetchMoreOnBottomReached,
+  tableContainerRef,
 }: TableLayoutProps<T>) => {
   // Local state
   const [columnSearch, setColumnSearch] = useState(false)
@@ -59,6 +65,8 @@ export const TableLayout = <T,>({
                 table={table}
                 columnSearch={columnSearch}
                 setColumnSearch={setColumnSearch}
+                tableContainerRef={tableContainerRef}
+                fetchMoreOnBottomReached={fetchMoreOnBottomReached}
               />
             </div>
           </div>

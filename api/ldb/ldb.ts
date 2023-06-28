@@ -1,18 +1,25 @@
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 
 import axiosInstance from '@/api/axiosInstance'
 import { ILdb, LdbArrayType, LdbType } from '@/types/ldb'
-import { toast } from '@/components/ui/use-toast'
+
+const fetchSize = 8
 
 export const useFetchAllLdb = () => {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ['ldb'],
-    queryFn: async () => {
-      const { data } = await axiosInstance.get('/ldb/adr-providers')
+    queryFn: async ({ pageParam = 0 }) => {
+      const start = pageParam * fetchSize
+      const { data } = await axiosInstance.get(
+        `/ldb/adr-providers?limit=${fetchSize}&offset=${start}&order_by=id`
+      )
       console.log('All ldb:', data)
       const parsedData = LdbArrayType.parse(data)
       return parsedData
     },
+    getNextPageParam: (_lastGroup, groups) => groups.length,
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
   })
 }
 
