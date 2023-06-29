@@ -44,13 +44,13 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                   key={header.id}
                   className={`${
                     header.id === 'id'
-                      ? 'w-16'
+                      ? 'w-20'
                       : header.id === 'select'
                       ? 'w-10'
                       : header.id === 'actions'
                       ? 'w-20'
                       : undefined
-                  } bg-background sticky top-0 z-10`}
+                  } bg-muted sticky top-0 z-10`}
                 >
                   {header.isPlaceholder ? null : (
                     <div className="flex flex-col gap-3">
