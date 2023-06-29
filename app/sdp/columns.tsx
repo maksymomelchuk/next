@@ -25,6 +25,9 @@ export const columns: ColumnDef<ISdpTransformed>[] = [
         className="translate-y-[2px]"
       />
     ),
+    meta: {
+      width: 10,
+    },
     enableSorting: false,
     enableHiding: false,
   },
@@ -36,6 +39,9 @@ export const columns: ColumnDef<ISdpTransformed>[] = [
     cell: EditableCell,
     enableHiding: false,
     enableColumnFilter: false,
+    meta: {
+      width: 20,
+    },
   },
   {
     accessorKey: 'name',
@@ -69,5 +75,8 @@ export const columns: ColumnDef<ISdpTransformed>[] = [
   {
     id: 'actions',
     cell: ({ row, table }) => <RowActions row={row} table={table} />,
+    meta: {
+      width: 20,
+    },
   },
 ]

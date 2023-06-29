@@ -29,7 +29,7 @@ export const CustomTable: React.FC<CustomTableProps> = ({
 }) => {
   return (
     <div
-      className="h-[400px] w-full overflow-y-auto"
+      className="h-[400px] w-full overflow-y-auto overflow-x-hidden"
       onScroll={(e) => {
         fetchMoreOnBottomReached(e.target as HTMLDivElement)
       }}
@@ -43,12 +43,8 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                 <TableHead
                   key={header.id}
                   className={`${
-                    header.id === 'id'
-                      ? 'w-20'
-                      : header.id === 'select'
-                      ? 'w-10'
-                      : header.id === 'actions'
-                      ? 'w-20'
+                    header.column.columnDef.meta?.width
+                      ? `w-${header.column.columnDef.meta?.width}`
                       : undefined
                   } bg-muted sticky top-0 z-10`}
                 >
@@ -93,6 +89,9 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                   row.getIsSelected()) &&
                 'selected'
               }
+              onClick={() => {
+                console.log('click', row.original.id)
+              }}
             >
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>

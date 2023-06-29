@@ -23,5 +23,6 @@ export declare module '@tanstack/react-table' {
       label: string
       value: string
     }[]
+    width?: number
   }
 }

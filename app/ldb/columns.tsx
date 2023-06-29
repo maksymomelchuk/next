@@ -27,6 +27,9 @@ export const columns: ColumnDef<ILdb>[] = [
         className="translate-y-[2px]"
       />
     ),
+    meta: {
+      width: 10,
+    },
     enableSorting: false,
     enableHiding: false,
   },
@@ -36,6 +39,9 @@ export const columns: ColumnDef<ILdb>[] = [
       <DataTableColumnHeader column={column} title="Id" />
     ),
     cell: EditableCell,
+    meta: {
+      width: 20,
+    },
     enableHiding: false,
     enableColumnFilter: false,
   },
@@ -84,5 +90,8 @@ export const columns: ColumnDef<ILdb>[] = [
   {
     id: 'actions',
     cell: ({ row, table }) => <RowActions row={row} table={table} />,
+    meta: {
+      width: 20,
+    },
   },
 ]

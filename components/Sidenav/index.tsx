@@ -39,7 +39,7 @@ export const SideNav: React.FC<SidenavProps> = ({ showMenu, toggleMenu }) => {
       >
         <SheetHeader>
           <Link href="/" className="flex items-center gap-2  space-x-2">
-            <Image alt="logo" src={logo} className="w-12" />
+            <Image alt="logo" src={logo} className="w-12" priority={false} />
             <p className="text-foreground font-semibold">Dashboard</p>
           </Link>
         </SheetHeader>
