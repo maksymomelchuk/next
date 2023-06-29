@@ -56,8 +56,6 @@ export const useTable = <T,>(
     onRowSelectionChange: setRowSelection,
     meta: {
       updateData: (rowIndex: number, columnId: string, value: string) => {
-        console.log('file: useTable.tsx:99 ~ columnId:', columnId)
-
         setData((old) =>
           old.map((row, index) => {
             if (index === rowIndex) {

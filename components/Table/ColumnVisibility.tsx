@@ -1,5 +1,6 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Table } from '@tanstack/react-table'
 
@@ -20,6 +21,8 @@ interface DataTableViewOptionsProps<TData> {
 export function DataTableViewOptions<TData>({
   table,
 }: DataTableViewOptionsProps<TData>) {
+  const router = usePathname()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -43,7 +46,12 @@ export function DataTableViewOptions<TData>({
                 key={column.id}
                 className="focus:bg-secondary focus:text-secondary-foreground capitalize"
                 checked={column.getIsVisible()}
-                onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                onCheckedChange={(value) => {
+                  const ls = JSON.parse(localStorage.getItem(router) ?? '{}')
+                  const updatedLs = { ...ls, [column.id]: !!value }
+                  localStorage.setItem(router, JSON.stringify(updatedLs))
+                  column.toggleVisibility(!!value)
+                }}
               >
                 {column.id}
               </DropdownMenuCheckboxItem>

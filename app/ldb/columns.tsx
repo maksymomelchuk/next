@@ -1,3 +1,5 @@
+'use client'
+
 import { ColumnDef } from '@tanstack/react-table'
 
 import { ILdb } from '@/types/ldb'
@@ -34,7 +36,6 @@ export const columns: ColumnDef<ILdb>[] = [
       <DataTableColumnHeader column={column} title="Id" />
     ),
     cell: EditableCell,
-    // enableSorting: false,
     enableHiding: false,
     enableColumnFilter: false,
   },

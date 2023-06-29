@@ -1,3 +1,7 @@
+'use client'
+
+import { useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { Column } from '@tanstack/react-table'
 
 import { cn } from '@/lib/utils'
@@ -22,6 +26,16 @@ export function DataTableColumnHeader<TData, TValue>({
   title,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
+  const router = usePathname()
+
+  useEffect(() => {
+    const ls = JSON.parse(localStorage.getItem(router) ?? '{}')
+
+    if (ls[column.id] === false) {
+      column.toggleVisibility(false)
+    }
+  }, [])
+
   if (!column.getCanSort()) {
     return <div className={cn(className)}>{title}</div>
   }
@@ -56,7 +70,12 @@ export function DataTableColumnHeader<TData, TValue>({
           <DropdownMenuSeparator />
           <DropdownMenuItem
             disabled={!column.getCanHide()}
-            onClick={() => column.toggleVisibility(false)}
+            onClick={() => {
+              const ls = JSON.parse(localStorage.getItem(router) ?? '{}')
+              const updatedLs = { ...ls, [column.id]: false }
+              localStorage.setItem(router, JSON.stringify(updatedLs))
+              column.toggleVisibility(false)
+            }}
           >
             <Icons.hide className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
             Hide

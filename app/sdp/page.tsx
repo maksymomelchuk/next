@@ -18,7 +18,7 @@ const SdpPage = () => {
   // Query client
   const queryClient = useQueryClient()
   // Fetch data
-  const { data, isFetching, fetchNextPage } = useFetchAllSdp()
+  const { data, isFetching, fetchNextPage, isLoading } = useFetchAllSdp()
   // Update data
   const { mutateAsync: updateSdpQuery } = useMutation({
     mutationFn: updateSdpById,
@@ -39,6 +39,10 @@ const SdpPage = () => {
   })
 
   const table = useTable(flatData, columns, updateSdpQuery, sdpFormSchema)
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <TableLayout
