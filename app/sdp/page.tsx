@@ -40,14 +40,11 @@ const SdpPage = () => {
 
   const table = useTable(flatData, columns, updateSdpQuery, sdpFormSchema)
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
   return (
     <TableLayout
       table={table}
       data={flatData}
+      isLoading={isLoading}
       setOpenDialogue={setOpenDialogue}
       openDialogue={openDialogue}
       fetchMoreOnBottomReached={fetchMoreOnBottomReached}

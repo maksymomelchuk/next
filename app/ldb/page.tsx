@@ -43,14 +43,11 @@ const LdbPage: React.FC<LdbPageProps> = () => {
 
   const table = useTable(flatData, columns, updateLdbQuery, ldbFormSchema)
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
   return (
     <TableLayout
       table={table}
       data={flatData}
+      isLoading={isLoading}
       setOpenDialogue={setOpenDialogue}
       openDialogue={openDialogue}
       fetchMoreOnBottomReached={fetchMoreOnBottomReached}

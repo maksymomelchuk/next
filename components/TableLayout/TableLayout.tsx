@@ -9,6 +9,8 @@ import { Export } from '@/components/Table/Export'
 import { GlobalFilter } from '@/components/Table/GlobalFilter'
 import { Icons } from '@/components/icons'
 
+import { Skeleton } from '../Skeleton/Skeleton'
+
 type TableLayoutProps<T> = {
   data: T[] | undefined
   table: Table<T>
@@ -19,6 +21,7 @@ type TableLayoutProps<T> = {
     containerRefElement?: HTMLDivElement | null
   ) => void
   tableContainerRef: React.MutableRefObject<HTMLDivElement | null>
+  isLoading: boolean
 }
 
 export const TableLayout = <T,>({
@@ -29,6 +32,7 @@ export const TableLayout = <T,>({
   children,
   fetchMoreOnBottomReached,
   tableContainerRef,
+  isLoading,
 }: TableLayoutProps<T>) => {
   // Local state
   const [columnSearch, setColumnSearch] = useState(false)
@@ -61,13 +65,17 @@ export const TableLayout = <T,>({
               </div>
             </div>
             <div className="rounded-md border" ref={componentRef}>
-              <CustomTable
-                table={table}
-                columnSearch={columnSearch}
-                setColumnSearch={setColumnSearch}
-                tableContainerRef={tableContainerRef}
-                fetchMoreOnBottomReached={fetchMoreOnBottomReached}
-              />
+              {isLoading ? (
+                <Skeleton />
+              ) : (
+                <CustomTable
+                  table={table}
+                  columnSearch={columnSearch}
+                  setColumnSearch={setColumnSearch}
+                  tableContainerRef={tableContainerRef}
+                  fetchMoreOnBottomReached={fetchMoreOnBottomReached}
+                />
+              )}
             </div>
           </div>
         </div>
