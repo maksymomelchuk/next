@@ -173,33 +173,22 @@ export const CustomTable: React.FC<CustomTableProps> = ({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows.map((row) => {
-            console.log(row.getAllCells())
-            console.log(row.getVisibleCells())
-
-            return (
-              <TableRow
-                key={row.id}
-                data-state={
-                  (table.options.meta?.selectedRow[row.id] ||
-                    row.getIsSelected()) &&
-                  'selected'
-                }
-              >
-                {row.getAllCells().length === row.getVisibleCells().length &&
-                  row
-                    .getVisibleCells()
-                    .map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-              </TableRow>
-            )
-          })}
+          {table.getRowModel().rows.map((row) => (
+            <TableRow
+              key={row.id}
+              data-state={
+                (table.options.meta?.selectedRow[row.id] ||
+                  row.getIsSelected()) &&
+                'selected'
+              }
+            >
+              {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>
