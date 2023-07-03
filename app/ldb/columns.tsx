@@ -31,6 +31,20 @@ export const columns: ColumnDef<ILdb>[] = [
     enableSorting: false,
     enableHiding: false,
   },
+  // {
+  //   id: 'expand',
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsExpanded()}
+  //       onCheckedChange={(value) => row.toggleExpanded(!!value)}
+  //       aria-label="Select row"
+  //       className="translate-y-[2px]"
+  //     />
+  //   ),
+  //   size: 80,
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: 'id',
     header: ({ column }) => (

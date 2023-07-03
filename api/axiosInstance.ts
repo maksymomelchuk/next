@@ -38,34 +38,38 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true
       const oldToken = localStorage.getItem('refreshToken')
 
-      if (oldToken) {
-        try {
-          const response: AxiosResponse<{
-            access_token: string
-            refresh_token: string
-          }> = await refresh(oldToken)
+      if (!oldToken) {
+        console.log('NO TOKEN IN LOCAL STORAGE --> FORCE LOGOUT')
+        keycloak.logout()
+        return
+      }
 
-          const newAccessToken = response.data.access_token
-          const newRefreshToken = response.data.refresh_token
+      try {
+        const response: AxiosResponse<{
+          access_token: string
+          refresh_token: string
+        }> = await refresh(oldToken)
 
-          localStorage.setItem('token', newAccessToken)
-          localStorage.setItem('refreshToken', newRefreshToken)
+        const newAccessToken = response.data.access_token
+        const newRefreshToken = response.data.refresh_token
 
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
-          return axiosInstance(originalRequest)
-        } catch (error) {
-          if (axios.isAxiosError(error)) {
-            console.log('file: axiosInstance.ts:59 ~ error:', error)
+        localStorage.setItem('token', newAccessToken)
+        localStorage.setItem('refreshToken', newRefreshToken)
 
-            if (
-              error.response?.status === 400 &&
-              error.response.data.error === 'invalid_grant'
-            ) {
-              console.log('NO TOKEN --> FORCE LOGOUT')
-              localStorage.removeItem('token')
-              localStorage.removeItem('refreshToken')
-              keycloak.logout()
-            }
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
+        return axiosInstance(originalRequest)
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log('file: axiosInstance.ts:59 ~ error:', error)
+
+          if (
+            error.response?.status === 400 &&
+            error.response.data.error === 'invalid_grant'
+          ) {
+            console.log('NO TOKEN --> FORCE LOGOUT')
+            localStorage.removeItem('token')
+            localStorage.removeItem('refreshToken')
+            keycloak.logout()
           }
         }
       }
