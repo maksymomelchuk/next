@@ -6,7 +6,7 @@ import logo from '@/assets/img/linx.png'
 import { siteConfig } from '@/config/site'
 import { Separator } from '@/components/ui/separator'
 import { Sheet, SheetContent, SheetHeader } from '@/components/ui/sheet'
-import { MenuItems } from '@/components/SideNav/MenuItems'
+import { MenuItems } from '@/components/Sidenav/MenuItems'
 
 interface SidenavProps {
   showMenu: boolean
