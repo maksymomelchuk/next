@@ -6,7 +6,7 @@ export const Skeleton = () => {
   return (
     <div
       role="status"
-      className="w-full animate-pulse space-y-6  dark:border-gray-700 md:p-6"
+      className="w-full animate-pulse space-y-6  p-6 dark:border-gray-700"
     >
       <div className="flex items-center justify-between gap-10">
         <div className="h-10 w-full rounded-md bg-gray-200 dark:bg-gray-700"></div>
