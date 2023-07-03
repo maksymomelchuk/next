@@ -107,6 +107,12 @@ export const useTable = <T,>(
       globalFilter,
       rowSelection,
     },
+
+    initialState: {
+      columnVisibility: {
+        // data_provider_string: false,
+      },
+    },
   })
 
   return table

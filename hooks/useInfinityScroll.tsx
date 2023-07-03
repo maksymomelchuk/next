@@ -5,7 +5,7 @@ interface useInfinityScrollProps<T> {
   data: InfiniteData<T[]> | undefined
   isFetching: boolean
   fetchNextPage: () => void
-  tableContainerRef: React.MutableRefObject<HTMLDivElement | null>
+  tableContainerRef: React.RefObject<HTMLDivElement>
 }
 
 export const useInfinityScroll = <T,>({

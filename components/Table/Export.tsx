@@ -3,7 +3,6 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
-import { CSVLink } from 'react-csv'
 import { useReactToPrint } from 'react-to-print'
 
 import { Button } from '../ui/button'
@@ -21,7 +20,7 @@ type ExportProps = {
 }
 
 export const Export: React.FC<ExportProps> = ({ data, componentRef }) => {
-  const router = usePathname().split('/').splice(1)?.join('-')
+  const pathname = usePathname().split('/').splice(1)?.join('-')
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -29,7 +28,7 @@ export const Export: React.FC<ExportProps> = ({ data, componentRef }) => {
 
   return (
     <>
-      <DynamicCSVLink data={data} filename={`${router}.csv`}>
+      <DynamicCSVLink data={data} filename={`${pathname}.csv`}>
         <Button variant="outline">Export to CSV</Button>
       </DynamicCSVLink>
       <Button variant="outline" onClick={handlePrint}>

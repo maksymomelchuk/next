@@ -40,6 +40,7 @@ export const EditableCell = <T,>({
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         type={columnMeta?.type || 'text'}
+        className="w-20"
       />
     )
   }

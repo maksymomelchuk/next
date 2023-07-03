@@ -26,10 +26,10 @@ export function DataTableColumnHeader<TData, TValue>({
   title,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
-  const router = usePathname()
+  const pathname = usePathname()
 
   useEffect(() => {
-    const ls = JSON.parse(localStorage.getItem(router) ?? '{}')
+    const ls = JSON.parse(localStorage.getItem(pathname) ?? '{}')
 
     if (ls[column.id] === false) {
       column.toggleVisibility(false)
@@ -71,9 +71,9 @@ export function DataTableColumnHeader<TData, TValue>({
           <DropdownMenuItem
             disabled={!column.getCanHide()}
             onClick={() => {
-              const ls = JSON.parse(localStorage.getItem(router) ?? '{}')
+              const ls = JSON.parse(localStorage.getItem(pathname) ?? '{}')
               const updatedLs = { ...ls, [column.id]: false }
-              localStorage.setItem(router, JSON.stringify(updatedLs))
+              localStorage.setItem(pathname, JSON.stringify(updatedLs))
               column.toggleVisibility(false)
             }}
           >

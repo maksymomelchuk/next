@@ -27,9 +27,7 @@ export const columns: ColumnDef<ILdb>[] = [
         className="translate-y-[2px]"
       />
     ),
-    meta: {
-      width: 10,
-    },
+    size: 80,
     enableSorting: false,
     enableHiding: false,
   },
@@ -39,9 +37,7 @@ export const columns: ColumnDef<ILdb>[] = [
       <DataTableColumnHeader column={column} title="Id" />
     ),
     cell: EditableCell,
-    meta: {
-      width: 20,
-    },
+    size: 80,
     enableHiding: false,
     enableColumnFilter: false,
   },
@@ -51,6 +47,7 @@ export const columns: ColumnDef<ILdb>[] = [
       <DataTableColumnHeader column={column} title="Data Provider" />
     ),
     cell: EditableCell,
+    size: 250,
   },
   {
     accessorKey: 'provider_id',
@@ -86,12 +83,11 @@ export const columns: ColumnDef<ILdb>[] = [
       <DataTableColumnHeader column={column} title="Contacts" />
     ),
     cell: EditableCell,
+    size: 130,
   },
   {
     id: 'actions',
     cell: ({ row, table }) => <RowActions row={row} table={table} />,
-    meta: {
-      width: 20,
-    },
+    size: 80,
   },
 ]

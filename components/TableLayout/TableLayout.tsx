@@ -20,7 +20,7 @@ type TableLayoutProps<T> = {
   fetchMoreOnBottomReached: (
     containerRefElement?: HTMLDivElement | null
   ) => void
-  tableContainerRef: React.MutableRefObject<HTMLDivElement | null>
+  tableContainerRef: React.RefObject<HTMLDivElement>
   isLoading: boolean
 }
 
@@ -85,7 +85,7 @@ export const TableLayout = <T,>({
               {table.getFilteredSelectedRowModel().rows.length} of{' '}
               {table.getFilteredRowModel().rows.length} row(s) selected.
             </div>
-            <Export data={data} componentRef={componentRef} />
+            {!isLoading && <Export data={data} componentRef={componentRef} />}
           </div>
         )}
       </div>

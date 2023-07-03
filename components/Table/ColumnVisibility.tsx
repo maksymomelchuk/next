@@ -21,7 +21,7 @@ interface DataTableViewOptionsProps<TData> {
 export function DataTableViewOptions<TData>({
   table,
 }: DataTableViewOptionsProps<TData>) {
-  const router = usePathname()
+  const pathname = usePathname()
 
   return (
     <DropdownMenu>
@@ -47,9 +47,9 @@ export function DataTableViewOptions<TData>({
                 className="focus:bg-secondary focus:text-secondary-foreground capitalize"
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => {
-                  const ls = JSON.parse(localStorage.getItem(router) ?? '{}')
+                  const ls = JSON.parse(localStorage.getItem(pathname) ?? '{}')
                   const updatedLs = { ...ls, [column.id]: !!value }
-                  localStorage.setItem(router, JSON.stringify(updatedLs))
+                  localStorage.setItem(pathname, JSON.stringify(updatedLs))
                   column.toggleVisibility(!!value)
                 }}
               >
