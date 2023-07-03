@@ -46,59 +46,24 @@ export const CustomTable: React.FC<CustomTableProps> = ({
 
         // Check if all columns are visible, if so, no need to do anything
         if (table.getIsAllColumnsVisible()) {
-          console.log('all columns visible', table.getIsAllColumnsVisible())
           return
         }
 
-        const visibleColumns = table.getVisibleFlatColumns().length
+        // Find next column to show
+        const nextColumn = findNextColumnToShow()
 
-        const nextColumn = table.getAllColumns()[visibleColumns - 1]
-
-        const nextColumnWidth = nextColumn.getSize()
-
-        if (table.getTotalSize() + nextColumnWidth <= element.offsetWidth) {
-          console.log('need to show')
-          console.log(nextColumn)
-          nextColumn.toggleVisibility(true)
+        // If there is no next column, no need to do anything
+        if (!nextColumn) {
+          return
         }
 
-        // ! This is a hacky solution, need to find a better way to do this
-        // const visibleColumns = table.getVisibleFlatColumns()
-        // console.log(
-        //   'file: index.tsx:67 ~ resizeObserver ~ visibleColumns:',
-        //   visibleColumns
-        // )
-
-        // const nextColumn = table.getAllColumns()[visibleColumns.length]
-        // console.log(
-        //   'file: index.tsx:73 ~ resizeObserver ~ nextColumn:',
-        //   nextColumn
-        // )
-
-        // const nextColumnWidth = nextColumn.getSize()
-
-        // const dataFromLocalStorage = JSON.parse(
-        //   localStorage.getItem(pathname) ?? '{}'
-        // )
-
-        // if (table.getTotalSize() + nextColumnWidth <= element.offsetWidth) {
-        //   // Check if data in local storage
-        //   if (nextColumn.id in dataFromLocalStorage) {
-        //     // If data in local storage, need to check if the column is visible
-        //     if (dataFromLocalStorage[nextColumn.id]) {
-        //       nextColumn.toggleVisibility(true)
-        //     } else {
-        //       // If data in local storage, but column is not visible, need to check next column
-        //       console.log('data in local storage, but column is not visible')
-        //     }
-        //     console.log('data in local storage')
-        //     // nextColumn.toggleVisibility(true)
-        //   } else {
-        //     // If no data in local storage, need to show the column
-        //     console.log('no data in local storage, need to show')
-        //     nextColumn.toggleVisibility(true)
-        //   }
-        // }
+        // If there is a next column, check if it fits in the table
+        if (
+          table.getTotalSize() + nextColumn.getSize() <=
+          element.offsetWidth
+        ) {
+          nextColumn.toggleVisibility(true)
+        }
       }
     })
 
@@ -126,6 +91,33 @@ export const CustomTable: React.FC<CustomTableProps> = ({
       handleHide()
     }
   }, [element, element?.offsetWidth, element?.scrollWidth, handleHide, table])
+
+  const findNextColumnToShow = () => {
+    // State of columns from local storage
+    const dataFromLocalStorage = JSON.parse(
+      localStorage.getItem(pathname) ?? '{}'
+    )
+
+    const allColumns = table.getAllColumns()
+
+    // Loop over all columns except the first and last one
+    for (let i = 1; i < allColumns.length - 1; i++) {
+      // If column is visible, skip it
+      if (allColumns[i].getIsVisible()) {
+        continue
+      }
+      // If column is not visible and it's id is in local storage and it's value is false, skip it
+      if (
+        allColumns[i].id in dataFromLocalStorage &&
+        !dataFromLocalStorage[allColumns[i].id]
+      ) {
+        continue
+      }
+      // Return in all other cases
+      return allColumns[i]
+    }
+    return null
+  }
 
   return (
     <div
