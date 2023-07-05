@@ -5,9 +5,11 @@ import {
   ChevronsUpDown,
   Edit2,
   EyeOff,
+  MinusCircle,
   Moon,
   MoreHorizontal,
   Plus,
+  PlusCircle,
   Search,
   SlidersHorizontal,
   SortAsc,
@@ -36,4 +38,6 @@ export const Icons = {
   plus: Plus,
   search: Search,
   arrowDown: ChevronDown,
+  plusCircle: PlusCircle,
+  minusCircle: MinusCircle,
 }

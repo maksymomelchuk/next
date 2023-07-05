@@ -1,13 +1,14 @@
-import axios from "axios"
+import axios from 'axios'
 
 const realm = process.env.NEXT_PUBLIC_REALM!
 const client_id = process.env.NEXT_PUBLIC_REALM_CLIENT_ID!
 const url = process.env.NEXT_PUBLIC_KEYCLOAK_URL!
+const client_secret = process.env.NEXT_PUBLIC_REALM_CLIENT_SECRET!
 
 const refresh = (refresh_token: string) => {
   const config = new URLSearchParams({
     client_id,
-    grant_type: "refresh_token",
+    grant_type: 'refresh_token',
     refresh_token,
   })
   const data = axios.post(
@@ -15,7 +16,7 @@ const refresh = (refresh_token: string) => {
     config.toString(),
     {
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
     }
   )

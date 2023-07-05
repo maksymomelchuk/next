@@ -174,20 +174,53 @@ export const CustomTable: React.FC<CustomTableProps> = ({
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows.map((row) => (
-            <TableRow
-              key={row.id}
-              data-state={
-                (table.options.meta?.selectedRow[row.id] ||
-                  row.getIsSelected()) &&
-                'selected'
-              }
-            >
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
+            <React.Fragment key={row.id}>
+              <TableRow
+                key={row.id}
+                data-state={
+                  (table.options.meta?.selectedRow[row.id] ||
+                    row.getIsSelected()) &&
+                  'selected'
+                }
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+              {row.getIsExpanded() && (
+                <TableRow key={`${row.id}a`} className="w-full bg-white p-4">
+                  <TableCell colSpan={row.getVisibleCells().length}>
+                    <ul className="inline-block pl-6">
+                      {row.getAllCells().map((cell) => {
+                        const visibleCells = row
+                          .getVisibleCells()
+                          .map((cell) => cell.column.id)
+
+                        if (visibleCells.includes(cell.column.id)) {
+                          return null
+                        }
+
+                        return (
+                          <li className="p-2" key={cell.column.id + 'li'}>
+                            <span className="inline-block font-semibold capitalize">
+                              {cell.column.id}:
+                            </span>
+                            <span className="inline-block pl-2">
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </span>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </TableCell>
+                </TableRow>
+              )}
+            </React.Fragment>
           ))}
         </TableBody>
       </Table>

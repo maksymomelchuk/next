@@ -3,10 +3,12 @@
 import { ColumnDef } from '@tanstack/react-table'
 
 import { ILdb } from '@/types/ldb'
+import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/Table/ColumnHeader'
 import { EditableCell } from '@/components/Table/EditableCell'
 import { RowActions } from '@/components/Table/RowActions'
+import { Icons } from '@/components/icons'
 
 export const columns: ColumnDef<ILdb>[] = [
   {
@@ -31,20 +33,27 @@ export const columns: ColumnDef<ILdb>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  // {
-  //   id: 'expand',
-  //   cell: ({ row }) => (
-  //     <Checkbox
-  //       checked={row.getIsExpanded()}
-  //       onCheckedChange={(value) => row.toggleExpanded(!!value)}
-  //       aria-label="Select row"
-  //       className="translate-y-[2px]"
-  //     />
-  //   ),
-  //   size: 80,
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
+  {
+    id: 'expand',
+    cell: ({ row }) =>
+      row.getAllCells().length > row.getVisibleCells().length && (
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-auto border-none p-2"
+          onClick={() => row.toggleExpanded()}
+        >
+          {row.getIsExpanded() ? (
+            <Icons.minusCircle className="h-4 w-4 rounded-full bg-red-500 text-white" />
+          ) : (
+            <Icons.plusCircle className="h-4 w-4 rounded-full bg-green-500 text-white" />
+          )}
+        </Button>
+      ),
+    size: 40,
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: 'id',
     header: ({ column }) => (

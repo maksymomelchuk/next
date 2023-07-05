@@ -9,6 +9,7 @@ import Keycloak, {
 const realm = process.env.NEXT_PUBLIC_REALM!
 const clientId = process.env.NEXT_PUBLIC_REALM_CLIENT_ID!
 const url = process.env.NEXT_PUBLIC_KEYCLOAK_URL!
+const clientSecret = process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_SECRET!
 /**
  * KeycloakConfig configures the connection to the Keycloak server.
  */
