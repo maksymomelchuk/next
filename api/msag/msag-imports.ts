@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 
 import axiosInstance from '@/api/axiosInstance'
-import { IMsagImports, MsagImportsArrayType } from '@/types/msag'
+import { IMsagImports, MsagImportsArrayType } from '@/types/msag/msag-imports'
 
 const fetchSize = Number(process.env.NEXT_PUBLIC_FETCH_SIZE)
 
@@ -40,17 +40,6 @@ export const createMsagImports = async (data: Partial<IMsagImports>) => {
   const res = await axiosInstance.post(`/msag/imports`, data)
   console.log('Data after creating msag imports', res)
   return res
-}
-
-export const useFetchAllMsagRecords = () => {
-  return useQuery({
-    queryKey: ['msag-records'],
-    queryFn: async () => {
-      const { data } = await axiosInstance.get('/msag/records')
-      console.log('All msag records:', data)
-      return data
-    },
-  })
 }
 
 export const useFetchAllMsagRecordsHistory = () => {

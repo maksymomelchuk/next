@@ -1,13 +1,14 @@
 import { ColumnDef } from '@tanstack/react-table'
 
 import { IMsagImports } from '@/types/msag/msag-imports'
+import { ISoiImports } from '@/types/soi/soi-imports'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/Table/ColumnHeader'
 import { EditableCell } from '@/components/Table/EditableCell'
 import ExpandButton from '@/components/Table/ExpandButton'
 import { RowActions } from '@/components/Table/RowActions'
 
-export const columns: ColumnDef<IMsagImports>[] = [
+export const columns: ColumnDef<ISoiImports>[] = [
   {
     id: 'select',
     header: ({ table }) => (

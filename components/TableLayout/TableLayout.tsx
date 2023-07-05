@@ -14,7 +14,7 @@ import { Skeleton } from '../Skeleton/Skeleton'
 type TableLayoutProps<T> = {
   data: T[] | undefined
   table: Table<T>
-  children: ReactElement
+  children?: ReactElement
   openDialogue: boolean
   setOpenDialogue: React.Dispatch<React.SetStateAction<boolean>>
   fetchMoreOnBottomReached: (
@@ -56,12 +56,14 @@ export const TableLayout = <T,>({
                   <span className="hidden lg:block">Column search</span>
                 </Button>
                 <DataTableViewOptions table={table} />
-                <CreateRowDialogue
-                  openDialogue={openDialogue}
-                  setOpenDialogue={setOpenDialogue}
-                >
-                  {children}
-                </CreateRowDialogue>
+                {children && (
+                  <CreateRowDialogue
+                    openDialogue={openDialogue}
+                    setOpenDialogue={setOpenDialogue}
+                  >
+                    {children}
+                  </CreateRowDialogue>
+                )}
               </div>
             </div>
             <div className="rounded-md border" ref={componentRef}>

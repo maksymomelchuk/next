@@ -1,7 +1,5 @@
 import { z } from 'zod'
 
-import { UserType } from '@/types/generalApiTypes'
-
 export const LdbType = z.object({
   id: z.number(),
   // created_by: UserType,

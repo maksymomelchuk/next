@@ -1,13 +1,15 @@
+'use client'
+
 import { ColumnDef } from '@tanstack/react-table'
 
-import { IMsagImports } from '@/types/msag/msag-imports'
+import { IMsagRecords } from '@/types/msag/msag-records'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/Table/ColumnHeader'
 import { EditableCell } from '@/components/Table/EditableCell'
 import ExpandButton from '@/components/Table/ExpandButton'
 import { RowActions } from '@/components/Table/RowActions'
 
-export const columns: ColumnDef<IMsagImports>[] = [
+export const columns: ColumnDef<IMsagRecords>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -26,9 +28,7 @@ export const columns: ColumnDef<IMsagImports>[] = [
         className="translate-y-[2px]"
       />
     ),
-    meta: {
-      width: 10,
-    },
+    size: 80,
     enableSorting: false,
     enableHiding: false,
   },
@@ -48,32 +48,9 @@ export const columns: ColumnDef<IMsagImports>[] = [
       <DataTableColumnHeader column={column} title="Id" />
     ),
     cell: EditableCell,
+    size: 80,
     enableHiding: false,
     enableColumnFilter: false,
-    meta: {
-      width: 20,
-    },
-  },
-  {
-    accessorKey: 'file',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="File" />
-    ),
-    cell: EditableCell,
-  },
-  {
-    accessorKey: 'file_version',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="File version" />
-    ),
-    cell: EditableCell,
-  },
-  {
-    accessorKey: 'modified_human',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Modified human" />
-    ),
-    cell: EditableCell,
   },
   {
     accessorKey: 'nena_version',
@@ -81,18 +58,19 @@ export const columns: ColumnDef<IMsagImports>[] = [
       <DataTableColumnHeader column={column} title="NENA version" />
     ),
     cell: EditableCell,
+    size: 250,
   },
   {
-    accessorKey: 'size',
+    accessorKey: 'import_id',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Size" />
+      <DataTableColumnHeader column={column} title="Import Id" />
     ),
     cell: EditableCell,
   },
   {
-    accessorKey: 'size_human',
+    accessorKey: 'file_index',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Size human" />
+      <DataTableColumnHeader column={column} title="File index" />
     ),
     cell: EditableCell,
   },
@@ -104,46 +82,15 @@ export const columns: ColumnDef<IMsagImports>[] = [
     cell: EditableCell,
   },
   {
-    accessorKey: 'total_records',
+    accessorKey: 'parsed_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Total records" />
+      <DataTableColumnHeader column={column} title="Parsed At" />
     ),
     cell: EditableCell,
-  },
-  {
-    accessorKey: 'total_valid_records',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Total valid records" />
-    ),
-    cell: EditableCell,
-  },
-  {
-    accessorKey: 'total_error_records',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Total error records" />
-    ),
-    cell: EditableCell,
-  },
-  {
-    accessorKey: 'modified',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Modified" />
-    ),
-    cell: EditableCell,
-    meta: {
-      type: 'select',
-      options: [
-        { value: 'Yes', label: 'Yes' },
-        { value: 'No', label: 'No' },
-      ],
-    },
-    enableColumnFilter: false,
   },
   {
     id: 'actions',
     cell: ({ row, table }) => <RowActions row={row} table={table} />,
-    meta: {
-      width: 20,
-    },
+    size: 80,
   },
 ]

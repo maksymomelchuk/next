@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { useFetchAllMsagRecordsHistory } from '@/api/msag/msag'
+import { useFetchAllMsagRecordsHistory } from '@/api/msag/msag-imports'
 
 type MsagRecordsHistoryProps = {}
 

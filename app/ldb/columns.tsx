@@ -3,13 +3,11 @@
 import { ColumnDef } from '@tanstack/react-table'
 
 import { ILdb } from '@/types/ldb'
-import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/Table/ColumnHeader'
 import { EditableCell } from '@/components/Table/EditableCell'
 import ExpandButton from '@/components/Table/ExpandButton'
 import { RowActions } from '@/components/Table/RowActions'
-import { Icons } from '@/components/icons'
 
 export const columns: ColumnDef<ILdb>[] = [
   {

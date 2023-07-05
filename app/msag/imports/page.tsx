@@ -3,7 +3,10 @@
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { updateMsagImportsById, useFetchAllMsagImports } from '@/api/msag/msag'
+import {
+  updateMsagImportsById,
+  useFetchAllMsagImports,
+} from '@/api/msag/msag-imports'
 import { useInfinityScroll } from '@/hooks/useInfinityScroll'
 import { useTable } from '@/hooks/useTable'
 import { useToast } from '@/components/ui/use-toast'
@@ -58,9 +61,7 @@ const MsagImportsPage: React.FC<MsagImportsProps> = () => {
       openDialogue={openDialogue}
       fetchMoreOnBottomReached={fetchMoreOnBottomReached}
       tableContainerRef={tableContainerRef}
-    >
-      <MsagImportsForm setOpenDialogue={setOpenDialogue} />
-    </TableLayout>
+    />
   )
 }
 export default MsagImportsPage
