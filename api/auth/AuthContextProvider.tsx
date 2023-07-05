@@ -25,6 +25,7 @@ const keycloakConfig: KeycloakConfig = {
 const keycloakInitOptions: KeycloakInitOptions = {
   // Configure that Keycloak will check if a user is already authenticated (when opening the app or reloading the page). If not authenticated the user will be send to the login form. If already authenticated the webapp will open.
   onLoad: 'login-required',
+  // pkceMethod: 'S256',
 }
 
 // Create the Keycloak client instance

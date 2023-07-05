@@ -1,8 +1,6 @@
-'use client'
-
 import { ColumnDef } from '@tanstack/react-table'
 
-import { ILdb } from '@/types/ldb'
+import { IMsagImports } from '@/types/msag'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/Table/ColumnHeader'
@@ -11,7 +9,7 @@ import ExpandButton from '@/components/Table/ExpandButton'
 import { RowActions } from '@/components/Table/RowActions'
 import { Icons } from '@/components/icons'
 
-export const columns: ColumnDef<ILdb>[] = [
+export const columns: ColumnDef<IMsagImports>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -30,7 +28,9 @@ export const columns: ColumnDef<ILdb>[] = [
         className="translate-y-[2px]"
       />
     ),
-    size: 80,
+    meta: {
+      width: 10,
+    },
     enableSorting: false,
     enableHiding: false,
   },
@@ -50,57 +50,102 @@ export const columns: ColumnDef<ILdb>[] = [
       <DataTableColumnHeader column={column} title="Id" />
     ),
     cell: EditableCell,
-    size: 80,
     enableHiding: false,
     enableColumnFilter: false,
+    meta: {
+      width: 20,
+    },
   },
   {
-    accessorKey: 'data_provider_string',
+    accessorKey: 'file',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Data Provider" />
-    ),
-    cell: EditableCell,
-    size: 250,
-  },
-  {
-    accessorKey: 'provider_id',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Provider ID" />
+      <DataTableColumnHeader column={column} title="File" />
     ),
     cell: EditableCell,
   },
   {
-    accessorKey: 'provider_id_series',
+    accessorKey: 'file_version',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Provider ID Series" />
+      <DataTableColumnHeader column={column} title="File version" />
     ),
     cell: EditableCell,
   },
   {
-    accessorKey: 'type_of_provider',
+    accessorKey: 'modified_human',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Type of Provider" />
+      <DataTableColumnHeader column={column} title="Modified human" />
     ),
     cell: EditableCell,
   },
   {
-    accessorKey: 'language',
+    accessorKey: 'nena_version',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Language" />
+      <DataTableColumnHeader column={column} title="NENA version" />
     ),
     cell: EditableCell,
   },
   {
-    accessorKey: 'contact_uri',
+    accessorKey: 'size',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Contacts" />
+      <DataTableColumnHeader column={column} title="Size" />
     ),
     cell: EditableCell,
-    size: 130,
+  },
+  {
+    accessorKey: 'size_human',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Size human" />
+    ),
+    cell: EditableCell,
+  },
+  {
+    accessorKey: 'status_id',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status Id" />
+    ),
+    cell: EditableCell,
+  },
+  {
+    accessorKey: 'total_records',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Total records" />
+    ),
+    cell: EditableCell,
+  },
+  {
+    accessorKey: 'total_valid_records',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Total valid records" />
+    ),
+    cell: EditableCell,
+  },
+  {
+    accessorKey: 'total_error_records',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Total error records" />
+    ),
+    cell: EditableCell,
+  },
+  {
+    accessorKey: 'modified',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Modified" />
+    ),
+    cell: EditableCell,
+    meta: {
+      type: 'select',
+      options: [
+        { value: 'Yes', label: 'Yes' },
+        { value: 'No', label: 'No' },
+      ],
+    },
+    enableColumnFilter: false,
   },
   {
     id: 'actions',
     cell: ({ row, table }) => <RowActions row={row} table={table} />,
-    size: 80,
+    meta: {
+      width: 20,
+    },
   },
 ]
