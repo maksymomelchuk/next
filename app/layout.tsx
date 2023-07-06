@@ -2,6 +2,7 @@
 
 import '@/styles/globals.css'
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
@@ -33,6 +34,13 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   const [showMenu, setShowMenu] = useState(false)
 
+  const pathname = usePathname().split('/').splice(1)
+
+  const pathnameToShow =
+    pathname.length > 1
+      ? `${pathname[0].toUpperCase()} ${pathname[1]}`
+      : pathname.join('').toUpperCase()
+
   const toggleMenu = () => {
     setShowMenu(!showMenu)
   }
@@ -50,6 +58,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <AuthContextProvider>
                 <div className="relative flex min-h-screen flex-col">
+                  <title>{`${pathnameToShow || 'Main'} page`}</title>
                   <Header toggleMenu={toggleMenu} showMenu={showMenu} />
                   <SideNav showMenu={showMenu} toggleMenu={toggleMenu} />
                   <main className="flex-1">{children}</main>
