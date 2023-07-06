@@ -1,32 +1,26 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { updateSdpById, useFetchAllSdp } from '@/api/sdp/sdp'
+import { fetchAllSdp, updateSdpById } from '@/api/sdp/sdp'
+import { useFetchAll } from '@/hooks/useFetchAllData'
 import { useInfinityScroll } from '@/hooks/useInfinityScroll'
 import { useTable } from '@/hooks/useTable'
-import { useToast } from '@/components/ui/use-toast'
+import { useUpdateData } from '@/hooks/useUpdateData'
 import { TableLayout } from '@/components/TableLayout/TableLayout'
-import { columns } from '@/app/sdp/columns'
-import { SdpForm, sdpFormSchema } from '@/app/sdp/sdp-form'
+
+import { columns } from './columns'
+import { SdpForm, sdpFormSchema } from './sdp-form'
 
 const SdpPage = () => {
   const [openDialogue, setOpenDialogue] = useState(false)
-  // Toast
-  const { toast } = useToast()
-  // Query client
-  const queryClient = useQueryClient()
   // Fetch data
-  const { data, isFetching, fetchNextPage, isLoading } = useFetchAllSdp()
+  const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
+    ['sdp'],
+    fetchAllSdp
+  )
   // Update data
-  const { mutateAsync: updateSdpQuery } = useMutation({
-    mutationFn: updateSdpById,
-    onSuccess: (_, { id }) => {
-      queryClient.invalidateQueries(['sdp', id])
-      toast({ variant: 'success', description: 'Successfully changed' })
-    },
-  })
+  const { mutateAsync: updateSdpQuery } = useUpdateData(updateSdpById, ['sdp'])
 
   //we need a reference to the scrolling element for logic down below
   const tableContainerRef = React.useRef<HTMLDivElement>(null)

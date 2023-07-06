@@ -1,27 +1,15 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import axiosInstance from '@/api/axiosInstance'
 import { IMsagImports, MsagImportsArrayType } from '@/types/msag/msag-imports'
 
-const fetchSize = Number(process.env.NEXT_PUBLIC_FETCH_SIZE)
+export const fetchAllMsagImports = async (fetchSize: number, start: number) => {
+  const { data } = await axiosInstance.get(
+    `/msag/imports?limit=${fetchSize}&offset=${start}&order_by=id`
+  )
+  const parsedData = MsagImportsArrayType.parse(data)
 
-export const useFetchAllMsagImports = () => {
-  return useInfiniteQuery({
-    queryKey: ['msag-imports'],
-    queryFn: async ({ pageParam = 0 }) => {
-      const start = pageParam * fetchSize
-      const { data } = await axiosInstance.get(
-        `/msag/imports?limit=${fetchSize}&offset=${start}&order_by=id`
-      )
-      console.log('All msag imports:', data)
-
-      const parsedData = MsagImportsArrayType.parse(data)
-      return parsedData
-    },
-    getNextPageParam: (_lastGroup, groups) => groups.length,
-    keepPreviousData: true,
-    refetchOnWindowFocus: false,
-  })
+  return parsedData
 }
 
 export const updateMsagImportsById = async ({

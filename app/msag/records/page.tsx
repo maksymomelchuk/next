@@ -1,15 +1,15 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import {
+  fetchAllMsagRecords,
   updateMsagRecordsById,
-  useFetchAllMsagRecords,
 } from '@/api/msag/msag-records'
+import { useFetchAll } from '@/hooks/useFetchAllData'
 import { useInfinityScroll } from '@/hooks/useInfinityScroll'
 import { useTable } from '@/hooks/useTable'
-import { useToast } from '@/components/ui/use-toast'
+import { useUpdateData } from '@/hooks/useUpdateData'
 import { TableLayout } from '@/components/TableLayout/TableLayout'
 
 import { columns } from './columns'
@@ -19,22 +19,17 @@ type MsagRecordsProps = {}
 
 const MsagRecords: React.FC<MsagRecordsProps> = () => {
   const [openDialogue, setOpenDialogue] = useState(false)
-  // Toast
-  const { toast } = useToast()
-  // Query client
-  const queryClient = useQueryClient()
   // Fetch data
-  const { data, isFetching, fetchNextPage, isLoading } =
-    useFetchAllMsagRecords()
+  const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
+    ['msag-records'],
+    fetchAllMsagRecords
+  )
 
   // Update data
-  const { mutateAsync: updateMsagRecordsQuery } = useMutation({
-    mutationFn: updateMsagRecordsById,
-    onSuccess: (_, { id }) => {
-      queryClient.invalidateQueries(['ldb', id])
-      toast({ variant: 'success', description: 'Successfully changed' })
-    },
-  })
+  const { mutateAsync: updateMsagRecordsQuery } = useUpdateData(
+    updateMsagRecordsById,
+    ['msag-records']
+  )
 
   //we need a reference to the scrolling element for logic down below
   const tableContainerRef = React.useRef<HTMLDivElement>(null)

@@ -1,31 +1,16 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import axiosInstance from '@/api/axiosInstance'
-import {
-  ISdpOriginal,
-  ISdpTransformed,
-  SdpArrayType,
-  SdpTransformedType,
-} from '@/types/sdp'
+import { ISdpOriginal, ISdpTransformed, SdpTransformedType } from '@/types/sdp'
 
-const fetchSize = Number(process.env.NEXT_PUBLIC_FETCH_SIZE)
+export const fetchAllSdp = async (fetchSize: number, start: number) => {
+  const { data } = await axiosInstance.get<ISdpOriginal[]>(
+    `/sdp?limit=${fetchSize}&offset=${start}&order_by=id`
+  )
 
-export const useFetchAllSdp = () => {
-  return useInfiniteQuery({
-    queryKey: ['sdp'],
-    queryFn: async ({ pageParam = 0 }) => {
-      const start = pageParam * fetchSize
-      const { data } = await axiosInstance.get(
-        `/sdp?limit=${fetchSize}&offset=${start}&order_by=id`
-      )
-      console.log('All sdp:', data)
-      const parsedData = SdpArrayType.parse(data)
-      return parsedData
-    },
-    getNextPageParam: (_lastGroup, groups) => groups.length,
-    keepPreviousData: true,
-    refetchOnWindowFocus: false,
-  })
+  const parsedData = data.map((sdp) => SdpTransformedType.parse(sdp))
+
+  return parsedData
 }
 
 export const useFetchSdpById = (id: number) => {
@@ -49,7 +34,7 @@ export const updateSdpById = async ({
 }) => {
   const dataToSend = {
     ...data,
-    enabled: 'Yes' ? 1 : 0,
+    enabled: data.enabled === 'Yes' ? 1 : 0,
   }
   const res = await axiosInstance.put(`/sdp/${id}`, dataToSend)
   console.log('Data after updating sdp', res)

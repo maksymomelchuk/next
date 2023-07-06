@@ -1,27 +1,13 @@
-import { useInfiniteQuery } from '@tanstack/react-query'
-
 import axiosInstance from '@/api/axiosInstance'
 import { ISoiImports, SoiImportsArrayType } from '@/types/soi/soi-imports'
 
-const fetchSize = Number(process.env.NEXT_PUBLIC_FETCH_SIZE)
+export const fetchAllSoiImports = async (fetchSize: number, start: number) => {
+  const { data } = await axiosInstance.get(
+    `/soi/imports?limit=${fetchSize}&offset=${start}&order_by=id`
+  )
+  const parsedData = SoiImportsArrayType.parse(data)
 
-export const useFetchAllSoiImports = () => {
-  return useInfiniteQuery({
-    queryKey: ['soi-imports'],
-    queryFn: async ({ pageParam = 0 }) => {
-      const start = pageParam * fetchSize
-      const { data } = await axiosInstance.get(
-        `/soi/imports?limit=${fetchSize}&offset=${start}&order_by=id`
-      )
-      console.log('All soi imports:', data)
-
-      const parsedData = SoiImportsArrayType.parse(data)
-      return parsedData
-    },
-    getNextPageParam: (_lastGroup, groups) => groups.length,
-    keepPreviousData: true,
-    refetchOnWindowFocus: false,
-  })
+  return parsedData
 }
 
 export const updateSoiImportsById = async ({

@@ -73,7 +73,7 @@ export const SdpForm: React.FC<SdpFormProps> = ({ setOpenDialogue }) => {
 
   const handleSubmit = (values: z.infer<typeof sdpFormSchema>) => {
     console.log('values -->', values)
-    createSdpQuery({ ...values, enabled: 'yes' ? 1 : 0 })
+    createSdpQuery({ ...values, enabled: values.enabled === 'yes' ? 1 : 0 })
   }
 
   return (

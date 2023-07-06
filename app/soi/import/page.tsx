@@ -1,15 +1,12 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import {
-  updateSoiImportsById,
-  useFetchAllSoiImports,
-} from '@/api/soi/soi-imports'
+import { fetchAllSoiImports, updateSoiImportsById } from '@/api/soi/soi-imports'
+import { useFetchAll } from '@/hooks/useFetchAllData'
 import { useInfinityScroll } from '@/hooks/useInfinityScroll'
 import { useTable } from '@/hooks/useTable'
-import { useToast } from '@/components/ui/use-toast'
+import { useUpdateData } from '@/hooks/useUpdateData'
 import { TableLayout } from '@/components/TableLayout/TableLayout'
 
 import { columns } from './columns'
@@ -19,21 +16,17 @@ type SoiImportProps = {}
 
 const SoiImport: React.FC<SoiImportProps> = () => {
   const [openDialogue, setOpenDialogue] = useState(false)
-  // Toast
-  const { toast } = useToast()
-  // Query client
-  const queryClient = useQueryClient()
   // Fetch data
-  const { data, isFetching, fetchNextPage, isLoading } = useFetchAllSoiImports()
+  const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
+    ['soi-imports'],
+    fetchAllSoiImports
+  )
 
   // Update data
-  const { mutateAsync: updateSoiImportsQuery } = useMutation({
-    mutationFn: updateSoiImportsById,
-    onSuccess: (_, { id }) => {
-      queryClient.invalidateQueries(['ldb', id])
-      toast({ variant: 'success', description: 'Successfully changed' })
-    },
-  })
+  const { mutateAsync: updateSoiImportsQuery } = useUpdateData(
+    updateSoiImportsById,
+    ['soi-imports']
+  )
 
   //we need a reference to the scrolling element for logic down below
   const tableContainerRef = React.useRef<HTMLDivElement>(null)
