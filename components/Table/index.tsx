@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { findNextColumnToShow } from '@/utils/findNextColumnToShow'
 import { Table as TableProps, flexRender } from '@tanstack/react-table'
-import { useVirtual } from 'react-virtual'
+import { useVirtual } from '@tanstack/react-virtual'
 
 import {
   Table,
