@@ -20,9 +20,9 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      // refetchOnMount: false,
-      // refetchOnReconnect: false,
-      retry: 3,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: 1,
     },
   },
 })

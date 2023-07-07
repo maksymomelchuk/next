@@ -113,6 +113,7 @@ export const useTable = <T,>(
         // data_provider_string: false,
       },
     },
+    // debugTable: true,
   })
 
   return table

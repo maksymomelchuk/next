@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { findNextColumnToShow } from '@/utils/findNextColumnToShow'
 import { Table as TableProps, flexRender } from '@tanstack/react-table'
+import { useVirtual } from 'react-virtual'
 
 import {
   Table,
@@ -93,6 +94,21 @@ export const CustomTable: React.FC<CustomTableProps> = ({
     }
   }, [element, element?.offsetWidth, element?.scrollWidth, handleHide, table])
 
+  const { rows } = table.getRowModel()
+
+  //Virtualizing is optional, but might be necessary if we are going to potentially have hundreds or thousands of rows
+  const rowVirtualizer = useVirtual({
+    parentRef: tableContainerRef,
+    size: rows.length,
+    overscan: 10,
+  })
+  const { virtualItems: virtualRows, totalSize } = rowVirtualizer
+  const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0
+  const paddingBottom =
+    virtualRows.length > 0
+      ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
+      : 0
+
   return (
     <div
       className="h-[400px] w-full overflow-y-auto overflow-x-auto"
@@ -101,7 +117,7 @@ export const CustomTable: React.FC<CustomTableProps> = ({
       }}
       ref={tableContainerRef}
     >
-      <Table className="relative">
+      <Table className="relative table">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -146,56 +162,73 @@ export const CustomTable: React.FC<CustomTableProps> = ({
             </TableRow>
           ))}
         </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <React.Fragment key={row.id}>
-              <TableRow
-                key={row.id}
-                data-state={
-                  (table.options.meta?.selectedRow[row.id] ||
-                    row.getIsSelected()) &&
-                  'selected'
-                }
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-              {row.getIsExpanded() && (
-                <TableRow key={`${row.id}a`} className="w-full bg-white p-4">
-                  <TableCell colSpan={row.getVisibleCells().length}>
-                    <ul className="inline-block pl-6">
-                      {row.getAllCells().map((cell) => {
-                        const visibleCells = row
-                          .getVisibleCells()
-                          .map((cell) => cell.column.id)
-
-                        if (visibleCells.includes(cell.column.id)) {
-                          return null
-                        }
-
-                        return (
-                          <li className="p-2" key={cell.column.id + 'li'}>
-                            <span className="inline-block font-semibold capitalize">
-                              {cell.column.id}:
-                            </span>
-                            <span className="inline-block pl-2">
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
-                              )}
-                            </span>
-                          </li>
-                        )
-                      })}
-                    </ul>
-                  </TableCell>
+        <TableBody className="table-row-group">
+          {paddingTop > 0 && (
+            <tr>
+              <td style={{ height: `${paddingTop}px` }} />
+            </tr>
+          )}
+          {virtualRows.map((virtualRow) => {
+            const row = rows[virtualRow.index]
+            return (
+              <React.Fragment key={row.id}>
+                <TableRow
+                  className="table-row"
+                  key={row.id}
+                  data-state={
+                    (table.options.meta?.selectedRow[row.id] ||
+                      row.getIsSelected()) &&
+                    'selected'
+                  }
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell className="table-cell" key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              )}
-            </React.Fragment>
-          ))}
+                {row.getIsExpanded() && (
+                  <TableRow key={`${row.id}a`} className="w-full bg-white p-4">
+                    <TableCell colSpan={row.getVisibleCells().length}>
+                      <ul className="inline-block pl-6">
+                        {row.getAllCells().map((cell) => {
+                          const visibleCells = row
+                            .getVisibleCells()
+                            .map((cell) => cell.column.id)
+
+                          if (visibleCells.includes(cell.column.id)) {
+                            return null
+                          }
+
+                          return (
+                            <li className="p-2" key={cell.column.id + 'li'}>
+                              <span className="inline-block font-semibold capitalize">
+                                {cell.column.id}:
+                              </span>
+                              <span className="inline-block pl-2">
+                                {flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext()
+                                )}
+                              </span>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </React.Fragment>
+            )
+          })}
+          {paddingBottom > 0 && (
+            <tr>
+              <td style={{ height: `${paddingBottom}px` }} />
+            </tr>
+          )}
         </TableBody>
       </Table>
     </div>

@@ -6,10 +6,9 @@ import Keycloak, {
   type KeycloakInitOptions,
 } from 'keycloak-js'
 
-const realm = process.env.NEXT_PUBLIC_REALM!
-const clientId = process.env.NEXT_PUBLIC_REALM_CLIENT_ID!
+const realm = process.env.NEXT_PUBLIC_KEYCLOAK_REALM!
+const clientId = process.env.NEXT_PUBLIC_KEYCLOAK_REALM_CLIENT_ID!
 const url = process.env.NEXT_PUBLIC_KEYCLOAK_URL!
-const clientSecret = process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_SECRET!
 /**
  * KeycloakConfig configures the connection to the Keycloak server.
  */
@@ -25,7 +24,7 @@ const keycloakConfig: KeycloakConfig = {
 const keycloakInitOptions: KeycloakInitOptions = {
   // Configure that Keycloak will check if a user is already authenticated (when opening the app or reloading the page). If not authenticated the user will be send to the login form. If already authenticated the webapp will open.
   onLoad: 'login-required',
-  // pkceMethod: 'S256',
+  pkceMethod: 'S256',
 }
 
 // Create the Keycloak client instance
@@ -118,6 +117,15 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
         }
         console.log('user already authenticated')
         setAuthenticated(isAuthenticatedResponse)
+
+        const token = keycloak.token
+        const refreshToken = keycloak.refreshToken
+
+        if (token && refreshToken) {
+          setToken(token)
+          localStorage.setItem('token', token)
+          localStorage.setItem('refreshToken', refreshToken)
+        }
       } catch {
         console.log('error initializing Keycloak')
         setAuthenticated(false)
@@ -135,15 +143,6 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
      */
     async function loadProfile() {
       try {
-        const token = keycloak.token
-        const refreshToken = keycloak.refreshToken
-
-        if (token && refreshToken) {
-          setToken(token)
-          localStorage.setItem('token', token)
-          localStorage.setItem('refreshToken', refreshToken)
-        }
-
         const profile = await keycloak.loadUserProfile()
 
         if (profile.firstName) {

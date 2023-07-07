@@ -41,6 +41,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.0",
     "react-to-print": "^2.14.13",
+    "react-virtual": "^2.10.4",
     "sharp": "^0.31.3",
     "tailwind-merge": "^1.13.2",
     "tailwindcss-animate": "^1.0.6",

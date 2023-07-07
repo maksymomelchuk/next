@@ -1,9 +1,8 @@
 import axios from 'axios'
 
-const realm = process.env.NEXT_PUBLIC_REALM!
-const client_id = process.env.NEXT_PUBLIC_REALM_CLIENT_ID!
+const realm = process.env.NEXT_PUBLIC_KEYCLOAK_REALM!
+const client_id = process.env.NEXT_PUBLIC_KEYCLOAK_REALM_CLIENT_ID!
 const url = process.env.NEXT_PUBLIC_KEYCLOAK_URL!
-const client_secret = process.env.NEXT_PUBLIC_REALM_CLIENT_SECRET!
 
 const refresh = (refresh_token: string) => {
   const config = new URLSearchParams({

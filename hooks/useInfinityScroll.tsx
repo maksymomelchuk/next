@@ -14,16 +14,14 @@ export const useInfinityScroll = <T,>({
   fetchNextPage,
   tableContainerRef,
 }: useInfinityScrollProps<T>) => {
-  // infinity scroll
   const flatData = React.useMemo(
     () => data?.pages?.flatMap((page) => page) ?? [],
     [data]
   )
-
-  const totalDBRowCount = 32
-  // const totalDBRowCount = data?.pages?.[0]?.meta?.totalRowCount ?? 32
+  const totalDBRowCount = 100
   const totalFetched = flatData.length
-  //called on scroll and possibly on mount to fetch more data as the user scrolls and reaches bottom of table
+  const [isFetchingData, setIsFetchingData] = React.useState(false) // Flag to track if data is currently being fetched
+
   const fetchMoreOnBottomReached = React.useCallback(
     (containerRefElement?: HTMLDivElement | null) => {
       if (containerRefElement) {
@@ -34,27 +32,26 @@ export const useInfinityScroll = <T,>({
           return
         }
 
-        //once the user has scrolled within 300px of the bottom of the table, fetch more data if there is any
-        if (
-          scrollHeight - scrollTop - clientHeight < 100 &&
-          !isFetching &&
-          totalFetched < totalDBRowCount
-        ) {
+        if (result < 300 && !isFetchingData && totalFetched < totalDBRowCount) {
+          setIsFetchingData(true) // Set the flag to indicate that data fetching is in progress
           fetchNextPage()
         }
       }
     },
-    [fetchNextPage, isFetching, totalFetched, totalDBRowCount]
+    [fetchNextPage, isFetchingData, totalFetched, totalDBRowCount]
   )
 
-  //a check on mount and after a fetch to see if the table is already scrolled to the bottom and immediately needs to fetch more data
   React.useEffect(() => {
     if (!isFetching) {
-      return
+      setIsFetchingData(false) // Reset the flag when isFetching becomes false
     }
-    fetchMoreOnBottomReached(tableContainerRef.current)
-  }, [fetchMoreOnBottomReached, isFetching, tableContainerRef])
-  //
+  }, [isFetching])
+
+  React.useEffect(() => {
+    if (!isFetchingData) {
+      fetchMoreOnBottomReached(tableContainerRef.current)
+    }
+  }, [fetchMoreOnBottomReached, isFetchingData, tableContainerRef])
 
   return { flatData, fetchMoreOnBottomReached }
 }
