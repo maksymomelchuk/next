@@ -35,6 +35,8 @@ export const SdpOriginalType = z.object({
   updated_at: z.union([z.string(), z.null()]),
   // updated_by: z.union([UserType, z.null()]),
   users: z.array(UserType),
+  total_files: z.number(),
+  total_records: z.number(),
 })
 
 export const SdpTransformedType = SdpOriginalType.transform((sdp) => ({

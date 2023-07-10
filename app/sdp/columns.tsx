@@ -73,6 +73,20 @@ export const columns: ColumnDef<ISdpTransformed>[] = [
     enableColumnFilter: false,
   },
   {
+    accessorKey: 'total_files',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Total files" />
+    ),
+    cell: EditableCell,
+  },
+  {
+    accessorKey: 'total_records',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Total records" />
+    ),
+    cell: EditableCell,
+  },
+  {
     id: 'actions',
     cell: ({ row, table }) => <RowActions row={row} table={table} />,
     meta: {

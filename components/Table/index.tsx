@@ -170,10 +170,15 @@ export const CustomTable: React.FC<CustomTableProps> = ({
           )}
           {virtualRows.map((virtualRow) => {
             const row = rows[virtualRow.index]
+
             return (
               <React.Fragment key={row.id}>
                 <TableRow
-                  className="table-row"
+                  className={`${
+                    pathname === '/sdp' && row.original.enabled === 'No'
+                      ? 'strikethrough'
+                      : ''
+                  } table-row`}
                   key={row.id}
                   data-state={
                     (table.options.meta?.selectedRow[row.id] ||
