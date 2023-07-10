@@ -52,8 +52,8 @@ interface AuthContextValues {
   firstName: string
   token: string
   profile: IAuth | null
-  permissions: Partial<PermissionsType> | null
-  roles: Partial<RolesType> | null
+  permissions: string[] | null
+  roles: string[] | null
   userType: string
 }
 
@@ -101,9 +101,8 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
   const [token, setToken] = useState('')
   const [profile, setProfile] = useState<IAuth | null>(null)
   const [firstName, setFirstName] = useState('')
-  const [permissions, setPermissions] =
-    useState<Partial<PermissionsType> | null>(null)
-  const [roles, setRoles] = useState<Partial<RolesType> | null>(null)
+  const [permissions, setPermissions] = useState<string[] | null>(null)
+  const [roles, setRoles] = useState<string[] | null>(null)
   const [userType, setUserType] = useState('')
 
   const logout = () => {
@@ -159,10 +158,11 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
         const profile = await fetchUserProfile()
 
         if (profile) {
+          const normalizedRoles = profile.roles.map((p) => p?.toLowerCase())
           setProfile(profile)
           setFirstName(profile['first_name'])
           setPermissions(profile.permissions)
-          setRoles(profile.roles)
+          setRoles(['home', ...normalizedRoles])
           setUserType(profile.type)
         }
       } catch {

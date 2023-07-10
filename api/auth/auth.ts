@@ -1,5 +1,3 @@
-import { useQuery } from '@tanstack/react-query'
-
 import axiosInstance from '@/api/axiosInstance'
 import { IAuth } from '@/types/auth'
 
@@ -25,17 +23,6 @@ export const fetchUserProfile = async () => {
 //     queryFn: async () => {
 //       const { data } = await axiosInstance.get<IAuth>(`/auth/users/${id}`)
 //       console.log('User by id:', data)
-//       return data
-//     },
-//   })
-// }
-
-// export const useFetchUserPermissions = () => {
-//   return useQuery({
-//     queryKey: ['users'],
-//     queryFn: async () => {
-//       const { data } = await axiosInstance.get('/auth/permissions')
-//       console.log('User permissions:', data)
 //       return data
 //     },
 //   })

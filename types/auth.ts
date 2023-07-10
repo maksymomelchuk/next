@@ -1,3 +1,5 @@
+import { z } from 'zod'
+
 export type PermissionsType = [
   'Auth@CreateUser',
   'Auth@ListUsers',
@@ -35,15 +37,17 @@ export type PermissionsType = [
 
 export type RolesType = ['Auth', 'Ldb', 'Msag', 'Sdp', 'Soi']
 
-export interface IAuth {
-  created_at: Date
-  email: string
-  enabled: number
-  first_name: string
-  id: number
-  last_name: string
-  permissions: Partial<PermissionsType>
-  roles: Partial<RolesType>
-  type: string
-  updated_at: Date
-}
+export const AuthType = z.object({
+  created_at: z.string(),
+  email: z.string(),
+  enabled: z.number(),
+  first_name: z.string(),
+  id: z.number(),
+  last_name: z.string(),
+  permissions: z.array(z.string()),
+  roles: z.array(z.string()),
+  type: z.string(),
+  updated_at: z.string(),
+})
+
+export interface IAuth extends z.infer<typeof AuthType> {}

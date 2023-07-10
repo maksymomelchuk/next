@@ -1,17 +1,6 @@
 'use client'
 
-import { useContext } from 'react'
-import Link from 'next/link'
-
-import { AuthContext } from '@/api/auth/AuthContextProvider'
-import { siteConfig } from '@/config/site'
-import { buttonVariants } from '@/components/ui/button'
-
 export default function IndexPage() {
-  const authContext = useContext(AuthContext)
-
-  // console.log('access --> ', authContext.hasRole('offline_access'))
-
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="flex max-w-[980px] flex-col items-start gap-2">
@@ -24,7 +13,7 @@ export default function IndexPage() {
           into your apps. Free. Open Source. And Next.js 13 Ready.
         </p>
       </div>
-      <div className="flex gap-4">
+      {/* <div className="flex gap-4">
         <Link
           href={siteConfig.links.docs}
           target="_blank"
@@ -41,7 +30,7 @@ export default function IndexPage() {
         >
           GitHub
         </Link>
-      </div>
+      </div> */}
     </section>
   )
 }
