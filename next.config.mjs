@@ -7,7 +7,7 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
-  // output: 'export',
+  output: 'export',
   images: {
     formats: ['image/avif', 'image/webp'],
   },
