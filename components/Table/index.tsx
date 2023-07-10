@@ -195,6 +195,7 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                     </TableCell>
                   ))}
                 </TableRow>
+                {/* Expandable data in additional row*/}
                 {row.getIsExpanded() && (
                   <TableRow key={`${row.id}a`} className="w-full bg-white p-4">
                     <TableCell colSpan={row.getVisibleCells().length}>

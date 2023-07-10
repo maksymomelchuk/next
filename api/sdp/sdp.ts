@@ -7,7 +7,6 @@ export const fetchAllSdp = async (fetchSize: number, start: number) => {
   const { data } = await axiosInstance.get<ISdpOriginal[]>(
     `/sdp?limit=${fetchSize}&offset=${start}&order_by=id`
   )
-  console.log('file: sdp.ts:8 ~ fetchAllSdp ~ data:', data)
 
   const parsedData = data.map((sdp) => SdpTransformedType.parse(sdp))
 
