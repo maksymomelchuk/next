@@ -39,7 +39,7 @@ export type RolesType = ['Auth', 'Ldb', 'Msag', 'Sdp', 'Soi']
 
 export const AuthType = z.object({
   created_at: z.string(),
-  email: z.string(),
+  email: z.string().optional(),
   enabled: z.number(),
   first_name: z.string(),
   id: z.number(),

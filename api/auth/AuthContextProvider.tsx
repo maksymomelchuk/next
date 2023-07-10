@@ -6,7 +6,7 @@ import Keycloak, {
   type KeycloakInitOptions,
 } from 'keycloak-js'
 
-import { IAuth, PermissionsType, RolesType } from '@/types/auth'
+import { IAuth } from '@/types/auth'
 
 import { fetchUserProfile } from './auth'
 

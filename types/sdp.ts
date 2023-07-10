@@ -34,7 +34,7 @@ export const SdpOriginalType = z.object({
   // statistics: StatisticsType,
   updated_at: z.union([z.string(), z.null()]),
   // updated_by: z.union([UserType, z.null()]),
-  users: z.array(UserType),
+  users: z.array(UserType).optional(),
   total_files: z.number(),
   total_records: z.number(),
 })
