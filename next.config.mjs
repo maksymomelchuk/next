@@ -8,9 +8,7 @@ const nextConfig = {
     appDir: true,
   },
   output: 'export',
-  images: {
-    formats: ['image/avif', 'image/webp'],
-  },
+  images: { unoptimized: true },
   basePath,
 }
 
