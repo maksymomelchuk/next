@@ -18,7 +18,7 @@ export const UserInfo: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2">
-      <h1>Welcome {authContext.username || 'Guest'}!</h1>
+      <h1>Welcome {authContext.firstName || 'Guest'}!</h1>
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button variant="outlineNav">Logout</Button>

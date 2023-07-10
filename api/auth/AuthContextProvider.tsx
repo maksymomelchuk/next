@@ -6,6 +6,10 @@ import Keycloak, {
   type KeycloakInitOptions,
 } from 'keycloak-js'
 
+import { IAuth, PermissionsType, RolesType } from '@/types/auth'
+
+import { fetchUserProfile } from './auth'
+
 const realm = process.env.NEXT_PUBLIC_KEYCLOAK_REALM!
 const clientId = process.env.NEXT_PUBLIC_KEYCLOAK_REALM_CLIENT_ID!
 const url = process.env.NEXT_PUBLIC_KEYCLOAK_URL!
@@ -45,9 +49,12 @@ interface AuthContextValues {
    */
   isAuthenticated: boolean
   logout: () => void
-  username: string
-  hasRole: (role: string) => boolean
+  firstName: string
   token: string
+  profile: IAuth | null
+  permissions: Partial<PermissionsType> | null
+  roles: Partial<RolesType> | null
+  userType: string
 }
 
 /**
@@ -56,9 +63,12 @@ interface AuthContextValues {
 const defaultAuthContextValues: AuthContextValues = {
   isAuthenticated: false,
   logout: () => {},
-  username: '',
-  hasRole: (role) => false,
+  firstName: '',
   token: '',
+  profile: null,
+  permissions: null,
+  roles: null,
+  userType: '',
 }
 
 /**
@@ -88,16 +98,19 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
 
   // Create the local state in which we will keep track if a user is authenticated
   const [isAuthenticated, setAuthenticated] = useState<boolean>(false)
-  const [username, setUsername] = useState<string>('')
   const [token, setToken] = useState('')
+  const [profile, setProfile] = useState<IAuth | null>(null)
+  const [firstName, setFirstName] = useState('')
+  const [permissions, setPermissions] =
+    useState<Partial<PermissionsType> | null>(null)
+  const [roles, setRoles] = useState<Partial<RolesType> | null>(null)
+  const [userType, setUserType] = useState('')
 
   const logout = () => {
     void keycloak.logout()
     localStorage.removeItem('token')
     localStorage.removeItem('refreshToken')
   }
-
-  const hasRole = (role: string) => keycloak.hasRealmRole(role)
 
   useEffect(() => {
     /**
@@ -113,11 +126,9 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
           console.log(
             'user is not yet authenticated. forwarding user to login.'
           )
+
           void keycloak.login()
         }
-        console.log('user already authenticated')
-        setAuthenticated(isAuthenticatedResponse)
-
         const token = keycloak.token
         const refreshToken = keycloak.refreshToken
 
@@ -126,6 +137,8 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
           localStorage.setItem('token', token)
           localStorage.setItem('refreshToken', refreshToken)
         }
+        console.log('user already authenticated')
+        setAuthenticated(isAuthenticatedResponse)
       } catch {
         console.log('error initializing Keycloak')
         setAuthenticated(false)
@@ -143,12 +156,14 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
      */
     async function loadProfile() {
       try {
-        const profile = await keycloak.loadUserProfile()
+        const profile = await fetchUserProfile()
 
-        if (profile.firstName) {
-          setUsername(profile.firstName)
-        } else if (profile.username) {
-          setUsername(profile.username)
+        if (profile) {
+          setProfile(profile)
+          setFirstName(profile['first_name'])
+          setPermissions(profile.permissions)
+          setRoles(profile.roles)
+          setUserType(profile.type)
         }
       } catch {
         console.log('error trying to load the user profile')
@@ -163,9 +178,18 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, logout, username, hasRole, token }}
+      value={{
+        isAuthenticated,
+        logout,
+        firstName,
+        token,
+        profile,
+        permissions,
+        roles,
+        userType,
+      }}
     >
-      {props.children}
+      {isAuthenticated ? props.children : null}
     </AuthContext.Provider>
   )
 }

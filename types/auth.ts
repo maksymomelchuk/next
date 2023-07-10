@@ -1,4 +1,4 @@
-type Permissions = [
+export type PermissionsType = [
   'Auth@CreateUser',
   'Auth@ListUsers',
   'Auth@UpdateUser',
@@ -33,7 +33,7 @@ type Permissions = [
   'Soi@UploadFile'
 ]
 
-type Roles = ['Auth', 'Ldb', 'Msag', 'Sdp', 'Soi']
+export type RolesType = ['Auth', 'Ldb', 'Msag', 'Sdp', 'Soi']
 
 export interface IAuth {
   created_at: Date
@@ -42,8 +42,8 @@ export interface IAuth {
   first_name: string
   id: number
   last_name: string
-  permissions: Partial<Permissions>
-  roles: Partial<Roles>
+  permissions: Partial<PermissionsType>
+  roles: Partial<RolesType>
   type: string
   updated_at: Date
 }
