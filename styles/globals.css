@@ -101,6 +101,6 @@ tr.strikethrough td:before {
   position: absolute;
   top: 50%;
   left: 0;
-  border-bottom: 1px solid #111;
+  border-bottom: 1px solid hsl(var(--accent));
   width: 100%;
 }

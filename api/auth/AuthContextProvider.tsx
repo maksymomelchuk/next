@@ -13,6 +13,8 @@ import { fetchUserProfile } from './auth'
 const realm = process.env.NEXT_PUBLIC_KEYCLOAK_REALM!
 const clientId = process.env.NEXT_PUBLIC_KEYCLOAK_REALM_CLIENT_ID!
 const url = process.env.NEXT_PUBLIC_KEYCLOAK_URL!
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!
+console.log({ realm, clientId, url, baseUrl })
 /**
  * KeycloakConfig configures the connection to the Keycloak server.
  */
