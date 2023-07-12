@@ -128,15 +128,16 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                     header.getSize() !== 150
                       ? `max-w-[${header.getSize()}px]`
                       : ''
-                  } bg-muted sticky top-0 z-10`}
+                  } bg-muted sticky top-0 z-10 border-x`}
+                  colSpan={header.colSpan}
                 >
                   {header.isPlaceholder ? null : (
                     <div className="flex flex-col gap-3">
                       <div
                         {...{
                           className: header.column.getCanSort()
-                            ? 'select-none flex'
-                            : 'flex',
+                            ? 'select-none flex justify-center'
+                            : 'flex justify-center',
                         }}
                       >
                         {flexRender(
