@@ -8,19 +8,23 @@ interface useInfinityScrollProps<T> {
   tableContainerRef: React.RefObject<HTMLDivElement>
 }
 
+const fetchSize = process.env.NEXT_PUBLIC_FETCH_SIZE
+
 export const useInfinityScroll = <T,>({
   data,
   isFetching,
   fetchNextPage,
   tableContainerRef,
 }: useInfinityScrollProps<T>) => {
+  const lastPageData = data?.pages[data?.pages.length - 1]
+
+  const haveDataToFetch = lastPageData?.length !== 0
+
   const flatData = React.useMemo(
     () => data?.pages?.flatMap((page) => page) ?? [],
     [data]
   )
-  const totalDBRowCount = 100
-  const totalFetched = flatData.length
-  const [isFetchingData, setIsFetchingData] = React.useState(false) // Flag to track if data is currently being fetched
+  const [isFetchingData, setIsFetchingData] = React.useState(false)
 
   const fetchMoreOnBottomReached = React.useCallback(
     (containerRefElement?: HTMLDivElement | null) => {
@@ -32,18 +36,20 @@ export const useInfinityScroll = <T,>({
           return
         }
 
-        if (result < 300 && !isFetchingData && totalFetched < totalDBRowCount) {
-          setIsFetchingData(true) // Set the flag to indicate that data fetching is in progress
+        if (result < 300 && !isFetchingData && haveDataToFetch) {
+          // Set the flag to indicate that data fetching is in progress
+          setIsFetchingData(true)
           fetchNextPage()
         }
       }
     },
-    [fetchNextPage, isFetchingData, totalFetched, totalDBRowCount]
+    [isFetchingData, haveDataToFetch, fetchNextPage]
   )
 
   React.useEffect(() => {
     if (!isFetching) {
-      setIsFetchingData(false) // Reset the flag when isFetching becomes false
+      // Reset the flag when isFetching becomes false
+      setIsFetchingData(false)
     }
   }, [isFetching])
 

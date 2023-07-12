@@ -4,6 +4,7 @@ import { ISdpTransformed } from '@/types/sdp'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/Table/ColumnHeader'
 import { EditableCell } from '@/components/Table/EditableCell'
+import ExpandButton from '@/components/Table/ExpandButton'
 import { RowActions } from '@/components/Table/RowActions'
 
 export const columns: ColumnDef<ISdpTransformed>[] = [
@@ -28,6 +29,16 @@ export const columns: ColumnDef<ISdpTransformed>[] = [
     meta: {
       width: 10,
     },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    id: 'expand',
+    cell: ({ row }) =>
+      row.getAllCells().length > row.getVisibleCells().length && (
+        <ExpandButton row={row} />
+      ),
+    size: 40,
     enableSorting: false,
     enableHiding: false,
   },
