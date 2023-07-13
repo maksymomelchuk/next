@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Link from 'next/link'
 
 import { AuthContext } from '@/api/auth/AuthContextProvider'
@@ -24,26 +24,32 @@ import {
 
 export const UserInfo: React.FC = () => {
   const authContext = useContext(AuthContext)
+  const [open, setOpen] = useState(false)
 
   return (
     <div className="flex items-center gap-2">
       <h1>Welcome </h1>
-      <DropdownMenu>
+      <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger
           className={cn(buttonVariants({ variant: 'outlineNav' }))}
         >
           {authContext.firstName || 'Guest'}
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-5">
-          <DropdownMenuItem>
-            <Link href="/profile">Profile</Link>
+          <DropdownMenuItem className="p-0" onClick={() => setOpen(false)}>
+            <Link
+              href="/profile"
+              className="w-full rounded-sm px-2 py-1.5 text-sm"
+            >
+              My Profile
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
                 variant="ghost"
-                className="w-full py-1.5 px-2 justify-start h-auto"
+                className="h-auto w-full justify-start px-2 py-1.5 font-normal"
               >
                 Logout
               </Button>

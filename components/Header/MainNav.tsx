@@ -19,8 +19,9 @@ export const MainNav: React.FC<MainNavProps> = ({ items }) => {
     <nav>
       <NavigationMenu.Root value={value} onValueChange={setValue}>
         <NavigationMenu.List className="flex gap-4 font-medium">
-          {items?.map((item) =>
-            roles?.includes(item.title.toLowerCase()) ? (
+          {items?.map(
+            (item) =>
+              // roles?.includes(item.title.toLowerCase()) ? (
               !item.collapsible ? (
                 <NavigationMenu.Item key={item.key}>
                   <Link
@@ -62,7 +63,7 @@ export const MainNav: React.FC<MainNavProps> = ({ items }) => {
                   </NavigationMenu.Content>
                 </NavigationMenu.Item>
               )
-            ) : null
+            // ) : null
           )}
         </NavigationMenu.List>
       </NavigationMenu.Root>
