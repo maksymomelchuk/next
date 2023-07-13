@@ -18,7 +18,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
@@ -28,16 +27,14 @@ export const UserInfo: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2">
-      <h1>Welcome {authContext.firstName || 'Guest'}!</h1>
+      <h1>Welcome </h1>
       <DropdownMenu>
         <DropdownMenuTrigger
           className={cn(buttonVariants({ variant: 'outlineNav' }))}
         >
-          User
+          {authContext.firstName || 'Guest'}
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-5">
-          <DropdownMenuLabel>User Menu</DropdownMenuLabel>
-          <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Link href="/profile">Profile</Link>
           </DropdownMenuItem>

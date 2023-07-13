@@ -1,15 +1,13 @@
 'use client'
 
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 import { AuthContext } from '@/api/auth/AuthContextProvider'
 import { editUsersProfile } from '@/api/auth/auth'
-import { createSdp } from '@/api/sdp/sdp'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -22,9 +20,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 
-export const sdpFormSchema = z.object({
-  first_name: z.string().min(1).max(255),
-  last_name: z.string().min(1).max(63),
+export const editUserFormSchema = z.object({
+  first_name: z.string().min(1).max(127),
+  last_name: z.string().min(1).max(127),
   email: z.string().email(),
 })
 
@@ -50,21 +48,11 @@ export const ProfileForm: React.FC = () => {
     },
     onError: (error) => {
       console.log({ error })
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 422) {
-          toast({
-            variant: 'error',
-            description: JSON.stringify(error.response.data),
-          })
-          console.log('error in creating LDB', error)
-        }
-        console.error(error)
-      }
     },
   })
 
-  const form = useForm<z.infer<typeof sdpFormSchema>>({
-    resolver: zodResolver(sdpFormSchema),
+  const form = useForm<z.infer<typeof editUserFormSchema>>({
+    resolver: zodResolver(editUserFormSchema),
     defaultValues: {
       first_name: '',
       last_name: '',
@@ -74,11 +62,8 @@ export const ProfileForm: React.FC = () => {
 
   const reset = form.reset
 
-  const handleSubmit = async (values: z.infer<typeof sdpFormSchema>) => {
+  const handleSubmit = async (values: z.infer<typeof editUserFormSchema>) => {
     console.log('values -->', values)
-    if (!profile) {
-      return
-    }
 
     editUsersProfileQuery(values)
   }
