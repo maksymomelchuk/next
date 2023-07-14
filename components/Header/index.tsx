@@ -14,7 +14,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ toggleMenu, showMenu }) => {
   return (
-    <header className="bg-accent sticky top-0 z-40 w-full border-b text-white">
+    <header className="bg-accent dark:bg-background sticky top-0 z-40 w-full border-b text-white">
       <div className="container flex items-center space-x-4 py-4 sm:justify-between sm:space-x-0 lg:py-8">
         <div className="hidden items-center gap-6 md:gap-10 lg:flex">
           <Logo />

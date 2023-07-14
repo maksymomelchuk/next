@@ -72,14 +72,14 @@ export const ProfileForm: React.FC = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="w-full space-y-8 rounded-md border p-5 shadow-xl"
+        // className="w-full space-y-8 rounded-md border p-5 shadow-xl"
       >
         <FormField
           control={form.control}
           name="first_name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>First name *</FormLabel>
+              <FormLabel>First name</FormLabel>
               <FormControl>
                 <Input autoComplete="off" placeholder="John" {...field} />
               </FormControl>
@@ -92,7 +92,7 @@ export const ProfileForm: React.FC = () => {
           name="last_name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Last Name *</FormLabel>
+              <FormLabel>Last Name</FormLabel>
               <FormControl>
                 <Input autoComplete="off" placeholder="Doe" {...field} />
               </FormControl>
@@ -105,7 +105,7 @@ export const ProfileForm: React.FC = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email *</FormLabel>
+              <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
                   autoComplete="off"
@@ -118,7 +118,9 @@ export const ProfileForm: React.FC = () => {
           )}
         />
 
-        <Button type="submit">Save</Button>
+        <Button type="submit" className="mt-5">
+          Save changes
+        </Button>
       </form>
     </Form>
   )

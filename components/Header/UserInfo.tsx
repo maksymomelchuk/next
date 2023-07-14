@@ -24,19 +24,23 @@ import {
 
 export const UserInfo: React.FC = () => {
   const authContext = useContext(AuthContext)
-  const [open, setOpen] = useState(false)
+  const [openUsersMenu, setOpenUsersMenu] = useState(false)
+  const [openSettingsMenu, setOpenSettingsMenu] = useState(false)
 
   return (
     <div className="flex items-center gap-2">
-      <h1>Welcome </h1>
-      <DropdownMenu open={open} onOpenChange={setOpen}>
+      {/* <h1>Welcome </h1> */}
+      <DropdownMenu open={openUsersMenu} onOpenChange={setOpenUsersMenu}>
         <DropdownMenuTrigger
-          className={cn(buttonVariants({ variant: 'outlineNav' }))}
+          className={cn(buttonVariants({ variant: 'outline' }))}
         >
           {authContext.firstName || 'Guest'}
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-5">
-          <DropdownMenuItem className="p-0" onClick={() => setOpen(false)}>
+          <DropdownMenuItem
+            className="p-0"
+            onClick={() => setOpenUsersMenu(false)}
+          >
             <Link
               href="/profile"
               className="w-full rounded-sm px-2 py-1.5 text-sm"
@@ -68,6 +72,46 @@ export const UserInfo: React.FC = () => {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DropdownMenu open={openSettingsMenu} onOpenChange={setOpenSettingsMenu}>
+        <DropdownMenuTrigger
+          className={cn(buttonVariants({ variant: 'outline' }))}
+        >
+          Settings
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="mr-5">
+          <DropdownMenuItem
+            className="p-0"
+            onClick={() => setOpenSettingsMenu(false)}
+          >
+            <Link href="/sdp" className="w-full rounded-sm px-2 py-1.5 text-sm">
+              Manage SPDs
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="p-0"
+            onClick={() => setOpenSettingsMenu(false)}
+          >
+            <Link
+              href="/sdp/nena"
+              className="w-full rounded-sm px-2 py-1.5 text-sm"
+            >
+              NENA Provider IDs
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            className="p-0"
+            onClick={() => setOpenSettingsMenu(false)}
+          >
+            <Link
+              href="/sdp/profile"
+              className="w-full rounded-sm px-2 py-1.5 text-sm"
+            >
+              Users
+            </Link>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

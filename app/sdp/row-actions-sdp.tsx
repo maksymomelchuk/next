@@ -126,7 +126,7 @@ export const RowActionsSdp = <T,>({ row, table }: RowActionsProps<T>) => {
         </div>
       )}
       <Dialog onOpenChange={setOpenDialogue} open={openDialogue}>
-        <DialogContent className="sm:max-w-[425px] md:max-w-[600px]">
+        <DialogContent className="min-w-[calc(100%-50px)]">
           <DialogHeader>
             <DialogTitle>Please, fill all necessary information</DialogTitle>
             <DialogDescription>

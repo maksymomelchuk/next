@@ -47,7 +47,7 @@ export const ChangePasswordForm: React.FC = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="w-full space-y-8 rounded-md border p-5 shadow-xl"
+        // className="w-full space-y-8 rounded-md border p-5 shadow-xl"
       >
         <div className="flex h-full flex-col justify-between space-y-8">
           <div className="space-y-8">
@@ -56,9 +56,10 @@ export const ChangePasswordForm: React.FC = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password *</FormLabel>
+                  <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
+                      type="password"
                       autoComplete="off"
                       placeholder="********"
                       {...field}
@@ -73,9 +74,10 @@ export const ChangePasswordForm: React.FC = () => {
               name="password_confirmation"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm password *</FormLabel>
+                  <FormLabel>Confirm password</FormLabel>
                   <FormControl>
                     <Input
+                      type="password"
                       autoComplete="off"
                       placeholder="********"
                       {...field}
@@ -88,7 +90,7 @@ export const ChangePasswordForm: React.FC = () => {
           </div>
 
           <Button type="submit" className="self-start">
-            Change
+            Save password
           </Button>
         </div>
       </form>

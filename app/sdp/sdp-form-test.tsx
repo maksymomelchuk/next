@@ -9,13 +9,8 @@ import * as z from 'zod'
 
 import { createSdp } from '@/api/sdp/sdp'
 import { ISdpTransformed } from '@/types/sdp'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
@@ -26,13 +21,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
 import { useToast } from '@/components/ui/use-toast'
 
 export const sdpFormSchema = z.object({
@@ -44,21 +33,21 @@ export const sdpFormSchema = z.object({
       id: z.number(),
       data_provider_string: z.string(),
       provider_id: z.string(),
+      checked: z.boolean().optional(),
     })
   ),
 })
 
 interface SdpFormProps {
-  setOpenDialogue: React.Dispatch<React.SetStateAction<boolean>>
   row: Row<any>
 }
 
-export const SdpFormTest: React.FC<SdpFormProps> = ({
-  setOpenDialogue,
-  row,
-}) => {
-  const data = row.original as ISdpTransformed
-  console.log('file: sdp-form-test.tsx:48 ~ data:', data)
+export const SdpFormTest: React.FC<SdpFormProps> = ({ row }) => {
+  const data = row as ISdpTransformed
+  const adrProviders = data.adr_providers.map((provider) => ({
+    ...provider,
+    checked: true,
+  }))
   const { toast } = useToast()
   // Query client
   const queryClient = useQueryClient()
@@ -67,7 +56,6 @@ export const SdpFormTest: React.FC<SdpFormProps> = ({
     mutationFn: createSdp,
     onSuccess: () => {
       queryClient.invalidateQueries(['sdp'])
-      setOpenDialogue(false)
       toast({ variant: 'success', description: 'Successfully created' })
     },
     onError: (error) => {
@@ -89,27 +77,53 @@ export const SdpFormTest: React.FC<SdpFormProps> = ({
     defaultValues: {
       name: data.name,
       alias: data.alias,
+      enabled: data.enabled === 'Yes' ? 'yes' : 'no',
     },
   })
 
   const handleSubmit = (values: z.infer<typeof sdpFormSchema>) => {
     console.log('values -->', values)
-    createSdpQuery({ ...values, enabled: values.enabled === 'yes' ? 1 : 0 })
+
+    const dataToSend = {
+      ...values,
+      enabled: values.enabled === 'yes' ? 1 : 0,
+      adr_providers: values.adr_providers
+        .filter((provider) => provider.checked)
+        .map((provider) => {
+          delete provider.checked
+          return provider
+        }),
+    }
+    console.log(
+      'file: sdp-form-test.tsx:106 ~ handleSubmit ~ dataToSend:',
+      dataToSend
+    )
+
+    // createSdpQuery({ ...values, enabled: values.enabled === 'yes' ? 1 : 0 })
   }
+
+  console.log('here validation errors -->', form.formState.errors)
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="">
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name *</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input autoComplete="off" placeholder="Name" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder="Name"
+                  className="lg:max-w-[80%]"
+                  {...field}
+                />
               </FormControl>
-              {/* <FormDescription>name</FormDescription> */}
+              <FormDescription>
+                This is your official recognizable company name
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -118,95 +132,137 @@ export const SdpFormTest: React.FC<SdpFormProps> = ({
           control={form.control}
           name="alias"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Alias *</FormLabel>
+            <FormItem className="mt-8">
+              <FormLabel>Alias</FormLabel>
               <FormControl>
-                <Input autoComplete="off" placeholder="Alias" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder="Alias"
+                  className="lg:max-w-[80%]"
+                  {...field}
+                />
               </FormControl>
-              {/* <FormDescription>Your data alias</FormDescription> */}
+              <FormDescription>
+                Alias refers to a shortcut application use such as SFTP folder.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+        {adrProviders.length > 0 && (
+          <div>
+            <p className="mb-5 mt-8 text-sm font-medium leading-none">
+              NENA Provider IDs
+            </p>
+            <div className="grid max-w-[60%] grid-cols-3 gap-8">
+              {adrProviders.map((provider, index) => {
+                return (
+                  <FormField
+                    key={provider.id}
+                    defaultValue={provider}
+                    control={form.control}
+                    name={`adr_providers.${index}`}
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={provider.id}
+                          className="mt-2 flex flex-row items-center space-x-3 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              onCheckedChange={(checked) => {
+                                console.log(checked)
+                                console.log({ field })
+                                return field.onChange({
+                                  ...field.value,
+                                  checked,
+                                })
+                              }}
+                              defaultChecked
+                            />
+                          </FormControl>
+                          <FormLabel className="flex w-full  gap-3 text-sm font-normal">
+                            <p>{provider.provider_id}</p>
+                          </FormLabel>
+                        </FormItem>
+                      )
+                    }}
+                  />
+                )
+              })}
+            </div>
+          </div>
+        )}
         <FormField
           control={form.control}
           name="enabled"
-          render={({ field: { onChange } }) => (
-            <FormItem>
-              <FormLabel>Enabled</FormLabel>
-              <Select
-                onValueChange={onChange}
-                defaultValue={data.enabled.toLowerCase()}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Enabled" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="yes">Yes</SelectItem>
-                  <SelectItem value="no">No</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormItem>
-          )}
+          render={({ field }) => {
+            console.log({ field })
+            return (
+              <FormItem>
+                <div className="mt-12 flex items-center gap-2">
+                  <Switch id="enabled" defaultChecked={field.value === 'yes'} />
+                  <FormLabel className="m-0 space-y-0">Enabled</FormLabel>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )
+          }}
         />
 
-        <Accordion
+        {/* <Accordion
           type="single"
           collapsible
           className="flex w-full flex-col gap-4"
-        >
-          <AccordionItem value="item-1">
+        > */}
+        {/* <AccordionItem value="item-1">
             <AccordionTrigger>ADR Providers</AccordionTrigger>
             <AccordionContent>
-              {data.adr_providers.map((provider, index) => {
-                console.log({ provider })
+              {adrProviders.map((provider, index) => {
                 return (
-                  <div className="flex justify-between gap-5 mt-3">
-                    <div>{`Data Provider ${index + 1}`}</div>
-                    <FormField
-                      defaultValue={provider.data_provider_string}
-                      control={form.control}
-                      name={`adr_providers.${index}.data_provider_string`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Data Provider String *</FormLabel>
+                  <FormField
+                    key={provider.id}
+                    defaultValue={provider}
+                    control={form.control}
+                    name={`adr_providers.${index}`}
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={provider.id}
+                          className="mt-2 flex flex-row items-center space-x-3 space-y-0"
+                        >
                           <FormControl>
-                            <Input
-                              autoComplete="off"
-                              placeholder="Data Provider String"
-                              {...field}
+                            <Checkbox
+                              onCheckedChange={(checked) => {
+                                console.log(checked)
+                                console.log({ field })
+                                return field.onChange({
+                                  ...field.value,
+                                  checked,
+                                })
+                              }}
+                              defaultChecked
                             />
                           </FormControl>
-                          {/* <FormDescription>Your data alias</FormDescription> */}
-                          <FormMessage />
+                          <FormLabel className="flex gap-3  w-full text-sm font-normal">
+                            <div className="w-[70%]">
+                              <span className="font-semibold">Provider:</span>{' '}
+                              {provider.data_provider_string}
+                            </div>
+                            <div>
+                              <span className="font-semibold">Id:</span>{' '}
+                              {provider.provider_id}
+                            </div>
+                          </FormLabel>
                         </FormItem>
-                      )}
-                    />
-                    <FormField
-                      defaultValue={provider.provider_id}
-                      control={form.control}
-                      name={`adr_providers.${index}.provider_id`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Data Provider Id *</FormLabel>
-                          <FormControl>
-                            <Input
-                              autoComplete="off"
-                              placeholder="Data Provider String"
-                              {...field}
-                            />
-                          </FormControl>
-                          {/* <FormDescription>Your data alias</FormDescription> */}
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                      )
+                    }}
+                  />
                 )
               })}
             </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-2">
+          </AccordionItem> */}
+        {/* <AccordionItem value="item-2">
             <AccordionTrigger>Options</AccordionTrigger>
             <AccordionContent>
               Yes. It comes with default styles that matches the other
@@ -219,10 +275,12 @@ export const SdpFormTest: React.FC<SdpFormProps> = ({
               Yes. Its animated by default, but you can disable it if you
               prefer.
             </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+          </AccordionItem> */}
+        {/* </Accordion> */}
 
-        <Button type="submit">Save</Button>
+        <Button type="submit" className="mt-24">
+          Save changes
+        </Button>
       </form>
     </Form>
   )

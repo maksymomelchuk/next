@@ -128,7 +128,7 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                     header.getSize() !== 150
                       ? `max-w-[${header.getSize()}px]`
                       : ''
-                  } bg-muted sticky top-0 z-10 border-x`}
+                  } bg-muted sticky top-0 z-10`}
                   colSpan={header.colSpan}
                 >
                   {header.isPlaceholder ? null : (
@@ -198,7 +198,10 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                 </TableRow>
                 {/* Expandable data in additional row*/}
                 {row.getIsExpanded() && (
-                  <TableRow key={`${row.id}a`} className="w-full bg-white p-4">
+                  <TableRow
+                    key={`${row.id}a`}
+                    className="w-full bg-background p-4"
+                  >
                     <TableCell colSpan={row.getVisibleCells().length}>
                       <ul className="inline-block pl-6">
                         {row.getAllCells().map((cell) => {
