@@ -2,13 +2,12 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Row } from '@tanstack/react-table'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 import { createSdp } from '@/api/sdp/sdp'
-import { ISdpTransformed } from '@/types/sdp'
+import { ISdpOriginal } from '@/types/sdp'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -27,7 +26,7 @@ import { useToast } from '@/components/ui/use-toast'
 export const sdpFormSchema = z.object({
   name: z.string().min(1).max(255),
   alias: z.string().min(1).max(63),
-  enabled: z.string(),
+  enabled: z.boolean(),
   adr_providers: z.array(
     z.object({
       id: z.number(),
@@ -39,11 +38,10 @@ export const sdpFormSchema = z.object({
 })
 
 interface SdpFormProps {
-  row: Row<any>
+  data: ISdpOriginal
 }
 
-export const SdpFormTest: React.FC<SdpFormProps> = ({ row }) => {
-  const data = row as ISdpTransformed
+export const SdpFormTest: React.FC<SdpFormProps> = ({ data }) => {
   const adrProviders = data.adr_providers.map((provider) => ({
     ...provider,
     checked: true,
@@ -77,7 +75,7 @@ export const SdpFormTest: React.FC<SdpFormProps> = ({ row }) => {
     defaultValues: {
       name: data.name,
       alias: data.alias,
-      enabled: data.enabled === 'Yes' ? 'yes' : 'no',
+      enabled: Boolean(data.enabled),
       adr_providers: data.adr_providers,
     },
   })
@@ -87,7 +85,7 @@ export const SdpFormTest: React.FC<SdpFormProps> = ({ row }) => {
 
     const dataToSend = {
       ...values,
-      enabled: values.enabled === 'yes' ? 1 : 0,
+      enabled: Number(values.enabled),
       adr_providers: values.adr_providers
         .filter((provider) => provider.checked)
         .map((provider) => {
@@ -155,7 +153,7 @@ export const SdpFormTest: React.FC<SdpFormProps> = ({ row }) => {
             <p className="mb-5 mt-8 text-sm font-medium leading-none">
               NENA Provider IDs
             </p>
-            <div className="grid max-w-[60%] grid-cols-3 gap-8">
+            <div className="grid lg:max-w-[60%] grid-cols-3 gap-8">
               {adrProviders.map((provider, index) => {
                 return (
                   <FormField
@@ -172,11 +170,9 @@ export const SdpFormTest: React.FC<SdpFormProps> = ({ row }) => {
                           <FormControl>
                             <Checkbox
                               onCheckedChange={(checked) => {
-                                console.log(checked)
-                                console.log({ field })
                                 return field.onChange({
                                   ...field.value,
-                                  checked,
+                                  checked: Boolean(checked),
                                 })
                               }}
                               defaultChecked
@@ -198,16 +194,13 @@ export const SdpFormTest: React.FC<SdpFormProps> = ({ row }) => {
           control={form.control}
           name="enabled"
           render={({ field }) => {
-            console.log({ field })
             return (
               <FormItem>
                 <div className="mt-12 flex items-center gap-2">
                   <Switch
                     id="enabled"
-                    defaultChecked={field.value === 'yes'}
-                    onCheckedChange={() =>
-                      field.onChange(field.value === 'yes' ? 'no' : 'yes')
-                    }
+                    defaultChecked={field.value}
+                    onCheckedChange={field.onChange}
                   />
                   <FormLabel className="m-0 space-y-0">Enabled</FormLabel>
                 </div>
@@ -216,75 +209,6 @@ export const SdpFormTest: React.FC<SdpFormProps> = ({ row }) => {
             )
           }}
         />
-
-        {/* <Accordion
-          type="single"
-          collapsible
-          className="flex w-full flex-col gap-4"
-        > */}
-        {/* <AccordionItem value="item-1">
-            <AccordionTrigger>ADR Providers</AccordionTrigger>
-            <AccordionContent>
-              {adrProviders.map((provider, index) => {
-                return (
-                  <FormField
-                    key={provider.id}
-                    defaultValue={provider}
-                    control={form.control}
-                    name={`adr_providers.${index}`}
-                    render={({ field }) => {
-                      return (
-                        <FormItem
-                          key={provider.id}
-                          className="mt-2 flex flex-row items-center space-x-3 space-y-0"
-                        >
-                          <FormControl>
-                            <Checkbox
-                              onCheckedChange={(checked) => {
-                                console.log(checked)
-                                console.log({ field })
-                                return field.onChange({
-                                  ...field.value,
-                                  checked,
-                                })
-                              }}
-                              defaultChecked
-                            />
-                          </FormControl>
-                          <FormLabel className="flex gap-3  w-full text-sm font-normal">
-                            <div className="w-[70%]">
-                              <span className="font-semibold">Provider:</span>{' '}
-                              {provider.data_provider_string}
-                            </div>
-                            <div>
-                              <span className="font-semibold">Id:</span>{' '}
-                              {provider.provider_id}
-                            </div>
-                          </FormLabel>
-                        </FormItem>
-                      )
-                    }}
-                  />
-                )
-              })}
-            </AccordionContent>
-          </AccordionItem> */}
-        {/* <AccordionItem value="item-2">
-            <AccordionTrigger>Options</AccordionTrigger>
-            <AccordionContent>
-              Yes. It comes with default styles that matches the other
-              components&apos; aesthetic.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-3">
-            <AccordionTrigger>Users</AccordionTrigger>
-            <AccordionContent>
-              Yes. Its animated by default, but you can disable it if you
-              prefer.
-            </AccordionContent>
-          </AccordionItem> */}
-        {/* </Accordion> */}
-
         <Button type="submit" className="mt-24">
           Save changes
         </Button>

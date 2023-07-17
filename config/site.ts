@@ -87,29 +87,5 @@ export const siteConfig = {
         },
       ],
     },
-    {
-      title: 'SDP',
-      href: '',
-      key: 'sdp',
-      exact: true,
-      collapsible: true,
-      collapse: [
-        {
-          title: 'SDP',
-          href: '/sdp',
-          key: 'sdp',
-        },
-        {
-          title: 'SDP Profile',
-          href: '/sdp/profile',
-          key: 'sdp-profile',
-        },
-        {
-          title: 'SDP NENA IDs',
-          href: '/sdp/nena',
-          key: 'sdp-nena',
-        },
-      ],
-    },
   ],
 }

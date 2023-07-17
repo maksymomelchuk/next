@@ -121,7 +121,7 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
       setProfile(data)
       setFirstName(data['first_name'])
       setPermissions(data.permissions)
-      setRoles(['home', ...normalizedRoles])
+      setRoles(normalizedRoles)
       setUserType(data.type)
     },
   })
@@ -163,33 +163,6 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
       .then(() => console.log('initialized Keycloak'))
       .catch(() => console.log('error initializing Keycloak'))
   }, [])
-
-  // useEffect(() => {
-  //   /**
-  //    * Load the profile for of the user from Keycloak
-  //    */
-  //   async function loadProfile() {
-  //     try {
-  //       const profile = await fetchUserProfile()
-
-  //       if (profile) {
-  //         const normalizedRoles = profile.roles.map((p) => p?.toLowerCase())
-  //         setProfile(profile)
-  //         setFirstName(profile['first_name'])
-  //         setPermissions(profile.permissions)
-  //         setRoles(['home', ...normalizedRoles])
-  //         setUserType(profile.type)
-  //       }
-  //     } catch {
-  //       console.log('error trying to load the user profile')
-  //     }
-  //   }
-
-  //   // Only load the profile if a user is authenticated
-  //   if (isAuthenticated) {
-  //     void loadProfile()
-  //   }
-  // }, [isAuthenticated])
 
   return (
     <AuthContext.Provider

@@ -28,23 +28,17 @@ export const SdpOriginalType = z.object({
   alias: z.string(),
   enabled: z.number(),
   created_at: z.string(),
-  // created_by: UserType,
   adr_providers: z.array(AddressProviderType),
   options: OptionsType,
-  // statistics: StatisticsType,
   updated_at: z.union([z.string(), z.null()]),
-  // updated_by: z.union([UserType, z.null()]),
   users: z.array(UserType).optional(),
   total_files: z.number(),
   total_records: z.number(),
+  // statistics: StatisticsType,
+  // created_by: UserType,
+  // updated_by: z.union([UserType, z.null()]),
 })
 
-export const SdpTransformedType = SdpOriginalType.transform((sdp) => ({
-  ...sdp,
-  enabled: Boolean(sdp.enabled) ? 'Yes' : 'No',
-}))
-
-export const SdpArrayType = z.array(SdpTransformedType)
+export const SdpArrayType = z.array(SdpOriginalType)
 
 export interface ISdpOriginal extends z.infer<typeof SdpOriginalType> {}
-export interface ISdpTransformed extends z.infer<typeof SdpTransformedType> {}
