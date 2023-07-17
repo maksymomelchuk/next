@@ -7,11 +7,11 @@ import { fetchAllSdp } from '@/api/sdp/sdp'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-import { SdpFormTest } from './sdp-form-test'
+import { SdpForm } from './sdp-form'
 
 const SdpPage = () => {
   // Fetch data
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ['sdp'],
     queryFn: fetchAllSdp,
   })
@@ -52,7 +52,7 @@ const SdpPage = () => {
                 className="flex-grow"
               >
                 <div className="px-5">
-                  <SdpFormTest data={sdp} />
+                  <SdpForm data={sdp} />
                 </div>
               </TabsContent>
             ))}
