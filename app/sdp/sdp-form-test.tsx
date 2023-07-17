@@ -78,6 +78,7 @@ export const SdpFormTest: React.FC<SdpFormProps> = ({ row }) => {
       name: data.name,
       alias: data.alias,
       enabled: data.enabled === 'Yes' ? 'yes' : 'no',
+      adr_providers: data.adr_providers,
     },
   })
 
@@ -201,7 +202,13 @@ export const SdpFormTest: React.FC<SdpFormProps> = ({ row }) => {
             return (
               <FormItem>
                 <div className="mt-12 flex items-center gap-2">
-                  <Switch id="enabled" defaultChecked={field.value === 'yes'} />
+                  <Switch
+                    id="enabled"
+                    defaultChecked={field.value === 'yes'}
+                    onCheckedChange={() =>
+                      field.onChange(field.value === 'yes' ? 'no' : 'yes')
+                    }
+                  />
                   <FormLabel className="m-0 space-y-0">Enabled</FormLabel>
                 </div>
                 <FormMessage />
