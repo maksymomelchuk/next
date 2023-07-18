@@ -122,7 +122,7 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
       setFirstName(data['first_name'])
       setPermissions(data.permissions)
       setRoles(normalizedRoles)
-      setUserType(data.type)
+      setUserType(data.type.toLowerCase())
     },
   })
 
