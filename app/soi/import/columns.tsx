@@ -1,6 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table'
 
-import { IMsagImports } from '@/types/msag/msag-imports'
 import { ISoiImports } from '@/types/soi/soi-imports'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/Table/ColumnHeader'

@@ -38,8 +38,6 @@ export const useTable = <T,>(
   const [rowSelection, setRowSelection] = useState({})
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
-  // Expanded
-  const [expanded, setExpanded] = useState<ExpandedState>({})
 
   useEffect(() => {
     if (fetchedData) {

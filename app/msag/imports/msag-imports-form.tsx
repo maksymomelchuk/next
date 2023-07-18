@@ -23,11 +23,6 @@ import { useToast } from '@/components/ui/use-toast'
 
 export const msagImportsSchema = z.object({
   size_human: z.string().min(2).max(127),
-  // provider_id: z.string().min(2).max(63),
-  // provider_id_series: preprocessSchema(z.string().min(2).max(63).optional()),
-  // contact_uri: preprocessSchema(z.string().min(2).max(127).optional()),
-  // type_of_provider: preprocessSchema(z.string().min(2).max(127).optional()),
-  // language: preprocessSchema(z.string().min(2).max(15).optional()),
 })
 
 interface MsagImportsFormProps {
@@ -90,85 +85,6 @@ export const MsagImportsForm: React.FC<MsagImportsFormProps> = ({
             </FormItem>
           )}
         />
-        {/* <FormField
-          control={form.control}
-          name="provider_id"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Provider Id *</FormLabel>
-              <FormControl>
-                <Input
-                  autoComplete="off"
-                  placeholder="Provider Id"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>Your data provider Id</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="provider_id_series"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Provider Id Series</FormLabel>
-              <FormControl>
-                <Input
-                  autoComplete="off"
-                  placeholder="Provider Id Series"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>Your data provider Id series</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="contact_uri"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Contacts</FormLabel>
-              <FormControl>
-                <Input autoComplete="off" placeholder="Contacts" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="type_of_provider"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Type of Provider</FormLabel>
-              <FormControl>
-                <Input
-                  autoComplete="off"
-                  placeholder="type of provider"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="language"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Language</FormLabel>
-              <FormControl>
-                <Input autoComplete="off" placeholder="EN" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
         <Button type="submit">Save</Button>
       </form>
     </Form>

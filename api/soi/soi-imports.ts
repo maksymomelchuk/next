@@ -21,9 +21,3 @@ export const updateSoiImportsById = async ({
   console.log('Data after updating soi imports', res)
   return res
 }
-
-// export const createMsagImports = async (data: Partial<ISoiImports>) => {
-//   const res = await axiosInstance.post(`/msag/imports`, data)
-//   console.log('Data after creating msag imports', res)
-//   return res
-// }

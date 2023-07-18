@@ -46,11 +46,7 @@ const SdpPage = () => {
             </TabsList>
             <Separator className="my-5 md:hidden" />
             {data?.map((sdp, index) => (
-              <TabsContent
-                key={sdp.id}
-                value={String(index)}
-                className="flex-grow"
-              >
+              <TabsContent key={sdp.id} value={String(index)} className="grow">
                 <div className="px-5">
                   <SdpForm data={sdp} />
                 </div>

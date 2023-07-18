@@ -45,10 +45,7 @@ export const ChangePasswordForm: React.FC = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        // className="w-full space-y-8 rounded-md border p-5 shadow-xl"
-      >
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
         <div className="flex h-full flex-col justify-between space-y-8">
           <div className="space-y-8">
             <FormField

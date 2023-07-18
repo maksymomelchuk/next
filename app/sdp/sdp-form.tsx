@@ -153,7 +153,7 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
             <p className="mb-5 mt-8 text-sm font-medium leading-none">
               NENA Provider IDs
             </p>
-            <div className="grid lg:max-w-[60%] grid-cols-3 gap-8">
+            <div className="grid grid-cols-3 gap-8 lg:max-w-[60%]">
               {adrProviders.map((provider, index) => {
                 return (
                   <FormField

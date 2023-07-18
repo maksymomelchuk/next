@@ -111,7 +111,7 @@ export const CustomTable: React.FC<CustomTableProps> = ({
 
   return (
     <div
-      className="h-[400px] w-full overflow-y-auto overflow-x-auto"
+      className="h-[400px] w-full overflow-auto"
       onScroll={(e) => {
         fetchMoreOnBottomReached(e.target as HTMLDivElement)
       }}
@@ -200,7 +200,7 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                 {row.getIsExpanded() && (
                   <TableRow
                     key={`${row.id}a`}
-                    className="w-full bg-background p-4"
+                    className="bg-background w-full p-4"
                   >
                     <TableCell colSpan={row.getVisibleCells().length}>
                       <ul className="inline-block pl-6">

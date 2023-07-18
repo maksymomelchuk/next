@@ -1,16 +1,12 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { ChangePasswordForm } from './change-password-form'
@@ -32,7 +28,7 @@ export default function ProfilePage() {
                 <CardHeader>
                   <CardTitle>Account</CardTitle>
                   <CardDescription>
-                    Make changes to your account here. Click save when youre
+                    Make changes to your account here. Click save when you're
                     done.
                   </CardDescription>
                 </CardHeader>
@@ -46,7 +42,7 @@ export default function ProfilePage() {
                 <CardHeader>
                   <CardTitle>Password</CardTitle>
                   <CardDescription>
-                    Change your password here. After saving, youll be logged
+                    Change your password here. After saving, you'll be logged
                     out.
                   </CardDescription>
                 </CardHeader>

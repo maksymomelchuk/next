@@ -70,10 +70,7 @@ export const ProfileForm: React.FC = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        // className="w-full space-y-8 rounded-md border p-5 shadow-xl"
-      >
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
         <FormField
           control={form.control}
           name="first_name"
