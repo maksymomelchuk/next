@@ -1,12 +1,10 @@
 'use client'
 
-import { useContext, useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
-import { AuthContext } from '@/api/auth/AuthContextProvider'
 import { editUsersProfile } from '@/api/auth/auth'
 import { Button } from '@/components/ui/button'
 import {
@@ -27,14 +25,6 @@ export const editUserFormSchema = z.object({
 })
 
 export const ProfileForm: React.FC = () => {
-  const { profile } = useContext(AuthContext)
-
-  useEffect(() => {
-    if (profile) {
-      reset(profile)
-    }
-  }, [profile])
-
   const { toast } = useToast()
   // Query client
   const queryClient = useQueryClient()
@@ -60,8 +50,6 @@ export const ProfileForm: React.FC = () => {
     },
   })
 
-  const reset = form.reset
-
   const handleSubmit = async (values: z.infer<typeof editUserFormSchema>) => {
     console.log('values -->', values)
 
@@ -70,33 +58,35 @@ export const ProfileForm: React.FC = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <FormField
-          control={form.control}
-          name="first_name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>First name</FormLabel>
-              <FormControl>
-                <Input autoComplete="off" placeholder="John" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="last_name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Last Name</FormLabel>
-              <FormControl>
-                <Input autoComplete="off" placeholder="Doe" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+        <div className="grid gap-4 lg:grid-cols-2 lg:gap-8">
+          <FormField
+            control={form.control}
+            name="first_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>First name</FormLabel>
+                <FormControl>
+                  <Input autoComplete="off" placeholder="John" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="last_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last name</FormLabel>
+                <FormControl>
+                  <Input autoComplete="off" placeholder="Doe" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="email"

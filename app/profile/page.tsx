@@ -18,7 +18,7 @@ export default function ProfilePage() {
       <title>Profile page</title>
       <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
         <div className="mx-auto">
-          <Tabs defaultValue="account" className="w-[400px]">
+          <Tabs defaultValue="account" className="w-[400px] lg:w-[800px]">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="account">Account</TabsTrigger>
               <TabsTrigger value="password">Password</TabsTrigger>
@@ -28,8 +28,7 @@ export default function ProfilePage() {
                 <CardHeader>
                   <CardTitle>Account</CardTitle>
                   <CardDescription>
-                    Make changes to your account here. Click save when you're
-                    done.
+                    Make changes to your account here.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -42,8 +41,7 @@ export default function ProfilePage() {
                 <CardHeader>
                   <CardTitle>Password</CardTitle>
                   <CardDescription>
-                    Change your password here. After saving, you'll be logged
-                    out.
+                    {`You'll be logged out after password is changed.`}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

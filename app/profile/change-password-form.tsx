@@ -40,14 +40,20 @@ export const ChangePasswordForm: React.FC = () => {
   ) => {
     console.log('values -->', values)
 
-    await changeUsersPassword(values)
+    try {
+      await changeUsersPassword(values)
+
+      // logout
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <div className="flex h-full flex-col justify-between space-y-8">
-          <div className="space-y-8">
+        <div className="flex h-full flex-col justify-between space-y-4">
+          <div className="space-y-4">
             <FormField
               control={form.control}
               name="password"
