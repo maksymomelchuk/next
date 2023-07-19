@@ -1,3 +1,5 @@
+'use client'
+
 import { useContext, useEffect, useState } from 'react'
 import { redirect } from 'next/navigation'
 
@@ -15,7 +17,7 @@ const useCheckPagePermission = (requiredPermission: string) => {
         redirect('/')
       }
     }
-  }, [permissions])
+  }, [permissions, requiredPermission])
 
   return havePermission
 }
