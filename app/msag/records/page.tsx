@@ -6,6 +6,7 @@ import {
   fetchAllMsagRecords,
   updateMsagRecordsById,
 } from '@/api/msag/msag-records'
+import useCheckPagePermission from '@/hooks/useCheckPagePermission'
 import { useFetchAll } from '@/hooks/useFetchAllData'
 import { useInfinityScroll } from '@/hooks/useInfinityScroll'
 import { useTable } from '@/hooks/useTable'
@@ -18,11 +19,15 @@ import { msagRecordsSchema } from './validation-schema'
 type MsagRecordsProps = {}
 
 const MsagRecords: React.FC<MsagRecordsProps> = () => {
+  // Hook to check if user has permission to access this page
+  const havePermission = useCheckPagePermission('Msag@ListRecords')
+
   const [openDialogue, setOpenDialogue] = useState(false)
   // Fetch data
   const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
     ['msag-records'],
-    fetchAllMsagRecords
+    fetchAllMsagRecords,
+    havePermission
   )
 
   // Update data

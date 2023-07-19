@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 import {
   fetchAllMsagImports,
   updateMsagImportsById,
 } from '@/api/msag/msag-imports'
+import useCheckPagePermission from '@/hooks/useCheckPagePermission'
 import { useFetchAll } from '@/hooks/useFetchAllData'
 import { useInfinityScroll } from '@/hooks/useInfinityScroll'
 import { useTable } from '@/hooks/useTable'
@@ -18,11 +19,15 @@ import { msagImportsSchema } from './msag-imports-form'
 type MsagImportsProps = {}
 
 const MsagImportsPage: React.FC<MsagImportsProps> = () => {
+  // Hook to check if user has permission to access this page
+  const havePermission = useCheckPagePermission('Msag@ListImports')
+
   const [openDialogue, setOpenDialogue] = useState(false)
   // Fetch data
   const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
     ['msag-imports'],
-    fetchAllMsagImports
+    fetchAllMsagImports,
+    havePermission
   )
   // Update data
   const { mutateAsync: updateMsagImportsQuery } = useUpdateData(
@@ -31,7 +36,7 @@ const MsagImportsPage: React.FC<MsagImportsProps> = () => {
   )
 
   //we need a reference to the scrolling element for logic down below
-  const tableContainerRef = React.useRef<HTMLDivElement>(null)
+  const tableContainerRef = useRef<HTMLDivElement>(null)
 
   const { flatData, fetchMoreOnBottomReached } = useInfinityScroll({
     data,

@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 
 import { fetchAllSoiImports, updateSoiImportsById } from '@/api/soi/soi-imports'
+import useCheckPagePermission from '@/hooks/useCheckPagePermission'
 import { useFetchAll } from '@/hooks/useFetchAllData'
 import { useInfinityScroll } from '@/hooks/useInfinityScroll'
 import { useTable } from '@/hooks/useTable'
@@ -15,11 +16,15 @@ import { soiImportsSchema } from './validation-schema'
 type SoiImportProps = {}
 
 const SoiImport: React.FC<SoiImportProps> = () => {
+  // Hook to check if user has permission to access this page
+  const havePermission = useCheckPagePermission('Soi@ListRecordsHistory')
+
   const [openDialogue, setOpenDialogue] = useState(false)
   // Fetch data
   const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
     ['soi-imports'],
-    fetchAllSoiImports
+    fetchAllSoiImports,
+    havePermission
   )
 
   // Update data

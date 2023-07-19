@@ -29,7 +29,6 @@ export const UserInfo: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2">
-      {/* <h1>Welcome </h1> */}
       <DropdownMenu open={openUsersMenu} onOpenChange={setOpenUsersMenu}>
         <DropdownMenuTrigger
           className={cn(buttonVariants({ variant: 'outline' }))}

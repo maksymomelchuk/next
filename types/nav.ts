@@ -2,6 +2,7 @@ interface CollapseItem {
   title: string
   href: string
   key: string
+  permission: string
 }
 
 export interface NavItem {
@@ -12,4 +13,5 @@ export interface NavItem {
   external?: boolean
   collapsible?: boolean
   collapse?: CollapseItem[]
+  permission: string
 }

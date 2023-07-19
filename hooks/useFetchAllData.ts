@@ -4,7 +4,8 @@ const fetchSize = Number(process.env.NEXT_PUBLIC_FETCH_SIZE)
 
 export const useFetchAll = <T>(
   queryKey: any[],
-  fetchFunction: (fetchSize: number, start: number) => Promise<T>
+  fetchFunction: (fetchSize: number, start: number) => Promise<T>,
+  enabled: boolean
 ) => {
   return useInfiniteQuery({
     queryKey,
@@ -17,6 +18,7 @@ export const useFetchAll = <T>(
 
       return data
     },
+    enabled,
     getNextPageParam: (_lastGroup, groups) => groups.length,
     keepPreviousData: true,
     refetchOnWindowFocus: false,

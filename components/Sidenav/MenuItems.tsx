@@ -12,22 +12,32 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 
+import { Separator } from '../ui/separator'
+
 interface MenuItemsProps {
   items?: NavItem[]
   toggleMenu: () => void
 }
 
 export const MenuItems: React.FC<MenuItemsProps> = ({ items, toggleMenu }) => {
-  const { userType } = useContext(AuthContext)
+  const { userType, roles, permissions } = useContext(AuthContext)
 
   return (
     <div className="gap-6 md:gap-10">
       {items?.length ? (
         <nav className="flex flex-col  gap-6">
           {items?.map((item) => {
+            // If user is not root or admin, hide MSAG menu
             if (
               item.title === 'MSAG' &&
               !['root', 'admin'].includes(userType)
+            ) {
+              return null
+            }
+            // If user role is not in the list of roles, hide menu
+            if (
+              !roles?.includes(item?.permission) &&
+              item.permission !== 'dashboard'
             ) {
               return null
             }
@@ -56,20 +66,31 @@ export const MenuItems: React.FC<MenuItemsProps> = ({ items, toggleMenu }) => {
                   className="text-foreground flex flex-col justify-center gap-2"
                 >
                   <AccordionTrigger>{item.title}</AccordionTrigger>
-                  {item.collapse?.map((subMenu) => (
-                    <AccordionContent className="ml-3" key={subMenu.key}>
-                      <Link
-                        href={subMenu.href}
-                        className={cn(
-                          "before:bg-foreground flex items-center text-base font-medium before:mr-2 before:block before:h-1 before:w-1 before:rounded-full before:content-['']",
-                          item.disabled && 'cursor-not-allowed opacity-80'
-                        )}
-                        onClick={toggleMenu}
-                      >
-                        {subMenu.title}
-                      </Link>
-                    </AccordionContent>
-                  ))}
+                  {item.collapse?.map((subMenu) => {
+                    // Don't render separator in sidebar
+                    if (subMenu.title === 'separator') {
+                      return null
+                    }
+                    // Don't render menu item if user doesn't have permission
+                    if (!permissions?.includes(subMenu.permission)) {
+                      return null
+                    }
+
+                    return (
+                      <AccordionContent className="ml-3" key={subMenu.key}>
+                        <Link
+                          href={subMenu.href}
+                          className={cn(
+                            "before:bg-foreground flex items-center text-base font-medium before:mr-2 before:block before:h-1 before:w-1 before:rounded-full before:content-['']",
+                            item.disabled && 'cursor-not-allowed opacity-80'
+                          )}
+                          onClick={toggleMenu}
+                        >
+                          {subMenu.title}
+                        </Link>
+                      </AccordionContent>
+                    )
+                  })}
                 </AccordionItem>
               </Accordion>
             )

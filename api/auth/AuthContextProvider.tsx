@@ -117,12 +117,46 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
     queryFn: fetchUserProfile,
     enabled: isAuthenticated,
     onSuccess: (data) => {
-      const normalizedRoles = data.roles.map((p) => p?.toLowerCase())
       setProfile(data)
       setFirstName(data['first_name'])
-      setPermissions(data.permissions)
-      setRoles(normalizedRoles)
-      setUserType('user'.toLowerCase())
+      // setPermissions(data.permissions)
+      // setRoles(data.roles)
+      setUserType('admin'.toLowerCase())
+      setRoles(['sdp', 'ldb', 'soi', 'msag'])
+      setPermissions([
+        'Auth@CreateUser',
+        'Auth@ListUsers',
+        'Auth@UpdateUser',
+        'Auth@UpdateUserEnabled',
+        'Auth@UpdateUserPassword',
+        'Auth@UpdateUserRolesPermissions',
+        'Ldb@CreateAdrProvider',
+        'Ldb@CreateRecord',
+        'Ldb@DeleteAdrProvider',
+        'Ldb@DeleteRecord',
+        'Ldb@ListAdrProviders',
+        'Ldb@ListRecords',
+        'Ldb@UpdateAdrProvider',
+        'Ldb@UpdateRecord',
+        'Msag@CreateRecord',
+        'Msag@DeleteRecord',
+        // 'Msag@ListImports',
+        'Msag@ListRecords',
+        // 'Msag@ListRecordsHistory',
+        'Msag@UpdateRecord',
+        'Msag@UploadFile',
+        'Sdp@CreateSdp',
+        'Sdp@ListSdps',
+        'Sdp@UpdateSdp',
+        'Sdp@UpdateSdpUsers',
+        'Soi@CreateRecord',
+        'Soi@DeleteRecord',
+        // 'Soi@ListImports',
+        'Soi@ListRecords',
+        'Soi@ListRecordsHistory',
+        'Soi@UpdateRecord',
+        'Soi@UploadFile',
+      ])
     },
   })
 

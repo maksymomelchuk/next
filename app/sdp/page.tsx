@@ -4,19 +4,21 @@ import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import { fetchAllSdp } from '@/api/sdp/sdp'
+import useCheckPagePermission from '@/hooks/useCheckPagePermission'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { SdpForm } from './sdp-form'
 
 const SdpPage = () => {
+  // Hook to check if user has permission to access this page
+  const havePermission = useCheckPagePermission('Sdp@ListSdps')
   // Fetch data
   const { data } = useQuery({
     queryKey: ['sdp'],
     queryFn: fetchAllSdp,
+    enabled: havePermission,
   })
-
-  console.log('file: page.tsx:21 ~ SdpPage ~ data:', data)
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
