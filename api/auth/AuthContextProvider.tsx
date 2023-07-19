@@ -121,7 +121,7 @@ const AuthContextProvider = (props: AuthContextProviderProps) => {
       setFirstName(data['first_name'])
       setPermissions(data.permissions)
       setRoles(data.roles)
-      setUserType('admin'.toLowerCase())
+      setUserType(data.type.toLowerCase())
       // setRoles(['sdp', 'ldb', 'soi', 'msag'])
       // setPermissions([
       //   'Auth@CreateUser',
