@@ -10,7 +10,6 @@ export interface NavItem {
   href: string
   key: string
   disabled?: boolean
-  external?: boolean
   collapsible?: boolean
   collapse?: CollapseItem[]
   permission: string

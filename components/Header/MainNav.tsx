@@ -4,12 +4,13 @@ import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 
 import { AuthContext } from '@/api/auth/AuthContextProvider'
 import { NavItem } from '@/types/nav'
+import { siteConfig } from '@/config/site'
 import { cn } from '@/lib/utils'
 
 import { Separator } from '../ui/separator'
 
 interface MainNavProps {
-  items?: NavItem[]
+  items?: typeof siteConfig.mainNav
 }
 
 export const MainNav: React.FC<MainNavProps> = ({ items }) => {
@@ -42,8 +43,7 @@ export const MainNav: React.FC<MainNavProps> = ({ items }) => {
                 <Link
                   href={item.href}
                   className={cn(
-                    'flex items-center text-base  text-white hover:underline',
-                    item.disabled && 'cursor-not-allowed opacity-80'
+                    'flex items-center text-base  text-white hover:underline'
                   )}
                   onClick={() => setValue('')}
                 >
@@ -68,17 +68,16 @@ export const MainNav: React.FC<MainNavProps> = ({ items }) => {
                         )
                       }
                       // Don't render menu item if user doesn't have permission
-                      if (!permissions?.includes(subMenu.permission)) {
+                      if (!permissions?.includes(subMenu.permission || '')) {
                         return null
                       }
 
                       return (
                         <li key={subMenu.key}>
                           <Link
-                            href={subMenu.href}
+                            href={subMenu.href || '/'}
                             className={cn(
-                              'hover:bg-muted flex flex-col whitespace-nowrap p-3 hover:rounded-lg',
-                              item.disabled && 'cursor-not-allowed opacity-80'
+                              'hover:bg-muted flex flex-col whitespace-nowrap p-3 hover:rounded-lg'
                             )}
                             onClick={() => setValue('')}
                           >

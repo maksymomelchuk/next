@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import { AuthContext } from '@/api/auth/AuthContextProvider'
 import { NavItem } from '@/types/nav'
+import { siteConfig } from '@/config/site'
 import { cn } from '@/lib/utils'
 import {
   Accordion,
@@ -15,7 +16,7 @@ import {
 import { Separator } from '../ui/separator'
 
 interface MenuItemsProps {
-  items?: NavItem[]
+  items?: typeof siteConfig.mainNav
   toggleMenu: () => void
 }
 
@@ -47,8 +48,7 @@ export const MenuItems: React.FC<MenuItemsProps> = ({ items, toggleMenu }) => {
                 key={item.key}
                 href={item.href}
                 className={cn(
-                  'text-foreground flex items-center text-base font-medium hover:underline',
-                  item.disabled && 'cursor-not-allowed opacity-80'
+                  'text-foreground flex items-center text-base font-medium hover:underline'
                 )}
                 onClick={toggleMenu}
               >
@@ -72,17 +72,16 @@ export const MenuItems: React.FC<MenuItemsProps> = ({ items, toggleMenu }) => {
                       return null
                     }
                     // Don't render menu item if user doesn't have permission
-                    if (!permissions?.includes(subMenu.permission)) {
+                    if (!permissions?.includes(subMenu.permission || '')) {
                       return null
                     }
 
                     return (
                       <AccordionContent className="ml-3" key={subMenu.key}>
                         <Link
-                          href={subMenu.href}
+                          href={subMenu.href || '/'}
                           className={cn(
-                            "before:bg-foreground flex items-center text-base font-medium before:mr-2 before:block before:h-1 before:w-1 before:rounded-full before:content-['']",
-                            item.disabled && 'cursor-not-allowed opacity-80'
+                            "before:bg-foreground flex items-center text-base font-medium before:mr-2 before:block before:h-1 before:w-1 before:rounded-full before:content-['']"
                           )}
                           onClick={toggleMenu}
                         >
