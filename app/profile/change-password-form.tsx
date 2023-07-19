@@ -1,9 +1,11 @@
 'use client'
 
+import { useContext } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
+import { AuthContext } from '@/api/auth/AuthContextProvider'
 import { changeUsersPassword } from '@/api/auth/auth'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,6 +17,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { toast } from '@/components/ui/use-toast'
 
 export const changePasswordFormSchema = z
   .object({
@@ -27,6 +30,8 @@ export const changePasswordFormSchema = z
   })
 
 export const ChangePasswordForm: React.FC = () => {
+  const { logout } = useContext(AuthContext)
+
   const form = useForm<z.infer<typeof changePasswordFormSchema>>({
     resolver: zodResolver(changePasswordFormSchema),
     defaultValues: {
@@ -42,8 +47,14 @@ export const ChangePasswordForm: React.FC = () => {
 
     try {
       await changeUsersPassword(values)
-
+      toast({
+        variant: 'success',
+        description: 'Password changed successfully. Please login again.',
+      })
       // logout
+      setTimeout(() => {
+        logout()
+      }, 2000)
     } catch (error) {
       console.error(error)
     }

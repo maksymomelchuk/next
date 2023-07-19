@@ -1,5 +1,7 @@
-import React from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { InfiniteData } from '@tanstack/react-query'
+
+import { toast } from '@/components/ui/use-toast'
 
 interface useInfinityScrollProps<T> {
   data: InfiniteData<T[]> | undefined
@@ -7,8 +9,6 @@ interface useInfinityScrollProps<T> {
   fetchNextPage: () => void
   tableContainerRef: React.RefObject<HTMLDivElement>
 }
-
-const fetchSize = process.env.NEXT_PUBLIC_FETCH_SIZE
 
 export const useInfinityScroll = <T,>({
   data,
@@ -20,13 +20,13 @@ export const useInfinityScroll = <T,>({
 
   const haveDataToFetch = lastPageData?.length !== 0
 
-  const flatData = React.useMemo(
+  const flatData = useMemo(
     () => data?.pages?.flatMap((page) => page) ?? [],
     [data]
   )
-  const [isFetchingData, setIsFetchingData] = React.useState(false)
+  const [isFetchingData, setIsFetchingData] = useState(false)
 
-  const fetchMoreOnBottomReached = React.useCallback(
+  const fetchMoreOnBottomReached = useCallback(
     (containerRefElement?: HTMLDivElement | null) => {
       if (containerRefElement) {
         const { scrollHeight, scrollTop, clientHeight } = containerRefElement
@@ -46,18 +46,24 @@ export const useInfinityScroll = <T,>({
     [isFetchingData, haveDataToFetch, fetchNextPage]
   )
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isFetching) {
       // Reset the flag when isFetching becomes false
       setIsFetchingData(false)
     }
   }, [isFetching])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isFetchingData) {
       fetchMoreOnBottomReached(tableContainerRef.current)
     }
   }, [fetchMoreOnBottomReached, isFetchingData, tableContainerRef])
+
+  useEffect(() => {
+    if (!haveDataToFetch) {
+      toast({ variant: 'default', description: 'No more data to show' })
+    }
+  }, [haveDataToFetch])
 
   return { flatData, fetchMoreOnBottomReached }
 }
