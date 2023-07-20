@@ -46,7 +46,7 @@ export function DataTableColumnHeader<TData, TValue>({
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className="data-[state=open]:bg-secondary -ml-3 h-10 hover:bg-white/70"
+            className="-ml-3 h-10 hover:bg-white/70 data-[state=open]:bg-secondary"
           >
             <span>{title}</span>
             {column.getIsSorted() === 'desc' ? (
@@ -59,12 +59,30 @@ export function DataTableColumnHeader<TData, TValue>({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-            <Icons.asc className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+          <DropdownMenuItem
+            onClick={() => {
+              const data = {
+                sorting: 'asc',
+                sort_by: column.id,
+              }
+              localStorage.setItem(`${pathname}-sort`, JSON.stringify(data))
+              column.toggleSorting(false)
+            }}
+          >
+            <Icons.asc className=" mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Asc
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-            <Icons.desc className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+          <DropdownMenuItem
+            onClick={() => {
+              const data = {
+                sorting: 'desc',
+                sort_by: column.id,
+              }
+              localStorage.setItem(`${pathname}-sort`, JSON.stringify(data))
+              column.toggleSorting(true)
+            }}
+          >
+            <Icons.desc className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Desc
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -77,7 +95,7 @@ export function DataTableColumnHeader<TData, TValue>({
               column.toggleVisibility(false)
             }}
           >
-            <Icons.hide className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+            <Icons.hide className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Hide
           </DropdownMenuItem>
         </DropdownMenuContent>

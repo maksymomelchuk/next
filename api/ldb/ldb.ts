@@ -3,9 +3,14 @@ import { useQuery } from '@tanstack/react-query'
 import axiosInstance from '@/api/axiosInstance'
 import { ILdb, LdbArrayType, LdbType } from '@/types/ldb'
 
-export const fetchAllLdb = async (fetchSize: number, start: number) => {
+export const fetchAllLdb = async (
+  fetchSize: number,
+  start: number,
+  order_by: string,
+  order_type: string
+) => {
   const { data } = await axiosInstance.get(
-    `/ldb/adr-providers?limit=${fetchSize}&offset=${start}&order_by=id`
+    `/ldb/adr-providers?limit=${fetchSize}&offset=${start}&order_by=${order_by}&order_type=${order_type}`
   )
   const parsedData = LdbArrayType.parse(data)
 

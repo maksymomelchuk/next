@@ -20,6 +20,7 @@ const LdbPage: React.FC<LdbPageProps> = () => {
   const havePermission = useCheckPagePermission('Ldb@ListRecords')
 
   const [openDialogue, setOpenDialogue] = useState(false)
+
   // Fetch data
   const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
     ['ldb'],

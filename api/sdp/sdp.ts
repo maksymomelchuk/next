@@ -4,7 +4,9 @@ import axiosInstance from '@/api/axiosInstance'
 import { ISdpOriginal, SdpOriginalType } from '@/types/sdp'
 
 export const fetchAllSdp = async () => {
-  const { data } = await axiosInstance.get<ISdpOriginal[]>(`/sdp?order_by=id`)
+  const { data } = await axiosInstance.get<ISdpOriginal[]>(
+    `/sdp?order_by=id&order_type=asc`
+  )
 
   const parsedData = data.map((sdp) => SdpOriginalType.parse(sdp))
 
