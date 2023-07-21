@@ -52,43 +52,32 @@ export function DataTableColumnHeader<TData, TValue>({
             className="-ml-3 h-10 hover:bg-white/70 data-[state=open]:bg-secondary"
           >
             <span>{title}</span>
-            {column.getIsSorted() === 'desc' ? (
-              <Icons.desc className="ml-2 h-4 w-4" />
-            ) : column.getIsSorted() === 'asc' ? (
-              <Icons.asc className="ml-2 h-4 w-4" />
-            ) : (
-              <Icons.sort className="ml-2 h-4 w-4" />
-            )}
+            <Icons.sort className="ml-2 h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuItem
             onClick={() => {
+              const localStorageState = JSON.parse(
+                localStorage.getItem(`${pathname}-sort`) ?? '{}'
+              )
+
+              const sortState = column.id === localStorageState.sort_by
+
               const data = {
-                sorting: 'asc',
+                sorting: !sortState
+                  ? 'asc'
+                  : localStorageState.sorting === 'asc'
+                  ? 'desc'
+                  : 'asc',
                 sort_by: column.id,
               }
               localStorage.setItem(`${pathname}-sort`, JSON.stringify(data))
-              // column.toggleSorting(false)
               queryClient.resetQueries({ queryKey: [pathname] })
             }}
           >
-            <Icons.asc className=" mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-            Asc
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              const data = {
-                sorting: 'desc',
-                sort_by: column.id,
-              }
-              localStorage.setItem(`${pathname}-sort`, JSON.stringify(data))
-              // column.toggleSorting(true)
-              queryClient.resetQueries({ queryKey: [pathname] })
-            }}
-          >
-            <Icons.desc className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-            Desc
+            <Icons.sort className=" mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            Sort
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
