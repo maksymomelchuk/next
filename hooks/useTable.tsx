@@ -3,7 +3,6 @@ import { fuzzyFilter } from '@/utils/fuzzyFilter'
 import { UseMutateAsyncFunction } from '@tanstack/react-query'
 import {
   ColumnDef,
-  ExpandedState,
   SortingState,
   getCoreRowModel,
   getExpandedRowModel,
@@ -36,7 +35,7 @@ export const useTable = <T,>(
   const [selectedRow, setSelectedRow] = useState({})
   // Select row or multiple rows
   const [rowSelection, setRowSelection] = useState({})
-  const [sorting, setSorting] = useState<SortingState>([])
+  // const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
 
   useEffect(() => {
@@ -52,7 +51,7 @@ export const useTable = <T,>(
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    onSortingChange: setSorting,
+    // onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: fuzzyFilter,
     onRowSelectionChange: setRowSelection,
@@ -101,7 +100,7 @@ export const useTable = <T,>(
     },
 
     state: {
-      sorting,
+      // sorting,
       globalFilter,
       rowSelection,
     },

@@ -23,7 +23,7 @@ const LdbPage: React.FC<LdbPageProps> = () => {
 
   // Fetch data
   const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
-    ['ldb'],
+    ['/ldb'],
     fetchAllLdb,
     havePermission
   )

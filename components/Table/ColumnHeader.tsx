@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Icons } from '@/components/icons'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -27,6 +28,8 @@ export function DataTableColumnHeader<TData, TValue>({
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   const pathname = usePathname()
+
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     const ls = JSON.parse(localStorage.getItem(pathname) ?? '{}')
@@ -66,7 +69,8 @@ export function DataTableColumnHeader<TData, TValue>({
                 sort_by: column.id,
               }
               localStorage.setItem(`${pathname}-sort`, JSON.stringify(data))
-              column.toggleSorting(false)
+              // column.toggleSorting(false)
+              queryClient.resetQueries({ queryKey: [pathname] })
             }}
           >
             <Icons.asc className=" mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
@@ -79,7 +83,8 @@ export function DataTableColumnHeader<TData, TValue>({
                 sort_by: column.id,
               }
               localStorage.setItem(`${pathname}-sort`, JSON.stringify(data))
-              column.toggleSorting(true)
+              // column.toggleSorting(true)
+              queryClient.resetQueries({ queryKey: [pathname] })
             }}
           >
             <Icons.desc className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />

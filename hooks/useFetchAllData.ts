@@ -20,7 +20,7 @@ export const useFetchAll = <T>(
       const defaultSortingData = { sorting: 'asc', sort_by: 'id' }
 
       const { sorting, sort_by } = JSON.parse(
-        localStorage.getItem(`/${queryKey[0]}-sort`) ??
+        localStorage.getItem(`${queryKey[0]}-sort`) ??
           JSON.stringify(defaultSortingData)
       )
 

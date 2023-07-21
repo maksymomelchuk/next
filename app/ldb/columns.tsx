@@ -73,6 +73,7 @@ export const columns: ColumnDef<ILdb>[] = [
       <DataTableColumnHeader column={column} title="Provider ID Series" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'type_of_provider',
@@ -80,6 +81,7 @@ export const columns: ColumnDef<ILdb>[] = [
       <DataTableColumnHeader column={column} title="Type of Provider" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'language',
@@ -87,6 +89,7 @@ export const columns: ColumnDef<ILdb>[] = [
       <DataTableColumnHeader column={column} title="Language" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'contact_uri',
@@ -95,6 +98,7 @@ export const columns: ColumnDef<ILdb>[] = [
     ),
     cell: EditableCell,
     size: 130,
+    enableSorting: false,
   },
   {
     id: 'actions',
