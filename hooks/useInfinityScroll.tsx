@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { InfiniteData } from '@tanstack/react-query'
 
 import { toast } from '@/components/ui/use-toast'
+import { useSearchParams } from 'next/navigation'
 
 interface useInfinityScrollProps<T> {
   data: InfiniteData<T[]> | undefined
@@ -16,6 +17,7 @@ export const useInfinityScroll = <T,>({
   fetchNextPage,
   tableContainerRef,
 }: useInfinityScrollProps<T>) => {
+  const searchParams = useSearchParams()
   const lastPageData = data?.pages[data?.pages.length - 1]
 
   const haveDataToFetch = lastPageData?.length !== 0
@@ -61,6 +63,9 @@ export const useInfinityScroll = <T,>({
 
   useEffect(() => {
     if (!haveDataToFetch) {
+      if (searchParams.get('data_provider_string')) {
+        return
+      }
       toast({ variant: 'default', description: 'No more data to show' })
     }
   }, [haveDataToFetch])

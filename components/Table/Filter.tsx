@@ -27,18 +27,6 @@ export const Filter = ({
     debounce((name: string, value: string) => {
       const params = new URLSearchParams(Array.from(searchParams.entries()))
 
-      if (name === 'data_provider_string') {
-        if (value.length < 3) {
-          toast({
-            variant: 'error',
-            title: 'Data provider must be at least 3 characters long',
-          })
-          params.delete(name)
-          router.push(`${pathname}?${params.toString()}`)
-          return
-        }
-      }
-
       if (!value) {
         params.delete(name)
       } else {

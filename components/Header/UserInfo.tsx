@@ -85,7 +85,7 @@ export const UserInfo: React.FC = () => {
             onClick={() => setOpenSettingsMenu(false)}
           >
             <Link href="/sdp" className="w-full rounded-sm px-2 py-1.5 text-sm">
-              Manage SPDs
+              Manage SDPs
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem

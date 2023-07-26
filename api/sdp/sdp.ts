@@ -30,6 +30,7 @@ interface IUpdateSdpData {
   alias: string
   enabled: number
   nena_ids: number[]
+  adr_providers?: any[]
 }
 
 export const updateSdpById = async ({
@@ -39,6 +40,7 @@ export const updateSdpById = async ({
   id: number
   data: IUpdateSdpData
 }) => {
+  delete data.adr_providers
   const res = await axiosInstance.put(`/sdp/${id}`, data)
   console.log('Data after updating sdp', res)
   return res

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { fetchAllLdb, updateLdbById } from '@/api/ldb/ldb'
 import useCheckPagePermission from '@/hooks/useCheckPagePermission'
@@ -13,16 +13,16 @@ import { TableLayout } from '@/components/TableLayout/TableLayout'
 import { columns } from './columns'
 import { LdbForm, ldbFormSchema } from './ldb-form'
 import { useCreateSearchString } from '@/hooks/useCreateSearchString'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 type LdbPageProps = {}
 
 const LdbPage: React.FC<LdbPageProps> = () => {
+  const router = useRouter()
   // Hook to check if user has permission to access this page
   const havePermission = useCheckPagePermission('Ldb@ListRecords')
 
   const [openDialogue, setOpenDialogue] = useState(false)
-
   const searchString = useCreateSearchString('/ldb')
 
   // Fetch data
@@ -47,6 +47,22 @@ const LdbPage: React.FC<LdbPageProps> = () => {
   })
 
   const table = useTable(flatData, columns, updateLdbQuery, ldbFormSchema)
+
+  useEffect(() => {
+    const localStorageData = localStorage.getItem('/ldb-sort')
+
+    if (localStorageData) {
+      const searchParams = new URLSearchParams(JSON.parse(localStorageData))
+
+      router.push(`/ldb?${searchParams.toString()}`)
+    } else {
+      const defaultSortingData = { order_type: 'asc', order_by: 'id' }
+
+      localStorage.setItem('/ldb-sort', JSON.stringify(defaultSortingData))
+
+      router.push(`/ldb?order_by=id&order_type=asc`)
+    }
+  }, [])
 
   return (
     <TableLayout

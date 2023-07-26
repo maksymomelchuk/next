@@ -9,18 +9,17 @@ export const fetchAllLdb = async (
   start: number,
   searchString?: string
 ) => {
-  // const searchParams = new URLSearchParams(searchString)
-  // const dataProviderString = searchParams.get('data_provider_string')
+  const searchParams = new URLSearchParams(searchString)
+  const dataProviderString = searchParams.get('data_provider_string')
 
-  // if (dataProviderString && dataProviderString.length < 3) {
-  //   toast({
-  //     variant: 'error',
-  //     title: 'Search string must be at least 3 characters long',
-  //   })
-  //   return
-  // }
+  if (dataProviderString && dataProviderString.length < 3) {
+    toast({
+      variant: 'error',
+      title: 'Search string must be at least 3 characters long',
+    })
+    return []
+  }
 
-  // console.log('file: ldb.ts:13 ~ dataProviderString:', dataProviderString)
   const { data } = await axiosInstance.get(
     `/ldb/adr-providers${searchString}&limit=${fetchSize}&offset=${start}`
   )

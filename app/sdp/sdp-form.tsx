@@ -23,6 +23,7 @@ import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { useToast } from '@/components/ui/use-toast'
 import { useUpdateData } from '@/hooks/useUpdateData'
+import { useCheckDataEditPermission } from '@/hooks/useCheckDataEditPermission'
 
 export const sdpFormSchema = z.object({
   name: z.string().min(1).max(255),
@@ -47,6 +48,9 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
     ...provider,
     checked: true,
   }))
+
+  const canEdit = useCheckDataEditPermission('Sdp@UpdateSdp')
+
   const { toast } = useToast()
   // Query client
   const queryClient = useQueryClient()
@@ -84,8 +88,6 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
   })
 
   const handleSubmit = (values: z.infer<typeof sdpFormSchema>) => {
-    console.log('values -->', values)
-
     const dataToSend = {
       ...values,
       enabled: Number(values.enabled),
@@ -94,10 +96,6 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
         .map((provider) => provider.id),
     }
 
-    console.log(
-      'file: sdp-form.tsx:90 ~ handleSubmit ~ dataToSend:',
-      dataToSend
-    )
     updateSdpQuery({
       id: data.id,
       data: dataToSend,
@@ -120,6 +118,7 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
                   autoComplete="off"
                   placeholder="Name"
                   className="lg:max-w-[80%]"
+                  disabled={!canEdit}
                   {...field}
                 />
               </FormControl>
@@ -141,6 +140,7 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
                   autoComplete="off"
                   placeholder="Alias"
                   className="lg:max-w-[80%]"
+                  disabled={!canEdit}
                   {...field}
                 />
               </FormControl>
@@ -172,6 +172,7 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
                         >
                           <FormControl>
                             <Checkbox
+                              disabled={!canEdit}
                               onCheckedChange={(checked) => {
                                 return field.onChange({
                                   ...field.value,
@@ -204,6 +205,7 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
                     id="enabled"
                     defaultChecked={field.value}
                     onCheckedChange={field.onChange}
+                    disabled={!canEdit}
                   />
                   <FormLabel className="m-0 space-y-0">Enabled</FormLabel>
                 </div>
@@ -212,7 +214,7 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
             )
           }}
         />
-        <Button type="submit" className="mt-24">
+        <Button type="submit" className="mt-24" disabled={!canEdit}>
           Save changes
         </Button>
       </form>

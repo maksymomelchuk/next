@@ -1,5 +1,5 @@
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 type useCreateSearchStringProps = {}
 
