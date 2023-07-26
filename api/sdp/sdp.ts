@@ -25,12 +25,19 @@ export const useFetchSdpById = (id: number) => {
   })
 }
 
+interface IUpdateSdpData {
+  name: string
+  alias: string
+  enabled: number
+  nena_ids: number[]
+}
+
 export const updateSdpById = async ({
   id,
   data,
 }: {
   id: number
-  data: ISdpOriginal
+  data: IUpdateSdpData
 }) => {
   const res = await axiosInstance.put(`/sdp/${id}`, data)
   console.log('Data after updating sdp', res)

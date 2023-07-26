@@ -12,6 +12,8 @@ import { TableLayout } from '@/components/TableLayout/TableLayout'
 
 import { columns } from './columns'
 import { LdbForm, ldbFormSchema } from './ldb-form'
+import { useCreateSearchString } from '@/hooks/useCreateSearchString'
+import { useSearchParams } from 'next/navigation'
 
 type LdbPageProps = {}
 
@@ -21,15 +23,18 @@ const LdbPage: React.FC<LdbPageProps> = () => {
 
   const [openDialogue, setOpenDialogue] = useState(false)
 
+  const searchString = useCreateSearchString('/ldb')
+
   // Fetch data
   const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
-    ['/ldb'],
+    ['/ldb', searchString],
     fetchAllLdb,
-    havePermission
+    havePermission,
+    searchString
   )
 
   // Update data
-  const { mutateAsync: updateLdbQuery } = useUpdateData(updateLdbById, ['ldb'])
+  const { mutateAsync: updateLdbQuery } = useUpdateData(updateLdbById, ['/ldb'])
 
   //we need a reference to the scrolling element for logic down below
   const tableContainerRef = React.useRef<HTMLDivElement>(null)

@@ -15,17 +15,17 @@ const SdpPage = () => {
   const havePermission = useCheckPagePermission('Sdp@ListSdps')
   // Fetch data
   const { data } = useQuery({
-    queryKey: ['sdp'],
+    queryKey: ['/sdp'],
     queryFn: fetchAllSdp,
     enabled: havePermission,
   })
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="bg-background overflow-hidden rounded-[0.5rem] border shadow-xl">
+      <div className="overflow-hidden rounded-[0.5rem] border bg-background shadow-xl">
         <div className="p-5">
           <h1 className="text-2xl font-bold">SDP</h1>
-          <p className="text-ring dark:text-foreground/80 mt-3">
+          <p className="mt-3 text-ring dark:text-foreground/80">
             Manage your subscriber data providers
           </p>
           <Separator className="my-5" />
@@ -40,7 +40,7 @@ const SdpPage = () => {
                 <TabsTrigger
                   key={sdp.id}
                   value={String(index)}
-                  className="data-[state=active]:bg-muted text-foreground justify-start text-base"
+                  className="justify-start text-base text-foreground data-[state=active]:bg-muted"
                 >
                   {sdp.name}
                 </TabsTrigger>

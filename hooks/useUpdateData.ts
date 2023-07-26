@@ -20,7 +20,14 @@ export const useUpdateData = <T>(
   return useMutation({
     mutationFn,
     onSuccess: (_, { id }) => {
-      queryClient.invalidateQueries([...queryKey, id])
+      queryClient.invalidateQueries({
+        queryKey,
+        refetchPage(lastPage: { id: number }[]) {
+          const itemOnPage = lastPage.find((item) => item.id === id)
+
+          return itemOnPage ? true : false
+        },
+      })
       toast({ variant: 'success', description: 'Successfully changed' })
     },
   })

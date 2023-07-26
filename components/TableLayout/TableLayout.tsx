@@ -41,7 +41,7 @@ export const TableLayout = <T,>({
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="bg-background overflow-hidden rounded-[0.5rem] border shadow-xl">
+      <div className="overflow-hidden rounded-[0.5rem] border bg-background shadow-xl">
         <div className="w-full overflow-x-auto p-8">
           <div className="w-full">
             <div className="flex flex-col items-center justify-between gap-2 py-4 sm:flex-row ">
@@ -83,7 +83,7 @@ export const TableLayout = <T,>({
         </div>
         {data && (
           <div className="flex items-center justify-end gap-4 p-8">
-            <div className="text-muted-foreground flex-1 text-sm">
+            <div className="flex-1 text-sm text-muted-foreground">
               {table.getFilteredSelectedRowModel().rows.length} of{' '}
               {table.getFilteredRowModel().rows.length} row(s) selected.
             </div>

@@ -7,24 +7,17 @@ export const useFetchAll = <T>(
   fetchFunction: (
     fetchSize: number,
     start: number,
-    order_by: string,
-    order_type: string
+    searchString?: string
   ) => Promise<T>,
-  enabled: boolean
+  enabled: boolean,
+  searchString?: string
 ) => {
   return useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam = 0 }) => {
       const start = pageParam * fetchSize
 
-      const defaultSortingData = { sorting: 'asc', sort_by: 'id' }
-
-      const { sorting, sort_by } = JSON.parse(
-        localStorage.getItem(`${queryKey[0]}-sort`) ??
-          JSON.stringify(defaultSortingData)
-      )
-
-      const data = await fetchFunction(fetchSize, start, sort_by, sorting)
+      const data = await fetchFunction(fetchSize, start, searchString)
 
       console.log(`Fetch ${JSON.stringify(queryKey)}`, data)
 

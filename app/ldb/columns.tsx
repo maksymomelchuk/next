@@ -50,7 +50,7 @@ export const columns: ColumnDef<ILdb>[] = [
     cell: EditableCell,
     size: 80,
     enableHiding: false,
-    enableColumnFilter: false,
+    // enableColumnFilter: false,
   },
   {
     accessorKey: 'data_provider_string',

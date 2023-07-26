@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
-import { usePathname } from 'next/navigation'
+import { useCallback, useEffect } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Column } from '@tanstack/react-table'
 
 import { cn } from '@/lib/utils'
@@ -28,8 +28,31 @@ export function DataTableColumnHeader<TData, TValue>({
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const router = useRouter()
 
   const queryClient = useQueryClient()
+
+  const createQueryString = useCallback(
+    (data: { order_by: string; order_type: string }) => {
+      const params = new URLSearchParams(Array.from(searchParams.entries()))
+
+      const oldOrderBy = searchParams.get('order_by')
+
+      if (oldOrderBy && oldOrderBy !== data['order_by']) {
+        params.delete('order_type')
+        params.delete('order_by')
+      }
+
+      params.set('order_by', data['order_by'])
+      params.set('order_type', data['order_type'])
+
+      router.push(`${pathname}?${params.toString()}`)
+
+      return params.toString()
+    },
+    [pathname, router, searchParams]
+  )
 
   useEffect(() => {
     const ls = JSON.parse(localStorage.getItem(pathname) ?? '{}')
@@ -62,18 +85,19 @@ export function DataTableColumnHeader<TData, TValue>({
                 localStorage.getItem(`${pathname}-sort`) ?? '{}'
               )
 
-              const sortState = column.id === localStorageState.sort_by
+              const sortState = column.id === localStorageState.order_by
 
               const data = {
-                sorting: !sortState
+                order_type: !sortState
                   ? 'asc'
-                  : localStorageState.sorting === 'asc'
+                  : localStorageState.order_type === 'asc'
                   ? 'desc'
                   : 'asc',
-                sort_by: column.id,
+                order_by: column.id,
               }
+              createQueryString(data)
               localStorage.setItem(`${pathname}-sort`, JSON.stringify(data))
-              queryClient.resetQueries({ queryKey: [pathname] })
+              // queryClient.resetQueries({ queryKey: [pathname] })
             }}
           >
             <Icons.sort className=" mr-2 h-3.5 w-3.5 text-muted-foreground/70" />

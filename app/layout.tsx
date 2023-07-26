@@ -19,6 +19,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      cacheTime: 0,
       refetchOnWindowFocus: false,
       // refetchOnMount: false,
       // refetchOnReconnect: false,
@@ -50,7 +51,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <html lang="en" suppressHydrationWarning>
         <body
           className={cn(
-            'bg-background min-h-screen font-sans antialiased',
+            'min-h-screen bg-background font-sans antialiased',
             fontSans.variable
           )}
         >

@@ -2,15 +2,27 @@ import { useQuery } from '@tanstack/react-query'
 
 import axiosInstance from '@/api/axiosInstance'
 import { ILdb, LdbArrayType, LdbType } from '@/types/ldb'
+import { toast } from '@/components/ui/use-toast'
 
 export const fetchAllLdb = async (
   fetchSize: number,
   start: number,
-  order_by: string,
-  order_type: string
+  searchString?: string
 ) => {
+  // const searchParams = new URLSearchParams(searchString)
+  // const dataProviderString = searchParams.get('data_provider_string')
+
+  // if (dataProviderString && dataProviderString.length < 3) {
+  //   toast({
+  //     variant: 'error',
+  //     title: 'Search string must be at least 3 characters long',
+  //   })
+  //   return
+  // }
+
+  // console.log('file: ldb.ts:13 ~ dataProviderString:', dataProviderString)
   const { data } = await axiosInstance.get(
-    `/ldb/adr-providers?limit=${fetchSize}&offset=${start}&order_by=${order_by}&order_type=${order_type}`
+    `/ldb/adr-providers${searchString}&limit=${fetchSize}&offset=${start}`
   )
   const parsedData = LdbArrayType.parse(data)
 

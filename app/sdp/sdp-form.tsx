@@ -6,7 +6,7 @@ import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
-import { createSdp } from '@/api/sdp/sdp'
+import { createSdp, updateSdpById } from '@/api/sdp/sdp'
 import { ISdpOriginal } from '@/types/sdp'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -22,6 +22,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { useToast } from '@/components/ui/use-toast'
+import { useUpdateData } from '@/hooks/useUpdateData'
 
 export const sdpFormSchema = z.object({
   name: z.string().min(1).max(255),
@@ -32,7 +33,7 @@ export const sdpFormSchema = z.object({
       id: z.number(),
       data_provider_string: z.string(),
       provider_id: z.string(),
-      checked: z.boolean().optional(),
+      checked: z.boolean(),
     })
   ),
 })
@@ -50,25 +51,27 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
   // Query client
   const queryClient = useQueryClient()
   // Create data
-  const { mutate: createSdpQuery } = useMutation({
-    mutationFn: createSdp,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['sdp'])
-      toast({ variant: 'success', description: 'Successfully created' })
-    },
-    onError: (error) => {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 422) {
-          toast({
-            variant: 'error',
-            description: JSON.stringify(error.response.data),
-          })
-          console.log('error in creating LDB', error)
-        }
-        console.error(error)
-      }
-    },
-  })
+  // const { mutate: createSdpQuery } = useMutation({
+  //   mutationFn: createSdp,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries(['sdp'])
+  //     toast({ variant: 'success', description: 'Successfully created' })
+  //   },
+  //   onError: (error) => {
+  //     if (axios.isAxiosError(error)) {
+  //       if (error.response?.status === 422) {
+  //         toast({
+  //           variant: 'error',
+  //           description: JSON.stringify(error.response.data),
+  //         })
+  //         console.log('error in creating LDB', error)
+  //       }
+  //       console.error(error)
+  //     }
+  //   },
+  // })
+
+  const { mutateAsync: updateSdpQuery } = useUpdateData(updateSdpById, ['/sdp'])
 
   const form = useForm<z.infer<typeof sdpFormSchema>>({
     resolver: zodResolver(sdpFormSchema),
@@ -76,7 +79,7 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
       name: data.name,
       alias: data.alias,
       enabled: Boolean(data.enabled),
-      adr_providers: data.adr_providers,
+      adr_providers: adrProviders,
     },
   })
 
@@ -86,19 +89,19 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
     const dataToSend = {
       ...values,
       enabled: Number(values.enabled),
-      adr_providers: values.adr_providers
+      nena_ids: values.adr_providers
         .filter((provider) => provider.checked)
-        .map((provider) => {
-          delete provider.checked
-          return provider
-        }),
+        .map((provider) => provider.id),
     }
+
     console.log(
-      'file: sdp-form-test.tsx:106 ~ handleSubmit ~ dataToSend:',
+      'file: sdp-form.tsx:90 ~ handleSubmit ~ dataToSend:',
       dataToSend
     )
-
-    // createSdpQuery({ ...values, enabled: values.enabled === 'yes' ? 1 : 0 })
+    updateSdpQuery({
+      id: data.id,
+      data: dataToSend,
+    })
   }
 
   console.log('here validation errors -->', form.formState.errors)
@@ -175,7 +178,7 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
                                   checked: Boolean(checked),
                                 })
                               }}
-                              defaultChecked
+                              checked={field.value.checked}
                             />
                           </FormControl>
                           <FormLabel className="flex w-full  gap-3 text-sm font-normal">
