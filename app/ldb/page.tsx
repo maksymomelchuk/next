@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { fetchAllLdb, updateLdbById } from '@/api/ldb/ldb'
-import useCheckPagePermission from '@/hooks/useCheckPagePermission'
+import { useCheckPagePermission } from '@/hooks/useCheckPagePermission'
 import { useFetchAll } from '@/hooks/useFetchAllData'
 import { useInfinityScroll } from '@/hooks/useInfinityScroll'
 import { useTable } from '@/hooks/useTable'
@@ -13,7 +13,7 @@ import { TableLayout } from '@/components/TableLayout/TableLayout'
 import { columns } from './columns'
 import { LdbForm, ldbFormSchema } from './ldb-form'
 import { useCreateSearchString } from '@/hooks/useCreateSearchString'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 type LdbPageProps = {}
 

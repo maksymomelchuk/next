@@ -6,7 +6,7 @@ import {
   fetchAllMsagRecords,
   updateMsagRecordsById,
 } from '@/api/msag/msag-records'
-import useCheckPagePermission from '@/hooks/useCheckPagePermission'
+import { useCheckPagePermission } from '@/hooks/useCheckPagePermission'
 import { useFetchAll } from '@/hooks/useFetchAllData'
 import { useInfinityScroll } from '@/hooks/useInfinityScroll'
 import { useTable } from '@/hooks/useTable'

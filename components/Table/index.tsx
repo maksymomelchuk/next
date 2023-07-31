@@ -128,7 +128,7 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                     header.getSize() !== 150
                       ? `max-w-[${header.getSize()}px]`
                       : ''
-                  } bg-muted sticky top-0 z-10`}
+                  } sticky top-0 z-10 bg-muted`}
                   colSpan={header.colSpan}
                 >
                   {header.isPlaceholder ? null : (
@@ -153,7 +153,7 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                               : 'hidden'
                           }`}
                         >
-                          <Filter column={header.column} table={table} />
+                          <Filter column={header.column} />
                         </div>
                       ) : null}
                     </div>
@@ -200,7 +200,7 @@ export const CustomTable: React.FC<CustomTableProps> = ({
                 {row.getIsExpanded() && (
                   <TableRow
                     key={`${row.id}a`}
-                    className="bg-background w-full p-4"
+                    className="w-full bg-background p-4"
                   >
                     <TableCell colSpan={row.getVisibleCells().length}>
                       <ul className="inline-block pl-6">

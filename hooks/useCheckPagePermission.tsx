@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation'
 import { AuthContext } from '@/api/auth/AuthContextProvider'
 import { toast } from '@/components/ui/use-toast'
 
-const useCheckPagePermission = (requiredPermission: string) => {
+export const useCheckPagePermission = (requiredPermission: string) => {
   const [havePermission, setHavePermission] = useState(false)
   const { permissions } = useContext(AuthContext)
 
@@ -26,4 +26,3 @@ const useCheckPagePermission = (requiredPermission: string) => {
 
   return havePermission
 }
-export default useCheckPagePermission

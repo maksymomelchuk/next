@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import useCheckPagePermission from '@/hooks/useCheckPagePermission'
+import { useCheckPagePermission } from '@/hooks/useCheckPagePermission'
 
 type SoiRecordsHistoryProps = {}
 

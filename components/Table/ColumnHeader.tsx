@@ -14,7 +14,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Icons } from '@/components/icons'
-import { useQueryClient } from '@tanstack/react-query'
 
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -31,7 +30,9 @@ export function DataTableColumnHeader<TData, TValue>({
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const queryClient = useQueryClient()
+  const localStorageState = JSON.parse(
+    localStorage.getItem(`${pathname}-sort`) ?? '{}'
+  )
 
   const createQueryString = useCallback(
     (data: { order_by: string; order_type: string }) => {
@@ -75,16 +76,20 @@ export function DataTableColumnHeader<TData, TValue>({
             className="-ml-3 h-10 hover:bg-white/70 data-[state=open]:bg-secondary"
           >
             <span>{title}</span>
-            <Icons.sort className="ml-2 h-4 w-4" />
+            {localStorageState.order_by === column.id ? (
+              localStorageState.order_type === 'asc' ? (
+                <Icons.asc className="ml-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              ) : (
+                <Icons.desc className="ml-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              )
+            ) : (
+              <Icons.sort className="ml-2 h-4 w-4" />
+            )}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuItem
             onClick={() => {
-              const localStorageState = JSON.parse(
-                localStorage.getItem(`${pathname}-sort`) ?? '{}'
-              )
-
               const sortState = column.id === localStorageState.order_by
 
               const data = {
@@ -95,9 +100,10 @@ export function DataTableColumnHeader<TData, TValue>({
                   : 'asc',
                 order_by: column.id,
               }
+
               createQueryString(data)
+
               localStorage.setItem(`${pathname}-sort`, JSON.stringify(data))
-              // queryClient.resetQueries({ queryKey: [pathname] })
             }}
           >
             <Icons.sort className=" mr-2 h-3.5 w-3.5 text-muted-foreground/70" />

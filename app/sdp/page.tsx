@@ -4,7 +4,7 @@ import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import { fetchAllSdp } from '@/api/sdp/sdp'
-import useCheckPagePermission from '@/hooks/useCheckPagePermission'
+import { useCheckPagePermission } from '@/hooks/useCheckPagePermission'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 

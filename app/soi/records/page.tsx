@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 
 import { fetchAllSoiRecords, updateSoiRecordsById } from '@/api/soi/soi-records'
-import useCheckPagePermission from '@/hooks/useCheckPagePermission'
+import { useCheckPagePermission } from '@/hooks/useCheckPagePermission'
 import { useFetchAll } from '@/hooks/useFetchAllData'
 import { useInfinityScroll } from '@/hooks/useInfinityScroll'
 import { useTable } from '@/hooks/useTable'

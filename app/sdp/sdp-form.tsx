@@ -51,9 +51,9 @@ export const SdpForm: React.FC<SdpFormProps> = ({ data }) => {
 
   const canEdit = useCheckDataEditPermission('Sdp@UpdateSdp')
 
-  const { toast } = useToast()
+  // const { toast } = useToast()
   // Query client
-  const queryClient = useQueryClient()
+  // const queryClient = useQueryClient()
   // Create data
   // const { mutate: createSdpQuery } = useMutation({
   //   mutationFn: createSdp,

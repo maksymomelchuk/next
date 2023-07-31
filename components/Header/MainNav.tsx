@@ -3,7 +3,6 @@ import Link from 'next/link'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 
 import { AuthContext } from '@/api/auth/AuthContextProvider'
-import { NavItem } from '@/types/nav'
 import { siteConfig } from '@/config/site'
 import { cn } from '@/lib/utils'
 
@@ -59,7 +58,7 @@ export const MainNav: React.FC<MainNavProps> = ({ items }) => {
                   {item.title}
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content>
-                  <ul className="text-foreground bg-background absolute rounded-lg p-3 shadow-lg ">
+                  <ul className="absolute rounded-lg bg-background p-3 text-foreground shadow-lg ">
                     {item.collapse?.map((subMenu) => {
                       // If submenu is separator, render separator
                       if (subMenu.title === 'separator') {
@@ -77,7 +76,7 @@ export const MainNav: React.FC<MainNavProps> = ({ items }) => {
                           <Link
                             href={subMenu.href || '/'}
                             className={cn(
-                              'hover:bg-muted flex flex-col whitespace-nowrap p-3 hover:rounded-lg'
+                              'flex flex-col whitespace-nowrap p-3 hover:rounded-lg hover:bg-muted'
                             )}
                             onClick={() => setValue('')}
                           >

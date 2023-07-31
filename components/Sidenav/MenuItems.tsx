@@ -3,7 +3,6 @@ import { useContext } from 'react'
 import Link from 'next/link'
 
 import { AuthContext } from '@/api/auth/AuthContextProvider'
-import { NavItem } from '@/types/nav'
 import { siteConfig } from '@/config/site'
 import { cn } from '@/lib/utils'
 import {
@@ -12,8 +11,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-
-import { Separator } from '../ui/separator'
 
 interface MenuItemsProps {
   items?: typeof siteConfig.mainNav
@@ -48,7 +45,7 @@ export const MenuItems: React.FC<MenuItemsProps> = ({ items, toggleMenu }) => {
                 key={item.key}
                 href={item.href}
                 className={cn(
-                  'text-foreground flex items-center text-base font-medium hover:underline'
+                  'flex items-center text-base font-medium text-foreground hover:underline'
                 )}
                 onClick={toggleMenu}
               >
@@ -63,7 +60,7 @@ export const MenuItems: React.FC<MenuItemsProps> = ({ items, toggleMenu }) => {
               >
                 <AccordionItem
                   value="item-1"
-                  className="text-foreground flex flex-col justify-center gap-2"
+                  className="flex flex-col justify-center gap-2 text-foreground"
                 >
                   <AccordionTrigger>{item.title}</AccordionTrigger>
                   {item.collapse?.map((subMenu) => {
@@ -81,7 +78,7 @@ export const MenuItems: React.FC<MenuItemsProps> = ({ items, toggleMenu }) => {
                         <Link
                           href={subMenu.href || '/'}
                           className={cn(
-                            "before:bg-foreground flex items-center text-base font-medium before:mr-2 before:block before:h-1 before:w-1 before:rounded-full before:content-['']"
+                            "flex items-center text-base font-medium before:mr-2 before:block before:h-1 before:w-1 before:rounded-full before:bg-foreground before:content-['']"
                           )}
                           onClick={toggleMenu}
                         >

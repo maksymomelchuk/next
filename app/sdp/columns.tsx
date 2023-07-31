@@ -81,30 +81,6 @@ export const columns = [
     },
     enableColumnFilter: false,
   }),
-
-  // columnHelper.group({
-  //   header: 'Options',
-  //   columns: [
-  //     columnHelper.accessor('options.cycle_counter', {
-  //       header: ({ column }) => (
-  //         <DataTableColumnHeader column={column} title="Cycle counter" />
-  //       ),
-  //       cell: EditableCell,
-  //     }),
-  //     columnHelper.accessor('options.file_format', {
-  //       header: ({ column }) => (
-  //         <DataTableColumnHeader column={column} title="File format" />
-  //       ),
-  //       cell: EditableCell,
-  //     }),
-  //     columnHelper.accessor('options.file_pattern', {
-  //       header: ({ column }) => (
-  //         <DataTableColumnHeader column={column} title="File pattern" />
-  //       ),
-  //       cell: EditableCell,
-  //     }),
-  //   ],
-  // }),
   columnHelper.accessor('total_files', {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Total files" />

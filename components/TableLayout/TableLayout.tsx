@@ -9,7 +9,7 @@ import { Export } from '@/components/Table/Export'
 import { GlobalFilter } from '@/components/Table/GlobalFilter'
 import { Icons } from '@/components/icons'
 
-import { Skeleton } from '../Skeleton/Skeleton'
+import { Skeleton } from '@/components/Skeleton/Skeleton'
 
 type TableLayoutProps<T> = {
   data: T[] | undefined
@@ -34,7 +34,6 @@ export const TableLayout = <T,>({
   tableContainerRef,
   isLoading,
 }: TableLayoutProps<T>) => {
-  // Local state
   const [columnSearch, setColumnSearch] = useState(false)
 
   const componentRef = useRef(null)

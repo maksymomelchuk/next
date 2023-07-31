@@ -3,7 +3,7 @@
 import React from 'react'
 
 import { useFetchAllMsagRecordsHistory } from '@/api/msag/msag-imports'
-import useCheckPagePermission from '@/hooks/useCheckPagePermission'
+import { useCheckPagePermission } from '@/hooks/useCheckPagePermission'
 
 type MsagRecordsHistoryProps = {}
 

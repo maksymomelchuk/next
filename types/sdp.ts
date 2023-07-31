@@ -17,11 +17,6 @@ const OptionsType = z.object({
   require_trailer: z.union([z.number(), z.null()]),
 })
 
-const StatisticsType = z.object({
-  total_files: z.number(),
-  total_records: z.number(),
-})
-
 export const SdpOriginalType = z.object({
   id: z.number(),
   name: z.string(),
@@ -34,9 +29,6 @@ export const SdpOriginalType = z.object({
   users: z.array(UserType).optional(),
   total_files: z.number(),
   total_records: z.number(),
-  // statistics: StatisticsType,
-  // created_by: UserType,
-  // updated_by: z.union([UserType, z.null()]),
 })
 
 export const SdpArrayType = z.array(SdpOriginalType)
