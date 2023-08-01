@@ -1,9 +1,13 @@
 import axiosInstance from '@/api/axiosInstance'
 import { ISoiImports, SoiImportsArrayType } from '@/types/soi/soi-imports'
 
-export const fetchAllSoiImports = async (fetchSize: number, start: number) => {
+export const fetchAllSoiImports = async (
+  fetchSize: number,
+  start: number,
+  searchString?: string
+) => {
   const { data } = await axiosInstance.get(
-    `/soi/imports?limit=${fetchSize}&offset=${start}&order_by=id`
+    `/soi/imports${searchString}&limit=${fetchSize}&offset=${start}`
   )
   const parsedData = SoiImportsArrayType.parse(data)
 

@@ -63,17 +63,13 @@ export function DataTableColumnHeader<TData, TValue>({
     }
   }, [])
 
-  if (!column.getCanSort()) {
-    return <div className={cn(className)}>{title}</div>
-  }
-
-  return (
+  return column.getCanSort() ? (
     <div className={cn('flex items-center space-x-2', className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className="-ml-3 h-10 hover:bg-white/70 data-[state=open]:bg-secondary"
+            className="-ml-3 h-14 hover:bg-white/70 data-[state=open]:bg-secondary"
           >
             <span>{title}</span>
             {localStorageState.order_by === column.id ? (
@@ -110,6 +106,34 @@ export function DataTableColumnHeader<TData, TValue>({
             Sort
           </DropdownMenuItem>
           <DropdownMenuSeparator />
+          <DropdownMenuItem
+            disabled={!column.getCanHide()}
+            onClick={() => {
+              const ls = JSON.parse(localStorage.getItem(pathname) ?? '{}')
+              const updatedLs = { ...ls, [column.id]: false }
+              localStorage.setItem(pathname, JSON.stringify(updatedLs))
+              column.toggleVisibility(false)
+            }}
+          >
+            <Icons.hide className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            Hide
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  ) : (
+    <div className={cn('flex items-center space-x-2', className)}>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            className="-ml-3 h-14 px-1 hover:bg-white/70 data-[state=open]:bg-secondary"
+          >
+            <span>{title}</span>
+            <Icons.dotsHorizontal className="ml-2 h-4 w-4 rotate-90" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
           <DropdownMenuItem
             disabled={!column.getCanHide()}
             onClick={() => {

@@ -1,9 +1,13 @@
 import axiosInstance from '@/api/axiosInstance'
 import { ISoiRecords, SoiRecordsArrayType } from '@/types/soi/soi-records'
 
-export const fetchAllSoiRecords = async (fetchSize: number, start: number) => {
+export const fetchAllSoiRecords = async (
+  fetchSize: number,
+  start: number,
+  searchString?: string
+) => {
   const { data } = await axiosInstance.get(
-    `/soi/records?limit=${fetchSize}&offset=${start}&order_by=id`
+    `/soi/records${searchString}&limit=${fetchSize}&offset=${start}`
   )
   const parsedData = SoiRecordsArrayType.parse(data)
 

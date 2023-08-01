@@ -12,12 +12,12 @@ import { SdpForm } from './sdp-form'
 
 const SdpPage = () => {
   // Hook to check if user has permission to access this page
-  const havePermission = useCheckPagePermission('Sdp@ListSdps')
+  const canAccess = useCheckPagePermission('Sdp@ListSdps')
   // Fetch data
   const { data } = useQuery({
     queryKey: ['/sdp'],
     queryFn: fetchAllSdp,
-    enabled: havePermission,
+    enabled: canAccess,
   })
 
   return (

@@ -15,19 +15,24 @@ import { TableLayout } from '@/components/TableLayout/TableLayout'
 
 import { columns } from './columns'
 import { msagRecordsSchema } from './validation-schema'
+import { useCreateSearchString } from '@/hooks/useCreateSearchString'
 
 type MsagRecordsProps = {}
 
 const MsagRecords: React.FC<MsagRecordsProps> = () => {
   // Hook to check if user has permission to access this page
-  const havePermission = useCheckPagePermission('Msag@ListRecords')
+  const haveAccess = useCheckPagePermission('Msag@ListRecords')
 
   const [openDialogue, setOpenDialogue] = useState(false)
+
+  const searchString = useCreateSearchString('/msag/records')
+
   // Fetch data
   const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
-    ['msag-records'],
+    ['/msag/records', searchString],
     fetchAllMsagRecords,
-    havePermission
+    haveAccess,
+    searchString
   )
 
   // Update data

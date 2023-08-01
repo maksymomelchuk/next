@@ -12,6 +12,7 @@ import { TableLayout } from '@/components/TableLayout/TableLayout'
 
 import { columns } from './columns'
 import { soiImportsSchema } from './validation-schema'
+import { useCreateSearchString } from '@/hooks/useCreateSearchString'
 
 type SoiImportProps = {}
 
@@ -20,17 +21,21 @@ const SoiImport: React.FC<SoiImportProps> = () => {
   const havePermission = useCheckPagePermission('Soi@ListRecordsHistory')
 
   const [openDialogue, setOpenDialogue] = useState(false)
+
+  const searchString = useCreateSearchString('/soi/imports')
+
   // Fetch data
   const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
-    ['soi-imports'],
+    ['/soi/imports', searchString],
     fetchAllSoiImports,
-    havePermission
+    havePermission,
+    searchString
   )
 
   // Update data
   const { mutateAsync: updateSoiImportsQuery } = useUpdateData(
     updateSoiImportsById,
-    ['soi-imports']
+    ['/soi/imports']
   )
 
   //we need a reference to the scrolling element for logic down below

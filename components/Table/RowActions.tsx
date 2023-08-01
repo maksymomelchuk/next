@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { toast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/icons'
+import { usePathname } from 'next/navigation'
+import { useCheckDataPermission } from '@/hooks/useCheckDataPermission'
 
 interface RowActionsProps<TData> {
   row: Row<TData>
@@ -20,7 +22,10 @@ interface RowActionsProps<TData> {
 }
 
 export const RowActions = <T,>({ row, table }: RowActionsProps<T>) => {
+  const pathname = usePathname()
   const meta = table.options.meta
+
+  const { canUpdate, canDelete } = useCheckDataPermission(pathname)
 
   const handleSave = async () => {
     // Check validation
@@ -70,29 +75,33 @@ export const RowActions = <T,>({ row, table }: RowActionsProps<T>) => {
     }))
   }
 
-  return (
+  return canUpdate || canDelete ? (
     <div className="flex items-center">
       {!meta?.selectedRow[row.id] ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              className="data-[state=open]:bg-muted flex h-8 w-8 p-0"
+              className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
             >
               <Icons.dotsHorizontal className="h-4 w-4" />
               <span className="sr-only">Open menu</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-[160px]">
-            <DropdownMenuItem onClick={handleEdit}>
-              <Icons.edit className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={(e) => e.preventDefault()}>
-              <Icons.trash className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
-              Delete
-            </DropdownMenuItem>
+            {canUpdate && (
+              <DropdownMenuItem onClick={handleEdit}>
+                <Icons.edit className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                Edit
+              </DropdownMenuItem>
+            )}
+            {canUpdate && canDelete && <DropdownMenuSeparator />}
+            {canDelete && (
+              <DropdownMenuItem onClick={(e) => e.preventDefault()}>
+                <Icons.trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                Delete
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
@@ -106,5 +115,5 @@ export const RowActions = <T,>({ row, table }: RowActionsProps<T>) => {
         </div>
       )}
     </div>
-  )
+  ) : null
 }

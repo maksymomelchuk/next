@@ -67,6 +67,7 @@ export const columns: ColumnDef<ISoiImports>[] = [
       <DataTableColumnHeader column={column} title="File version" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'modified_human',
@@ -74,6 +75,7 @@ export const columns: ColumnDef<ISoiImports>[] = [
       <DataTableColumnHeader column={column} title="Modified human" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'nena_version',
@@ -81,6 +83,7 @@ export const columns: ColumnDef<ISoiImports>[] = [
       <DataTableColumnHeader column={column} title="NENA version" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'size',
@@ -88,6 +91,7 @@ export const columns: ColumnDef<ISoiImports>[] = [
       <DataTableColumnHeader column={column} title="Size" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'size_human',
@@ -95,6 +99,7 @@ export const columns: ColumnDef<ISoiImports>[] = [
       <DataTableColumnHeader column={column} title="Size human" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'status_id',
@@ -102,6 +107,7 @@ export const columns: ColumnDef<ISoiImports>[] = [
       <DataTableColumnHeader column={column} title="Status Id" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'total_records',
@@ -109,6 +115,7 @@ export const columns: ColumnDef<ISoiImports>[] = [
       <DataTableColumnHeader column={column} title="Total records" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'total_valid_records',
@@ -116,6 +123,7 @@ export const columns: ColumnDef<ISoiImports>[] = [
       <DataTableColumnHeader column={column} title="Total valid records" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'total_error_records',
@@ -123,6 +131,7 @@ export const columns: ColumnDef<ISoiImports>[] = [
       <DataTableColumnHeader column={column} title="Total error records" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'modified',
@@ -138,6 +147,7 @@ export const columns: ColumnDef<ISoiImports>[] = [
       ],
     },
     enableColumnFilter: false,
+    enableSorting: false,
   },
   {
     id: 'actions',

@@ -14,7 +14,7 @@ import { Skeleton } from '@/components/Skeleton/Skeleton'
 type TableLayoutProps<T> = {
   data: T[] | undefined
   table: Table<T>
-  children?: ReactElement
+  children?: ReactElement | null
   openDialogue: boolean
   setOpenDialogue: React.Dispatch<React.SetStateAction<boolean>>
   fetchMoreOnBottomReached: (

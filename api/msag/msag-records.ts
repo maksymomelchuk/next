@@ -1,9 +1,13 @@
 import axiosInstance from '@/api/axiosInstance'
 import { IMsagRecords, MsagRecordsArrayType } from '@/types/msag/msag-records'
 
-export const fetchAllMsagRecords = async (fetchSize: number, start: number) => {
+export const fetchAllMsagRecords = async (
+  fetchSize: number,
+  start: number,
+  searchString?: string
+) => {
   const { data } = await axiosInstance.get(
-    `/msag/records?limit=${fetchSize}&offset=${start}&order_by=id`
+    `/msag/records${searchString}&limit=${fetchSize}&offset=${start}`
   )
   const parsedData = MsagRecordsArrayType.parse(data)
 

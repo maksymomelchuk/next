@@ -59,6 +59,7 @@ export const columns: ColumnDef<IMsagRecords>[] = [
     ),
     cell: EditableCell,
     size: 250,
+    enableSorting: false,
   },
   {
     accessorKey: 'import_id',
@@ -66,6 +67,7 @@ export const columns: ColumnDef<IMsagRecords>[] = [
       <DataTableColumnHeader column={column} title="Import Id" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'file_index',
@@ -73,6 +75,7 @@ export const columns: ColumnDef<IMsagRecords>[] = [
       <DataTableColumnHeader column={column} title="File index" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'status_id',
@@ -80,6 +83,7 @@ export const columns: ColumnDef<IMsagRecords>[] = [
       <DataTableColumnHeader column={column} title="Status Id" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     accessorKey: 'parsed_at',
@@ -87,6 +91,7 @@ export const columns: ColumnDef<IMsagRecords>[] = [
       <DataTableColumnHeader column={column} title="Parsed At" />
     ),
     cell: EditableCell,
+    enableSorting: false,
   },
   {
     id: 'actions',

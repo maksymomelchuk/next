@@ -3,9 +3,13 @@ import { useQuery } from '@tanstack/react-query'
 import axiosInstance from '@/api/axiosInstance'
 import { IMsagImports, MsagImportsArrayType } from '@/types/msag/msag-imports'
 
-export const fetchAllMsagImports = async (fetchSize: number, start: number) => {
+export const fetchAllMsagImports = async (
+  fetchSize: number,
+  start: number,
+  searchString?: string
+) => {
   const { data } = await axiosInstance.get(
-    `/msag/imports?limit=${fetchSize}&offset=${start}&order_by=id`
+    `/msag/imports${searchString}&limit=${fetchSize}&offset=${start}`
   )
   const parsedData = MsagImportsArrayType.parse(data)
 

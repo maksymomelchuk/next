@@ -12,25 +12,30 @@ import { TableLayout } from '@/components/TableLayout/TableLayout'
 
 import { columns } from './columns'
 import { soiRecordsSchema } from './validation-schema'
+import { useCreateSearchString } from '@/hooks/useCreateSearchString'
 
 type SoiRecordsProps = {}
 
 const SoiRecords: React.FC<SoiRecordsProps> = () => {
   // Hook to check if user has permission to access this page
-  const havePermission = useCheckPagePermission('Soi@ListRecords')
+  const haveAccess = useCheckPagePermission('Soi@ListRecords')
 
   const [openDialogue, setOpenDialogue] = useState(false)
+
+  const searchString = useCreateSearchString('/soi/records')
+
   // Fetch data
   const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
-    ['soi-records'],
+    ['/soi/records', searchString],
     fetchAllSoiRecords,
-    havePermission
+    haveAccess,
+    searchString
   )
 
   // Update data
   const { mutateAsync: updateSoiRecordsQuery } = useUpdateData(
     updateSoiRecordsById,
-    ['soi-records']
+    ['/soi/records']
   )
 
   //we need a reference to the scrolling element for logic down below

@@ -15,19 +15,24 @@ import { TableLayout } from '@/components/TableLayout/TableLayout'
 
 import { columns } from './columns'
 import { msagImportsSchema } from './msag-imports-form'
+import { useCreateSearchString } from '@/hooks/useCreateSearchString'
 
 type MsagImportsProps = {}
 
 const MsagImportsPage: React.FC<MsagImportsProps> = () => {
   // Hook to check if user has permission to access this page
-  const havePermission = useCheckPagePermission('Msag@ListImports')
+  const haveAccess = useCheckPagePermission('Msag@ListImports')
 
   const [openDialogue, setOpenDialogue] = useState(false)
+
+  const searchString = useCreateSearchString('/msag/imports')
+
   // Fetch data
   const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
-    ['msag-imports'],
+    ['/msag/imports', searchString],
     fetchAllMsagImports,
-    havePermission
+    haveAccess,
+    searchString
   )
   // Update data
   const { mutateAsync: updateMsagImportsQuery } = useUpdateData(

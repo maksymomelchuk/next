@@ -14,22 +14,26 @@ import { columns } from './columns'
 import { LdbForm, ldbFormSchema } from './ldb-form'
 import { useCreateSearchString } from '@/hooks/useCreateSearchString'
 import { useRouter } from 'next/navigation'
+import { useCheckDataPermission } from '@/hooks/useCheckDataPermission'
 
 type LdbPageProps = {}
 
 const LdbPage: React.FC<LdbPageProps> = () => {
   const router = useRouter()
   // Hook to check if user has permission to access this page
-  const havePermission = useCheckPagePermission('Ldb@ListRecords')
+  const haveAccess = useCheckPagePermission('Ldb@ListRecords')
+
+  const { canCreate } = useCheckDataPermission('/ldb')
 
   const [openDialogue, setOpenDialogue] = useState(false)
+
   const searchString = useCreateSearchString('/ldb')
 
   // Fetch data
   const { data, isFetching, fetchNextPage, isLoading } = useFetchAll(
     ['/ldb', searchString],
     fetchAllLdb,
-    havePermission,
+    haveAccess,
     searchString
   )
 
@@ -74,7 +78,7 @@ const LdbPage: React.FC<LdbPageProps> = () => {
       fetchMoreOnBottomReached={fetchMoreOnBottomReached}
       tableContainerRef={tableContainerRef}
     >
-      <LdbForm setOpenDialogue={setOpenDialogue} />
+      {canCreate ? <LdbForm setOpenDialogue={setOpenDialogue} /> : null}
     </TableLayout>
   )
 }
