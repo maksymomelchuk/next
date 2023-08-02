@@ -12,8 +12,11 @@ import { IAuth } from '@/types/auth'
 import { fetchUserProfile } from './auth'
 
 const realm = process.env.NEXT_PUBLIC_KEYCLOAK_REALM!
+console.log('file: AuthContextProvider.tsx:15 ~ realm:', realm)
 const clientId = process.env.NEXT_PUBLIC_KEYCLOAK_REALM_CLIENT_ID!
+console.log('file: AuthContextProvider.tsx:17 ~ clientId:', clientId)
 const url = process.env.NEXT_PUBLIC_KEYCLOAK_URL!
+console.log('file: AuthContextProvider.tsx:19 ~ url:', url)
 /**
  * KeycloakConfig configures the connection to the Keycloak server.
  */
