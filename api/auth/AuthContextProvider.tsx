@@ -33,11 +33,11 @@ const keycloakInitOptions: KeycloakInitOptions = {
 }
 
 // Create the Keycloak client instance
-export let keycloak: Keycloak.KeycloakInstance
+export let keycloak: Keycloak
 if (typeof window !== 'undefined') {
   keycloak = new Keycloak(keycloakConfig)
 } else {
-  keycloak = {} as Keycloak.KeycloakInstance
+  keycloak = {} as Keycloak
   console.log('window is undefined')
 }
 

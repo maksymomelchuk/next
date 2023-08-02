@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Icons } from '../icons'
+import { Icons } from '@/components/icons'
 
 export const Skeleton = () => {
   return (

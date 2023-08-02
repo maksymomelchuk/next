@@ -44,7 +44,7 @@ export function DataTableViewOptions<TData>({
             return (
               <DropdownMenuCheckboxItem
                 key={column.id}
-                className="focus:bg-secondary focus:text-secondary-foreground capitalize"
+                className="capitalize focus:bg-secondary focus:text-secondary-foreground"
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => {
                   const ls = JSON.parse(localStorage.getItem(pathname) ?? '{}')

@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 import { useReactToPrint } from 'react-to-print'
 
-import { Button } from '../ui/button'
+import { Button } from '@/components/ui/button'
 
 const DynamicCSVLink = dynamic(
   () => import('react-csv').then((module) => module.CSVLink),

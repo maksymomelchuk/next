@@ -12,7 +12,7 @@ import {
 import { AxiosResponse } from 'axios'
 import { ZodSchema } from 'zod'
 
-import { validate } from '../utils/validation'
+import { validate } from '@/utils/validation'
 
 export const useTable = <T,>(
   fetchedData: T[],

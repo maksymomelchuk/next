@@ -6,7 +6,7 @@ import { AuthContext } from '@/api/auth/AuthContextProvider'
 import { siteConfig } from '@/config/site'
 import { cn } from '@/lib/utils'
 
-import { Separator } from '../ui/separator'
+import { Separator } from '@/components/ui/separator'
 
 interface MainNavProps {
   items?: typeof siteConfig.mainNav

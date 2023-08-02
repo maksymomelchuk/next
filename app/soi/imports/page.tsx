@@ -3,16 +3,16 @@
 import React, { useState } from 'react'
 
 import { fetchAllSoiImports, updateSoiImportsById } from '@/api/soi/soi-imports'
+import { TableLayout } from '@/components/TableLayout/TableLayout'
 import { useCheckPagePermission } from '@/hooks/useCheckPagePermission'
 import { useFetchAll } from '@/hooks/useFetchAllData'
 import { useInfinityScroll } from '@/hooks/useInfinityScroll'
 import { useTable } from '@/hooks/useTable'
 import { useUpdateData } from '@/hooks/useUpdateData'
-import { TableLayout } from '@/components/TableLayout/TableLayout'
+import { useCreateSearchString } from '@/hooks/useCreateSearchString'
 
 import { columns } from './columns'
 import { soiImportsSchema } from './validation-schema'
-import { useCreateSearchString } from '@/hooks/useCreateSearchString'
 
 type SoiImportProps = {}
 
